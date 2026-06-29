@@ -9,14 +9,14 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/chambar/favicon-chambar.png",
+        url: "/koi/icons/koi-sushi-porto-favicon.png",
         sizes: "512x512",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/chambar/favicon-chambar.png",
+        url: "/koi/icons/apple-touch-icon.png",
         sizes: "512x512",
         type: "image/png",
       },

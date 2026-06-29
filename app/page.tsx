@@ -84,7 +84,7 @@ export default function Home() {
             <div className="relative z-10 animate-[riseIn_700ms_ease_both]">
               <Image
                 src={images.logo}
-                alt="Chambar Sushi & Frutos do Mar"
+                alt="Logo Koi Sushi Porto"
                 width={168}
                 height={72}
                 priority
@@ -362,7 +362,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <Image
               src={images.logo}
-              alt=""
+              alt="Logo Koi Sushi Porto"
               width={190}
               height={82}
               className="h-auto w-[142px] object-contain md:w-[156px]"

@@ -19,7 +19,7 @@ export function Header() {
         >
           <Image
             src={images.logo}
-            alt="Chambar Sushi & Frutos do Mar"
+            alt="Logo Koi Sushi Porto"
             width={190}
             height={64}
             priority

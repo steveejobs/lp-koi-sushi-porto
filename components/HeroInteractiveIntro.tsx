@@ -45,7 +45,7 @@ export function HeroInteractiveIntro() {
           <div className="hero-intro-copy relative z-40 flex h-full max-w-[520px] flex-col justify-end p-6 md:p-10">
             <Image
               src={images.logo}
-              alt="Chambar Sushi & Frutos do Mar"
+              alt="Logo Koi Sushi Porto"
               width={170}
               height={74}
               priority
