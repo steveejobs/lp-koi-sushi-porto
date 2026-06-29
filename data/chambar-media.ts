@@ -15,7 +15,7 @@ function uniqueBySrc<T extends ChambarMediaAsset>(items: T[]) {
 
 export const logoMedia = {
   src: "/assets/logo/koi-sushi-porto-logo.png",
-  alt: "Logótipo do Koi Sushi Porto",
+  alt: "Logo Koi Sushi Porto",
 } satisfies ChambarMediaAsset;
 
 export const heroImage = {
@@ -34,7 +34,7 @@ export const localDishGalleryImages = uniqueBySrc([
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-03.png",
-    alt: "Detalhe gastronómico do Koi Sushi Porto",
+    alt: "Peças de sushi preparadas na hora",
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-04.png",
@@ -50,7 +50,7 @@ export const localDishGalleryImages = uniqueBySrc([
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-07.png",
-    alt: "Detalhe gastronómico do Koi Sushi Porto",
+    alt: "Sushi fresco do Koi Sushi Porto",
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-09.png",
@@ -61,7 +61,7 @@ export const localDishGalleryImages = uniqueBySrc([
 export const genericGalleryImages = uniqueBySrc([
   {
     src: "/galeria/gallery-food-10.jpg",
-    alt: "Detalhe gastronómico do Koi Sushi Porto",
+    alt: "Sushi fresco do Koi Sushi Porto",
   },
   {
     src: "/galeria/gallery-food-11.jpg",
@@ -73,7 +73,7 @@ export const genericGalleryImages = uniqueBySrc([
   },
   {
     src: "/galeria/gallery-food-15.jpg",
-    alt: "Detalhe gastronómico do Koi Sushi Porto",
+    alt: "Peças de sushi preparadas na hora",
   },
   {
     src: "/galeria/gallery-food-17.jpg",
@@ -84,6 +84,34 @@ export const genericGalleryImages = uniqueBySrc([
     alt: "Peças de sushi preparadas na hora",
   },
 ]) satisfies ChambarMediaAsset[];
+
+export const takeAwayMenuImages = [
+  {
+    id: "take-away-sushi",
+    title: "Take Away",
+    description: "Sashimi, temaki, gunkan, rolos grandes e sushi frito.",
+    src: "/koi sushi cardapio/take way (1).png",
+    alt: "Menu Take Away do Koi Sushi Porto com opções de sushi",
+  },
+  {
+    id: "take-away-especial",
+    title: "Take Away",
+    description: "Peças especiais para completar o seu pedido.",
+    src: "/koi sushi cardapio/take way (2).png",
+    alt: "Menu Take Away do Koi Sushi Porto com peças especiais",
+  },
+  {
+    id: "take-away-combinado",
+    title: "Take Away",
+    description: "Combinações e promoções para pedidos Take Away.",
+    src: "/koi sushi cardapio/take way (3).png",
+    alt: "Menu Take Away do Koi Sushi Porto com combinações",
+  },
+] satisfies (ChambarMediaAsset & {
+  id: string;
+  title: string;
+  description: string;
+})[];
 
 export const establishmentImages = uniqueBySrc([
   {
@@ -100,6 +128,17 @@ export const locationImage = {
   ...establishmentImages[1],
   alt: "Ambiente do restaurante Koi Sushi Porto",
 } satisfies ChambarMediaAsset;
+
+export const koiTableVisualMedia = {
+  image: {
+    src: "/galeria/imagem hero.jpg",
+    alt: "Pratos asiáticos do Koi Sushi Porto",
+  },
+  videoDesktop: "/galeria/scroll-main-video.mp4",
+  videoMobile: "/galeria/scroll-main-video-mobile.mp4",
+  poster: "/galeria/gallery-food-18.jpg",
+  videoAlt: "Peças de sushi preparadas na hora",
+} as const;
 
 export const scrollExperienceMedia = {
   background: {

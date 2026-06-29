@@ -6,9 +6,9 @@ import { Header } from "@/components/Header";
 import { HeroInteractiveIntro } from "@/components/HeroInteractiveIntro";
 import { HeroMotionPlaceholder } from "@/components/HeroMotionPlaceholder";
 import { Reveal } from "@/components/Reveal";
-import { ScrollExperienceFeature } from "@/components/ScrollExperienceFeature";
 import { SectionIntro } from "@/components/SectionIntro";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
+import { TableVisualSection } from "@/components/TableVisualSection";
 import {
   CHAMBAR_CONFIG,
   chambarGoogleProof,
@@ -158,7 +158,7 @@ export default function Home() {
           </div>
         </section>
 
-        <ScrollExperienceFeature />
+        <TableVisualSection />
 
         <FoodGallerySection
           id="pratos-local"

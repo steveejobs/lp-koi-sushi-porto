@@ -29,7 +29,7 @@ function RatingStars({ rating }: { rating: ChambarTestimonial["rating"] }) {
 
 function TestimonialCard({ testimonial }: { testimonial: ChambarTestimonial }) {
   return (
-    <article className="chambar-testimonial-card">
+    <article className="chambar-testimonial-card" role="listitem">
       <span className="chambar-testimonial-accent" aria-hidden="true" />
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -120,7 +120,11 @@ export function ChambarTestimonialsMarquee() {
         </div>
       </div>
 
-      <div className="mt-10 space-y-4 overflow-hidden md:mt-12 md:space-y-5">
+      <div
+        className="mt-10 space-y-4 overflow-hidden md:mt-12 md:space-y-5"
+        role="list"
+        aria-label="Avaliações reais do Koi Sushi Porto"
+      >
         <TestimonialsRow testimonials={rowOne} direction="left" />
         <TestimonialsRow testimonials={rowTwo} direction="right" />
       </div>

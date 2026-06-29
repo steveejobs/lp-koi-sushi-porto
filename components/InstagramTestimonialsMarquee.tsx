@@ -9,7 +9,10 @@ type InstagramTestimonialsMarqueeProps = {
 
 function ReviewCard({ review }: { review: ChambarReview }) {
   return (
-    <article className="h-[136px] w-[280px] shrink-0 rounded-[22px] border border-black/10 bg-white p-4 shadow-[0_10px_24px_rgba(16,16,16,0.055)]">
+    <article
+      className="h-[136px] w-[280px] shrink-0 rounded-[22px] border border-black/10 bg-white p-4 shadow-[0_10px_24px_rgba(16,16,16,0.055)]"
+      role="listitem"
+    >
       <span className="block h-1.5 w-8 rounded-full bg-[var(--chambar-red)]" />
       <p className="mt-3 line-clamp-3 text-sm font-bold leading-6 text-neutral-700">
         {review.text}
@@ -101,10 +104,15 @@ export function InstagramTestimonialsMarquee({
           Quem já veio, recomenda.
         </h2>
         <p className="mt-1 text-sm font-bold leading-6 text-neutral-600">
-          Avaliações reais do Koi Sushi Porto.
+          Avaliações reais sobre frescura, atendimento, preço justo e
+          apresentação.
         </p>
       </div>
-      <div className="mt-4 grid gap-3">
+      <div
+        className="mt-4 grid gap-3"
+        role="list"
+        aria-label="Avaliações reais do Koi Sushi Porto"
+      >
         <ReviewRow reviews={firstRow} direction="left" playState={playState} />
         <ReviewRow
           reviews={secondRow}
