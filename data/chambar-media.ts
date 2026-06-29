@@ -1,6 +1,10 @@
 export type ChambarMediaAsset = {
   src: string;
   alt: string;
+  type?: "image" | "video";
+  mobileSrc?: string;
+  poster?: string;
+  role?: "feature-base" | "feature-video" | "gallery";
 };
 
 function uniqueBySrc<T extends ChambarMediaAsset>(items: T[]) {
@@ -15,92 +19,113 @@ function uniqueBySrc<T extends ChambarMediaAsset>(items: T[]) {
 
 export const logoMedia = {
   src: "/assets/logo/koi-sushi-porto-logo.png",
-  alt: "Logo oficial do Koi Sushi Porto",
+  alt: "Logótipo oficial do Koi Sushi Porto",
 } satisfies ChambarMediaAsset;
 
-export const heroImage = {
-  src: "/assets/hero/koi-sushi-porto-hero.png",
-  alt: "Sushi fresco e pratos asiáticos do Koi Sushi Porto",
-} satisfies ChambarMediaAsset;
-
-export const facadeMedia = {
-  src: "/assets/establishment/koi-sushi-porto-interior-01.png",
-  alt: "Ambiente interno do Koi Sushi Porto",
-} satisfies ChambarMediaAsset;
-
-export const locationImage = {
-  src: "/assets/establishment/koi-sushi-porto-interior-02.png",
-  alt: "Salão do Koi Sushi Porto com mesas e decoração asiática",
-} satisfies ChambarMediaAsset;
-
-export const localDishGalleryImages = uniqueBySrc([
+export const heroImages = uniqueBySrc([
   {
     src: "/assets/hero/koi-sushi-porto-hero.png",
-    alt: "Combinado de sushi com fumaça servido no Koi Sushi Porto",
+    alt: "Sushi fresco servido no Koi Sushi Porto",
   },
+  {
+    src: "/assets/gallery/koi-sushi-porto-gallery-08.png",
+    alt: "Seleção de sushi do Koi Sushi Porto",
+  },
+]) satisfies ChambarMediaAsset[];
+
+export const foodGallery = uniqueBySrc([
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-01.jpg",
     alt: "Sushi fresco servido no Koi Sushi Porto",
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-02.jpg",
-    alt: "Combinado de sushi take away do Koi Sushi Porto",
+    alt: "Combinado de sushi Take Away do Koi Sushi Porto",
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-03.png",
     alt: "Gunkan e peças especiais de sushi",
   },
   {
-    src: "/assets/gallery/koi-sushi-porto-gallery-05.png",
-    alt: "Barca de sushi e sashimi do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-07.png",
-    alt: "Temaki e peças de sushi do Koi Sushi Porto",
-  },
-]) satisfies ChambarMediaAsset[];
-
-export const genericGalleryImages = uniqueBySrc([
-  {
     src: "/assets/gallery/koi-sushi-porto-gallery-04.png",
-    alt: "Pratos de cozinha chinesa preparados na hora",
+    alt: "Prato de camarão e legumes preparado na hora",
+  },
+  {
+    src: "/assets/gallery/koi-sushi-porto-gallery-05.png",
+    alt: "Seleção de sushi e sashimi do Koi Sushi Porto",
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-06.png",
     alt: "Barca com sushi, sashimi e peças especiais",
   },
   {
-    src: "/assets/gallery/koi-sushi-porto-gallery-08.png",
-    alt: "Sushi fresco em mesa do Koi Sushi Porto",
+    src: "/assets/gallery/koi-sushi-porto-gallery-07.png",
+    alt: "Temaki e peças de sushi do Koi Sushi Porto",
   },
   {
     src: "/assets/gallery/koi-sushi-porto-gallery-09.png",
     alt: "Combinado de sushi variado do Koi Sushi Porto",
   },
+]) satisfies ChambarMediaAsset[];
+
+export const establishmentGallery = uniqueBySrc([
   {
     src: "/assets/establishment/koi-sushi-porto-interior-01.png",
-    alt: "Interior do restaurante Koi Sushi Porto",
+    alt: "Interior acolhedor do Koi Sushi Porto",
   },
   {
     src: "/assets/establishment/koi-sushi-porto-interior-02.png",
-    alt: "Mesas e ambiente do Koi Sushi Porto",
+    alt: "Sala do Koi Sushi Porto com mesas e decoração asiática",
   },
 ]) satisfies ChambarMediaAsset[];
 
-export const establishmentImages = uniqueBySrc([
-  facadeMedia,
-  locationImage,
+export const cinematicGallery = uniqueBySrc([
+  {
+    src: "/galeria/imagem hero.jpg",
+    alt: "Pratos do Koi Sushi Porto servidos à mesa",
+    role: "feature-base",
+  },
+  {
+    src: "/galeria/scroll-main-video.mp4",
+    mobileSrc: "/galeria/scroll-main-video-mobile.mp4",
+    poster: "/galeria/gallery-food-18.jpg",
+    alt: "Preparação e apresentação de sushi no Koi Sushi Porto",
+    type: "video",
+    role: "feature-video",
+  },
+  {
+    src: "/galeria/gallery-food-10.jpg",
+    alt: "Close-up de peças de sushi com molho no Koi Sushi Porto",
+    role: "gallery",
+  },
+  {
+    src: "/galeria/gallery-food-11.jpg",
+    alt: "Rolos de sushi finalizados com molho à mesa",
+    role: "gallery",
+  },
+  {
+    src: "/galeria/gallery-food-13.jpg",
+    alt: "Peça de sushi segura com pauzinhos",
+    role: "gallery",
+  },
+  {
+    src: "/galeria/gallery-food-15.jpg",
+    alt: "Nigiri de salmão em detalhe com vapor",
+    role: "gallery",
+  },
+  {
+    src: "/galeria/gallery-food-17.jpg",
+    alt: "Peças de sushi apresentadas sobre madeira",
+    role: "gallery",
+  },
+  {
+    src: "/galeria/gallery-food-19.jpg",
+    alt: "Rolos de sushi com salmão, abacate e sésamo",
+    role: "gallery",
+  },
 ]) satisfies ChambarMediaAsset[];
 
-export const scrollExperienceMedia = {
-  background: heroImage,
-  feature: {
-    src: "/assets/gallery/koi-sushi-porto-gallery-09.png",
-    alt: "Combinado de sushi variado do Koi Sushi Porto",
-  },
-} as const;
-
-export const takeAwayMenuImages = [
+export const menuImages = [
   {
     id: "caixa-1",
     title: "Caixa 1",
@@ -184,26 +209,29 @@ export const takeAwayMenuImages = [
   description: string;
 })[];
 
-export const instagramFoodGalleryMedia = uniqueBySrc([
-  localDishGalleryImages[0],
-  localDishGalleryImages[1],
-  localDishGalleryImages[2],
-  localDishGalleryImages[3],
-  localDishGalleryImages[4],
-  localDishGalleryImages[5],
-]) satisfies ChambarMediaAsset[];
+// Aliases mantidos para os componentes existentes sem alterar a secção de Menu.
+export const heroImage = heroImages[0];
+export const locationImage = establishmentGallery[1];
+export const facadeMedia = establishmentGallery[0];
+export const takeAwayMenuImages = menuImages;
+export const foodGalleryImages = foodGallery;
+export const galleryImages = foodGallery;
+export const genericGalleryImages = foodGallery;
+export const localDishGalleryImages = foodGallery;
+export const homeHeroImage = heroImages[0];
+export const internalEnvironmentMedia = establishmentGallery[0];
+export const locationMedia = [establishmentGallery[1]];
+export const instagramFoodGalleryMedia = foodGallery.slice(0, 6);
 
-export const chambarMedia = {
-  heroImage,
-  genericGalleryImages,
-  localDishGalleryImages,
-  establishmentImages,
-  locationImage,
+export const scrollExperienceMedia = {
+  background: heroImages[0],
+  feature: foodGallery[foodGallery.length - 1],
 } as const;
 
-export const foodGalleryImages = genericGalleryImages;
-export const homeHeroImage = heroImage;
-export const internalEnvironmentMedia = facadeMedia;
-export const locationMedia = uniqueBySrc([
-  locationImage,
-]) satisfies ChambarMediaAsset[];
+export const chambarMedia = {
+  heroImages,
+  foodGallery,
+  establishmentGallery,
+  cinematicGallery,
+  menuImages,
+} as const;

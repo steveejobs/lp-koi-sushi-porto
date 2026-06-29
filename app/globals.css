@@ -3,11 +3,16 @@
 :root {
   --background: #0f0d0a;
   --foreground: #fff8ed;
-  --chambar-red: #c92127;
-  --chambar-black: #0f0d0a;
-  --chambar-graphite: #16110d;
-  --chambar-line: rgba(201, 164, 92, 0.18);
-  --chambar-warm: #c9a45c;
+  --koi-red: #a91f24;
+  --koi-gold: #b8924a;
+  --koi-paper: #efe2c8;
+  --koi-dark: #0f0d0a;
+  --koi-charcoal: #16110d;
+  --chambar-red: var(--koi-red);
+  --chambar-black: var(--koi-dark);
+  --chambar-graphite: var(--koi-charcoal);
+  --chambar-line: rgba(184, 146, 74, 0.16);
+  --chambar-warm: var(--koi-gold);
 }
 
 * {
@@ -188,6 +193,36 @@ img {
   will-change: opacity, transform;
 }
 
+.hero-intro-image {
+  animation: heroImageIn 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.hero-intro-decoration {
+  animation: heroDecorationIn 620ms ease-out 180ms both;
+}
+
+@keyframes heroImageIn {
+  from {
+    opacity: 0.35;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes heroDecorationIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes heroCopyIn {
   to {
     opacity: 1;
@@ -329,7 +364,27 @@ img {
 
 .chambar-testimonials-section {
   position: relative;
+  overflow-x: clip;
   border-block: 1px solid rgba(201, 164, 92, 0.14);
+}
+
+.takeaway-menu-image {
+  animation: takeaway-menu-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.takeaway-lightbox-image {
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+@keyframes takeaway-menu-in {
+  from {
+    opacity: 0.72;
+    transform: scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .chambar-testimonials-row {
@@ -351,7 +406,7 @@ img {
   width: max-content;
   gap: var(--testimonial-gap);
   will-change: transform;
-  animation-duration: 46s;
+  animation-duration: 65s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -362,12 +417,14 @@ img {
 
 .chambar-testimonials-track-right {
   animation-name: marquee-right;
-  animation-duration: 52s;
+  animation-duration: 82s;
 }
 
-.chambar-testimonials-row:hover .chambar-testimonials-track,
-.chambar-testimonials-row:focus-within .chambar-testimonials-track {
-  animation-play-state: paused;
+@media (hover: hover) and (pointer: fine) {
+  .chambar-testimonials-row:hover .chambar-testimonials-track,
+  .chambar-testimonials-row:focus-within .chambar-testimonials-track {
+    animation-play-state: paused;
+  }
 }
 
 .chambar-testimonials-set {
@@ -378,22 +435,29 @@ img {
 .chambar-testimonial-card {
   position: relative;
   width: clamp(280px, 31vw, 360px);
-  height: 248px;
+  height: 236px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(201, 164, 92, 0.16);
+  border: 1px solid rgba(184, 146, 74, 0.13);
   border-radius: 8px;
   background:
     linear-gradient(
       135deg,
-      rgba(255, 248, 237, 0.08),
-      rgba(201, 33, 39, 0.08)
+      rgba(255, 248, 237, 0.055),
+      rgba(169, 31, 36, 0.035)
     ),
-    #16110d;
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.18);
+    rgba(22, 17, 13, 0.94);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
   padding: 20px;
+}
+
+.chambar-testimonial-tag {
+  max-width: 54%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chambar-testimonial-card::after {
@@ -403,7 +467,7 @@ img {
   width: 96px;
   height: 96px;
   border-radius: 999px;
-  background: rgba(201, 164, 92, 0.08);
+  background: rgba(184, 146, 74, 0.045);
   content: "";
 }
 
@@ -453,8 +517,13 @@ img {
     transform: none !important;
   }
 
+  .gallery-marquee > [aria-hidden="true"] {
+    display: none;
+  }
+
   .ig-rise,
   .ig-marquee,
+  .takeaway-menu-image,
   .chambar-testimonials-track,
   .ig-video-reveal {
     animation: none !important;
@@ -463,7 +532,9 @@ img {
     transition: none !important;
   }
 
-  .hero-intro-copy {
+  .hero-intro-copy,
+  .hero-intro-image,
+  .hero-intro-decoration {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -519,16 +590,16 @@ img {
   }
 
   .chambar-testimonials-track {
-    animation-duration: 42s;
+    animation-duration: 78s;
   }
 
   .chambar-testimonials-track-right {
-    animation-duration: 48s;
+    animation-duration: 90s;
   }
 
   .chambar-testimonial-card {
     width: clamp(260px, 82vw, 310px);
-    height: 262px;
+    height: 244px;
     padding: 18px;
   }
 }

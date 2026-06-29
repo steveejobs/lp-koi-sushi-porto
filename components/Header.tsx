@@ -5,7 +5,6 @@ import {
   buildWhatsappLink,
   images,
   navLinks,
-  whatsappMessages,
 } from "@/lib/site";
 
 function isExternalLink(href: string) {
@@ -14,7 +13,7 @@ function isExternalLink(href: string) {
 
 export function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[#c9a45c]/16 bg-[#0f0d0a]/90 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[#b8924a]/14 bg-[#0f0d0a]/90 backdrop-blur-xl">
       <div className="container-page flex h-16 items-center justify-between gap-4 md:h-20 md:gap-6">
         <a
           href="#topo"
@@ -36,7 +35,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-[#c9a45c]"
+              className="transition-colors hover:text-[#b8924a]"
               target={isExternalLink(link.href) ? "_blank" : undefined}
               rel={isExternalLink(link.href) ? "noopener noreferrer" : undefined}
             >
@@ -48,18 +47,18 @@ export function Header() {
         <SocialIconLinks className="hidden xl:flex" />
 
         <a
-          href={buildWhatsappLink(whatsappMessages.order)}
+          href={buildWhatsappLink()}
           className="btn btn-primary hidden md:inline-flex"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Pedir agora
+          Pedir Take Away
         </a>
 
         <div className="flex shrink-0 items-center gap-2 md:hidden">
           <a
-            href={buildWhatsappLink(whatsappMessages.order)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9a45c]/22 bg-[#16110d] text-[#fff8ed] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:text-[#25d366]"
+            href={buildWhatsappLink()}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#b8924a]/20 bg-[#16110d] text-[#fff8ed] shadow-[0_10px_24px_rgba(0,0,0,0.16)] transition hover:text-[#25d366]"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Falar com o Koi Sushi Porto pelo WhatsApp"
@@ -68,7 +67,7 @@ export function Header() {
             <WhatsAppIcon className="h-[18px] w-[18px]" />
           </a>
           <a
-            href={buildWhatsappLink(whatsappMessages.order)}
+            href={buildWhatsappLink()}
             className="btn btn-primary hidden min-h-10 w-auto px-4 text-xs sm:inline-flex"
             target="_blank"
             rel="noopener noreferrer"

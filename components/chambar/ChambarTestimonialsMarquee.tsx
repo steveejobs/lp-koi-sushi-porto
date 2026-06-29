@@ -9,7 +9,7 @@ function RatingStars({ rating }: { rating: ChambarTestimonial["rating"] }) {
   return (
     <div
       aria-label={`${rating} de 5 estrelas no Google`}
-      className="flex items-center gap-0.5 text-[0.92rem] leading-none text-[#c9a45c]"
+      className="flex items-center gap-0.5 text-[0.92rem] leading-none text-[#b8924a]"
     >
       {Array.from({ length: rating }).map((_, index) => (
         <span key={index} aria-hidden="true">
@@ -25,12 +25,15 @@ function TestimonialCard({ testimonial }: { testimonial: ChambarTestimonial }) {
     <article className="chambar-testimonial-card">
       <div className="flex items-center justify-between gap-3">
         <RatingStars rating={testimonial.rating} />
-        <span className="rounded-full border border-[#c9a45c]/24 bg-[#c92127]/14 px-2.5 py-1 text-[0.68rem] font-black uppercase text-[#f3d88f]">
+        <span
+          className="chambar-testimonial-tag rounded-full border border-[#a91f24]/35 bg-[#a91f24]/12 px-2.5 py-1 text-[0.68rem] font-black uppercase text-[#d7b978]"
+          title={testimonial.tag}
+        >
           {testimonial.tag}
         </span>
       </div>
-      <p className="mt-4 text-sm font-bold leading-6 text-[#fff8ed]">
-        "{testimonial.text}"
+      <p className="mt-4 line-clamp-5 text-sm font-bold leading-6 text-[#fff8ed]/92">
+        “{testimonial.text}”
       </p>
       <div className="mt-auto flex items-center justify-between gap-4 border-t border-[#efe2c8]/10 pt-4">
         <p className="text-sm font-black text-white">{testimonial.name}</p>
@@ -93,7 +96,7 @@ export function ChambarTestimonialsMarquee() {
     >
       <div className="container-page">
         <div className="max-w-3xl">
-          <p className="inline-flex rounded-full border border-[#c9a45c]/22 bg-[#16110d] px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-[#c9a45c]">
+          <p className="inline-flex rounded-full border border-[#b8924a]/20 bg-[#16110d]/90 px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-[#b8924a]">
             {proofBadge}
           </p>
           <h2

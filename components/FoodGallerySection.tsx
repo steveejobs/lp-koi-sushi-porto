@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import {
-  genericGalleryImages,
+  foodGallery,
   type ChambarMediaAsset,
 } from "@/data/chambar-media";
 
@@ -39,10 +39,10 @@ function GalleryCard({
         compact
           ? "h-[220px] w-[180px]"
           : index % 5 === 0
-            ? "h-[250px] w-[360px]"
+            ? "h-[250px] w-[30vw]"
             : index % 3 === 0
-              ? "h-[250px] w-[300px]"
-              : "h-[250px] w-[250px]"
+              ? "h-[250px] w-[26vw]"
+              : "h-[250px] w-[24vw]"
       }`}
     >
       <Image
@@ -107,7 +107,7 @@ export function FoodGallerySection({
   eyebrow = "Galeria",
   title = "Cortes, brilho e desejo.",
   copy = "Imagens para abrir o apetite antes do primeiro pedido.",
-  images = genericGalleryImages,
+  images = foodGallery,
   categories = defaultCategories,
   backgroundClassName = "bg-[#f7f2ec]",
 }: FoodGallerySectionProps) {
