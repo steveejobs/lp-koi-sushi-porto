@@ -82,6 +82,9 @@ export function InstagramVideoMoment({
             alt=""
             fill
             sizes="192px"
+            quality={75}
+            loading="lazy"
+            decoding="async"
             className="scale-[1.03] object-cover object-center"
           />
           <video

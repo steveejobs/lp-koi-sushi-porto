@@ -23,9 +23,7 @@ export function HeroInteractiveIntro() {
               alt=""
               width={190}
               height={82}
-              priority
               quality={90}
-              fetchPriority="high"
               className="h-auto w-[150px] object-contain opacity-90 drop-shadow-[0_14px_34px_rgba(0,0,0,0.32)] md:w-[190px]"
             />
           </div>
@@ -48,7 +46,6 @@ export function HeroInteractiveIntro() {
               alt="Logo Koi Sushi Porto"
               width={170}
               height={74}
-              priority
               className="mb-5 h-auto w-[128px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:w-[170px]"
             />
             <p className="max-w-sm text-sm font-black uppercase tracking-[0.08em] text-white/82">

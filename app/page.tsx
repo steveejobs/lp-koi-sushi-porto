@@ -87,7 +87,8 @@ export default function Home() {
                 alt="Logo Koi Sushi Porto"
                 width={168}
                 height={72}
-                priority
+                loading="lazy"
+                decoding="async"
                 className="mb-6 hidden h-auto w-[132px] object-contain md:block md:w-[160px]"
               />
               <span className="eyebrow">{CHAMBAR_CONFIG.city}</span>
@@ -335,8 +336,9 @@ export default function Home() {
                 src={locationImage.src}
                 alt={locationImage.alt}
                 fill
-                sizes="(max-width: 768px) 92vw, 48vw"
+                sizes="(max-width: 768px) calc(100vw - 24px), 560px"
                 loading="lazy"
+                decoding="async"
                 className="object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/62 via-black/10 to-transparent" />
@@ -365,6 +367,8 @@ export default function Home() {
               alt="Logo Koi Sushi Porto"
               width={190}
               height={82}
+              loading="lazy"
+              decoding="async"
               className="h-auto w-[142px] object-contain md:w-[156px]"
             />
             <p className="text-sm font-black text-white/88">

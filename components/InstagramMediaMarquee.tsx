@@ -13,7 +13,7 @@ export function InstagramMediaMarquee({ media }: InstagramMediaMarqueeProps) {
     >
       <div className="ig-marquee ig-marquee-left flex w-max gap-3">
         <div className="flex gap-3">
-          {media.map((item, index) => (
+          {media.map((item) => (
             <figure
               key={item.src}
               className="relative h-[214px] w-[166px] shrink-0 overflow-hidden rounded-[24px] bg-neutral-950 shadow-[0_14px_30px_rgba(16,16,16,0.1)]"
@@ -22,9 +22,10 @@ export function InstagramMediaMarquee({ media }: InstagramMediaMarqueeProps) {
                 src={item.src}
                 alt={item.alt}
                 fill
-                priority={index === 0}
-                quality={86}
+                quality={75}
                 sizes="166px"
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
@@ -41,8 +42,10 @@ export function InstagramMediaMarquee({ media }: InstagramMediaMarqueeProps) {
                 src={item.src}
                 alt=""
                 fill
-                quality={86}
+                quality={75}
                 sizes="166px"
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />

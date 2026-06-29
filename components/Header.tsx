@@ -22,7 +22,6 @@ export function Header() {
             alt="Logo Koi Sushi Porto"
             width={190}
             height={64}
-            priority
             className="h-auto max-h-11 w-[128px] max-w-[38vw] object-contain md:max-h-14 md:w-[164px] lg:w-[172px]"
           />
         </a>

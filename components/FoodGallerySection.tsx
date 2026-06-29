@@ -49,9 +49,10 @@ function GalleryCard({
         src={item.src}
         alt={item.alt}
         fill
-        sizes="(max-width: 768px) 180px, 320px"
+        sizes="(max-width: 768px) 180px, 360px"
         quality={75}
         loading="lazy"
+        decoding="async"
         className="h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:group-hover:scale-[1.02]"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-transparent" />

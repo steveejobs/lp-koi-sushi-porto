@@ -153,9 +153,11 @@ export default function ScrollExpandMedia({
             src={bgImageSrc}
             alt=""
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) calc(100vw - 32px), 1180px"
+            quality={75}
+            loading="lazy"
+            decoding="async"
             className="object-cover object-[54%_50%] opacity-80"
-            priority={false}
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.54),rgba(0,0,0,0.32)_48%,rgba(0,0,0,0.12))]" />
 
@@ -178,6 +180,9 @@ export default function ScrollExpandMedia({
                 alt=""
                 fill
                 sizes="338px"
+                quality={75}
+                loading="lazy"
+                decoding="async"
                 className="scale-[1.03] object-cover object-center"
               />
               <video
@@ -208,6 +213,9 @@ export default function ScrollExpandMedia({
                 alt=""
                 fill
                 sizes="270px"
+                quality={75}
+                loading="lazy"
+                decoding="async"
                 className="scale-[1.03] object-cover object-center"
               />
               <video

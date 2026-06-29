@@ -171,7 +171,6 @@ export default function ProposalPage() {
                   alt={logoMedia.alt}
                   width={56}
                   height={56}
-                  priority
                   className="h-full w-full object-contain"
                 />
               </span>
@@ -395,6 +394,8 @@ export default function ProposalPage() {
                 alt={logoMedia.alt}
                 width={64}
                 height={64}
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-contain"
               />
             </div>

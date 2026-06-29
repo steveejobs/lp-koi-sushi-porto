@@ -146,7 +146,6 @@ export default function InstagramLinksPage() {
             alt={logoMedia.alt}
             width={210}
             height={82}
-            priority
             className="mx-auto h-auto w-[172px] object-contain"
           />
           <h1 className="mt-4 text-2xl font-black leading-tight">

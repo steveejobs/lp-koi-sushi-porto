@@ -41,9 +41,10 @@ export function ChambarEstablishmentSection() {
               src={mainImage.src}
               alt={mainImage.alt}
               fill
-              sizes="(max-width: 1024px) 92vw, 64vw"
+              sizes="(max-width: 1024px) calc(100vw - 32px), 760px"
               quality={75}
               loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/8 to-transparent" />
