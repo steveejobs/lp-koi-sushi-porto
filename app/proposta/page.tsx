@@ -5,7 +5,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { logoMedia } from "@/data/chambar-media";
 
 export const metadata: Metadata = {
-  title: "Proposta comercial | Chambar",
+  title: "Proposta comercial | Koi Sushi Porto",
   description:
     "Proposta comercial para estratégia, presença digital e aquisição de clientes com páginas, Google e tráfego pago.",
   alternates: {
@@ -163,7 +163,7 @@ export default function ProposalPage() {
             <a
               href="/"
               className="inline-flex items-center gap-3"
-              aria-label="Voltar para o site Chambar"
+              aria-label="Voltar para o site Koi Sushi Porto"
             >
               <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] p-2">
                 <Image

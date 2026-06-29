@@ -4,11 +4,7 @@ import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
 import { InstagramTestimonialsMarquee } from "@/components/InstagramTestimonialsMarquee";
 import { InstagramVideoMoment } from "@/components/InstagramVideoMoment";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import {
-  CHAMBAR_CONFIG,
-  chambarGoogleProof,
-  chambarWhatsAppMessages,
-} from "@/data/chambar-config";
+import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
 import { chambarReviews } from "@/data/chambar-reviews";
 import {
   instagramFoodGalleryMedia,
@@ -16,41 +12,40 @@ import {
   scrollExperienceMedia,
 } from "@/data/chambar-media";
 import {
-  DELIVERY_URL,
   FULL_SITE_URL,
   GOOGLE_MAPS_URL,
   INSTAGRAM_URL,
   OPENING_HOURS,
-  createWhatsAppLink,
+  getWhatsappUrl,
 } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(FULL_SITE_URL),
-  title: "Chambar Sushi & Frutos do Mar | Links",
+  title: "Koi Sushi Porto | Links",
   description:
-    "Peça delivery, fale pelo WhatsApp e acompanhe o Chambar Sushi & Frutos do Mar em Araguaína.",
+    "Peça Take Away, veja o menu, localização e Instagram do Koi Sushi Porto.",
   openGraph: {
-    title: "Chambar Sushi & Frutos do Mar | Links",
+    title: "Koi Sushi Porto | Links",
     description:
-      "Delivery, WhatsApp, Instagram e site completo do Chambar em Araguaína.",
+      "Peça Take Away, veja o menu, localização e Instagram do Koi Sushi Porto.",
     url: "/instagram",
     images: [
       {
         url: "/chambar/og-chambar.jpg",
         width: 1600,
         height: 900,
-        alt: "Chambar Sushi & Frutos do Mar",
+        alt: "Koi Sushi Porto",
       },
     ],
   },
 };
 
-const whatsappLinks = {
-  reservation: createWhatsAppLink(chambarWhatsAppMessages.reservation),
-  information: createWhatsAppLink(chambarWhatsAppMessages.information),
-};
-
-const nightOptions = ["Sushi", "Frutos do mar", "18h às 23h"];
+const nightOptions = [
+  "Sushi",
+  "Cozinha chinesa",
+  "Take Away",
+  "12h–15h | 19h–23h",
+];
 const instagramTestimonials = chambarReviews.slice(0, 8);
 
 function IconArrow() {
@@ -149,14 +144,13 @@ export default function InstagramLinksPage() {
             className="mx-auto h-auto w-[172px] object-contain"
           />
           <h1 className="mt-4 text-2xl font-black leading-tight">
-            Chambar Sushi & Frutos do Mar
+            Koi Sushi Porto
           </h1>
           <p className="mx-auto mt-2 max-w-[19rem] text-[1.68rem] font-black leading-[1.04]">
-            Não é só sushi. É nível Chambar.
+            Sushi, cozinha chinesa e Take Away no Porto.
           </p>
           <p className="mx-auto mt-3 max-w-[20rem] text-sm font-bold leading-6 text-neutral-600">
-            Sushi, frutos do mar e uma noite feita para virar experiência em
-            Araguaína.
+            Menu Infinity, All You Can Eat e pratos preparados na hora.
           </p>
           <p className="mt-4 inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-3.5 py-2 text-xs font-black text-neutral-900 shadow-[0_10px_22px_rgba(16,16,16,0.04)]">
             <span className="mr-2 text-[var(--chambar-red)]">★★★★★</span>
@@ -179,24 +173,23 @@ export default function InstagramLinksPage() {
 
         <nav className="mt-5 grid gap-3" aria-label="Links principais">
           <LinkButton
-            href={DELIVERY_URL}
-            icon={<IconBag />}
+            href={getWhatsappUrl("instagram")}
+            icon={<WhatsAppIcon className="h-5 w-5" />}
             primary
             delay={150}
           >
-            Pedir delivery
+            Pedir Take Away
           </LinkButton>
-          <LinkButton
-            href={whatsappLinks.reservation}
-            icon={<WhatsAppIcon className="h-5 w-5" />}
-            delay={220}
-          >
-            Chamar no WhatsApp
+          <LinkButton href="/#pratos-local" icon={<IconBag />} delay={220}>
+            Ver Menu
           </LinkButton>
-          <LinkButton href={INSTAGRAM_URL} icon={<IconInstagram />} delay={290}>
+          <LinkButton href={GOOGLE_MAPS_URL} icon={<IconArrow />} delay={290}>
+            Ver localização
+          </LinkButton>
+          <LinkButton href={INSTAGRAM_URL} icon={<IconInstagram />} delay={360}>
             Instagram
           </LinkButton>
-          <LinkButton href={FULL_SITE_URL} icon={<IconArrow />} delay={360}>
+          <LinkButton href="/" icon={<IconArrow />} delay={430}>
             Site completo
           </LinkButton>
         </nav>
@@ -213,7 +206,7 @@ export default function InstagramLinksPage() {
           style={{ "--ig-delay": "640ms" } as React.CSSProperties}
         >
           <h2 className="text-2xl font-black leading-tight">
-            Estamos em Araguaína.
+            Estamos no Porto.
           </h2>
           <div className="mt-3 space-y-2 text-sm font-bold leading-6 text-white/72">
             <p>{chambarGoogleProof}</p>
@@ -231,28 +224,31 @@ export default function InstagramLinksPage() {
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2">
             <a
-              href={DELIVERY_URL}
+              href={getWhatsappUrl("instagram")}
               target="_blank"
               rel="noreferrer"
               className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-white text-sm font-black text-neutral-950 active:scale-[0.985]"
             >
               <IconBag />
-              Delivery
+              Take Away
             </a>
             <a
-              href={whatsappLinks.information}
+              href={GOOGLE_MAPS_URL}
               target="_blank"
               rel="noreferrer"
               className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--chambar-red)] text-sm font-black text-white active:scale-[0.985]"
             >
-              <WhatsAppIcon className="h-4 w-4" />
-              WhatsApp
+              <IconArrow />
+              Localização
             </a>
           </div>
         </section>
 
         <footer className="ig-rise mt-5 pb-1 text-center text-xs font-black text-neutral-500">
-          <p>Chambar Sushi & Frutos do Mar · Araguaína - TO</p>
+          <p>
+            Koi Sushi Porto · Estrada Exterior da Circunvalação, 7824-F, Porto ·
+            12h–15h | 19h–23h · @koisushi_porto
+          </p>
         </footer>
       </div>
     </main>

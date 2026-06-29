@@ -1,8 +1,4 @@
-import {
-  CHAMBAR_CONFIG,
-  chambarWhatsAppMessages,
-  createChambarWhatsAppLink,
-} from "@/data/chambar-config";
+import { CHAMBAR_CONFIG, getWhatsappUrl } from "@/data/chambar-config";
 import {
   facadeMedia,
   foodGalleryImages,
@@ -14,32 +10,20 @@ import {
 } from "@/data/chambar-media";
 
 export const WHATSAPP_NUMBER = CHAMBAR_CONFIG.whatsappNumber;
-export const FULL_SITE_URL = "https://lp-chambar.vercel.app";
+export const FULL_SITE_URL = "https://lp-koi-sushi-porto.vercel.app";
 export const ADDRESS = CHAMBAR_CONFIG.address;
 export const GOOGLE_MAPS_URL = CHAMBAR_CONFIG.googleMapsUrl;
 export const INSTAGRAM_URL = CHAMBAR_CONFIG.instagramUrl;
-export const DELIVERY_URL = CHAMBAR_CONFIG.deliveryUrl;
+export const TAKE_AWAY_URL = getWhatsappUrl();
 export const OPENING_HOURS = CHAMBAR_CONFIG.openingHours;
 
-export const createWhatsAppLink = createChambarWhatsAppLink;
-export const buildWhatsappLink = createChambarWhatsAppLink;
-
-export const whatsappMessages = {
-  headerReservation: chambarWhatsAppMessages.reservation,
-  heroReservation: chambarWhatsAppMessages.reservation,
-  order: chambarWhatsAppMessages.order,
-  delivery: chambarWhatsAppMessages.order,
-  reservation: chambarWhatsAppMessages.reservation,
-  information: chambarWhatsAppMessages.information,
-  locationReservation: chambarWhatsAppMessages.reservation,
-  location: chambarWhatsAppMessages.information,
-  footer: chambarWhatsAppMessages.information,
-};
+export { getWhatsappUrl };
 
 export const navLinks = [
-  { label: "Pedir", href: "#experiencias" },
-  { label: "Galerias", href: "#galeria-generica" },
+  { label: "Início", href: "#topo" },
+  { label: "Pratos", href: "#pratos-local" },
   { label: "Ambiente", href: "#ambiente" },
+  { label: "Avaliações", href: "#avaliacoes" },
   { label: "Localização", href: "#localizacao" },
 ];
 

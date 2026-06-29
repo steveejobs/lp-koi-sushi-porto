@@ -1,5 +1,5 @@
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import { INSTAGRAM_URL, buildWhatsappLink, whatsappMessages } from "@/lib/site";
+import { INSTAGRAM_URL, getWhatsappUrl } from "@/lib/site";
 
 type SocialIconLinksProps = {
   className?: string;
@@ -31,17 +31,17 @@ export function SocialIconLinks({ className = "" }: SocialIconLinksProps) {
         href={INSTAGRAM_URL}
         target="_blank"
         rel="noreferrer"
-        aria-label="Abrir Instagram do Chambar"
+        aria-label="Abrir Instagram do Koi Sushi Porto"
         title="Instagram"
         className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-800 transition hover:-translate-y-0.5 hover:border-[var(--chambar-red)] hover:text-[var(--chambar-red)]"
       >
         <InstagramIcon />
       </a>
       <a
-        href={buildWhatsappLink(whatsappMessages.footer)}
+        href={getWhatsappUrl()}
         target="_blank"
         rel="noreferrer"
-        aria-label="Falar com o Chambar pelo WhatsApp"
+        aria-label="Falar com o Koi Sushi Porto pelo WhatsApp"
         title="WhatsApp"
         className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-800 transition hover:-translate-y-0.5 hover:border-[#25d366]/45 hover:text-[#188f45]"
       >

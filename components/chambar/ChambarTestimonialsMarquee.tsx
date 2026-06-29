@@ -104,18 +104,21 @@ export function ChambarTestimonialsMarquee() {
   const rowTwo = chambarTestimonials.slice(midpoint);
 
   return (
-    <section className="section-pad chambar-testimonials-section bg-[#fffdf9]">
+    <section
+      id="avaliacoes"
+      className="section-pad chambar-testimonials-section bg-[#fffdf9]"
+    >
       <div className="container-page">
         <div className="max-w-3xl">
           <p className="text-sm font-black text-[var(--chambar-red)]">
             {chambarGoogleProof}
           </p>
           <h2 className="mt-4 text-4xl font-black leading-[1.04] text-neutral-950 md:text-6xl">
-            Quem conhece, recomenda.
+            Quem já veio, recomenda.
           </h2>
           <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-            Comentários sobre a experiência Chambar — apresentação, sabor e uma
-            noite acima do comum.
+            Avaliações reais sobre frescura, atendimento, preço justo e
+            apresentação.
           </p>
         </div>
       </div>

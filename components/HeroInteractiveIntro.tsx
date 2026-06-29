@@ -8,7 +8,7 @@ export function HeroInteractiveIntro() {
   return (
     <section
       className="bg-[#050505] pt-4 md:pt-6"
-      aria-label="Abertura Chambar"
+      aria-label="Abertura Koi Sushi Porto"
     >
       <div className="container-page">
         <div className="intro-stage relative isolate mx-auto h-[64svh] min-h-[430px] overflow-hidden rounded-lg border border-white/10 bg-[#050505] shadow-[0_28px_76px_rgba(16,16,16,0.1)] sm:h-[68svh] sm:min-h-[470px] md:h-[76vh] md:min-h-[576px] lg:w-[90%]">
@@ -55,10 +55,10 @@ export function HeroInteractiveIntro() {
               className="mb-5 h-auto w-[128px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:w-[170px]"
             />
             <p className="max-w-sm text-sm font-black uppercase tracking-[0.08em] text-white/82">
-              Sushi, frutos do mar e delivery
+              Menu Infinity · All You Can Eat · Take Away
             </p>
             <p className="mt-3 max-w-md text-2xl font-black leading-[1.05] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] md:text-4xl">
-              Transformamos sua noite em experiência.
+              Sushi e cozinha chinesa no Porto.
             </p>
           </div>
         </div>

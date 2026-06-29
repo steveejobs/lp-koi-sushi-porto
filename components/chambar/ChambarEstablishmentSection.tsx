@@ -4,16 +4,16 @@ import { establishmentImages } from "@/data/chambar-media";
 
 const presencePoints = [
   {
-    title: "Fachada marcada",
-    text: "Preto, vermelho e luz de noite para reconhecer a casa antes de entrar.",
+    title: "Menu Infinity",
+    text: "Coma à vontade no restaurante com sushi, pratos quentes e opções para partilhar.",
   },
   {
-    title: "Salão ativo",
-    text: "Mesas, atendimento e movimento para transformar a saída em experiência.",
+    title: "Cozinha chinesa",
+    text: "Massas, arroz, entradas e pratos quentes preparados na hora.",
   },
   {
-    title: "Clima de jantar",
-    text: "Ambiente pensado para pedir, sentar e aproveitar das 18h às 23h.",
+    title: "Take Away",
+    text: "Escolha o menu, confirme as opções e envie o pedido pelo WhatsApp.",
   },
 ];
 
@@ -27,11 +27,12 @@ export function ChambarEstablishmentSection() {
           <div>
             <span className="eyebrow">Ambiente</span>
             <h2 className="mt-5 max-w-2xl text-4xl font-black leading-[1.02] text-neutral-950 md:text-6xl">
-              Uma noite no Chambar.
+              Um espaço acolhedor no Porto.
             </h2>
           </div>
           <p className="max-w-xl text-base font-semibold leading-7 text-neutral-600 md:justify-self-end md:text-lg">
-            Fachada, salão e atmosfera para transformar a saída em experiência.
+            Restaurante preparado para Menu Infinity, All You Can Eat, sushi,
+            cozinha chinesa e Take Away.
           </p>
         </div>
 
@@ -51,7 +52,7 @@ export function ChambarEstablishmentSection() {
             <figcaption className="absolute bottom-5 left-5 right-5 max-w-md text-white">
               <span className="block h-1.5 w-10 rounded-full bg-[var(--chambar-red)]" />
               <p className="mt-4 text-2xl font-black leading-tight md:text-3xl">
-                A casa aparece cedo porque a experiência começa antes do prato.
+                Sushi, cozinha chinesa e momentos para partilhar no Porto.
               </p>
             </figcaption>
           </figure>

@@ -69,11 +69,14 @@ export function InstagramVideoMoment({
       <div className="grid grid-cols-[0.82fr_1.18fr] items-center gap-3">
         <div className="px-1">
           <p className="text-[0.65rem] font-black uppercase tracking-wide text-[var(--chambar-red)]">
-            CHAMBAR À NOITE
+            KOI SUSHI PORTO
           </p>
           <h2 className="mt-2 text-xl font-black leading-[1.04] text-neutral-950">
-            Antes da sua noite começar.
+            Antes do primeiro pedido.
           </h2>
+          <p className="mt-2 text-sm font-bold leading-5 text-neutral-600">
+            Veja os pratos, confirme o menu e fale connosco pelo WhatsApp.
+          </p>
           <div className="mt-4 h-px w-14 bg-[var(--chambar-red)]" />
         </div>
         <div className="relative ml-auto aspect-[9/16] w-full max-w-[192px] overflow-hidden rounded-[24px] bg-neutral-950 shadow-[0_16px_36px_rgba(16,16,16,0.16)]">

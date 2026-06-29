@@ -1,12 +1,7 @@
 import Image from "next/image";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import {
-  buildWhatsappLink,
-  images,
-  navLinks,
-  whatsappMessages,
-} from "@/lib/site";
+import { getWhatsappUrl, images, navLinks } from "@/lib/site";
 
 export function Header() {
   return (
@@ -15,7 +10,7 @@ export function Header() {
         <a
           href="#topo"
           className="flex shrink-0 items-center gap-3"
-          aria-label="Chambar Sushi & Frutos do Mar"
+          aria-label="Koi Sushi Porto"
         >
           <Image
             src={images.logo}
@@ -41,32 +36,32 @@ export function Header() {
         <SocialIconLinks className="hidden xl:flex" />
 
         <a
-          href={buildWhatsappLink(whatsappMessages.headerReservation)}
+          href={getWhatsappUrl()}
           className="btn btn-primary hidden md:inline-flex"
           target="_blank"
           rel="noreferrer"
         >
-          Reservar
+          Pedir Take Away
         </a>
 
         <div className="flex shrink-0 items-center gap-2 md:hidden">
           <a
-            href={buildWhatsappLink(whatsappMessages.headerReservation)}
+            href={getWhatsappUrl()}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-900 shadow-[0_10px_24px_rgba(16,16,16,0.06)] transition hover:text-[#188f45]"
             target="_blank"
             rel="noreferrer"
-            aria-label="Falar com o Chambar pelo WhatsApp"
+            aria-label="Falar com o Koi Sushi Porto pelo WhatsApp"
             title="WhatsApp"
           >
             <WhatsAppIcon className="h-[18px] w-[18px]" />
           </a>
           <a
-            href={buildWhatsappLink(whatsappMessages.headerReservation)}
+            href={getWhatsappUrl()}
             className="btn btn-primary min-h-10 w-auto px-4 text-xs"
             target="_blank"
             rel="noreferrer"
           >
-            Reservar
+            Pedir Take Away
           </a>
         </div>
       </div>

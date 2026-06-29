@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lp-chambar.vercel.app"),
-  title: "Chambar Sushi & Frutos do Mar | Araguaína",
+  metadataBase: new URL("https://lp-koi-sushi-porto.vercel.app"),
+  title: "Koi Sushi Porto | Sushi, cozinha chinesa e Take Away no Porto",
   description:
-    "Peça delivery, fale pelo WhatsApp e conheça o Chambar Sushi & Frutos do Mar em Araguaína. Não é só sushi. É nível Chambar.",
+    "Koi Sushi Porto: sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalação.",
   icons: {
     icon: [
       {
@@ -23,15 +23,15 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Chambar Sushi & Frutos do Mar",
+    title: "Koi Sushi Porto",
     description:
-      "Sushi, frutos do mar e delivery em Araguaína. Não é só sushi. É nível Chambar.",
+      "Sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away no Porto.",
     images: [
       {
         url: "/chambar/og-chambar.jpg",
         width: 1600,
         height: 900,
-        alt: "Chambar Sushi & Frutos do Mar em Araguaína",
+        alt: "Koi Sushi Porto",
       },
     ],
   },
@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-PT">
       <body>{children}</body>
     </html>
   );

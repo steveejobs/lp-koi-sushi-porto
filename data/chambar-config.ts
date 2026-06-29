@@ -1,27 +1,28 @@
 export const CHAMBAR_CONFIG = {
-  name: "Chambar Sushi & Frutos do Mar",
-  shortName: "Chambar",
-  instagramHandle: "@chambar_araguaina",
-  instagramUrl: "https://www.instagram.com/chambar_araguaina",
-  deliveryUrl: "https://delivery.yooga.app/CHAMBAR-SUSHI/tabs/home",
-  phoneRaw: "063992888468",
-  whatsappNumber: "5563992888468",
-  googleRating: "4,2",
-  googleReviews: "108",
-  city: "Araguaína - TO",
-  openingHours: "18h às 23h",
-  address: "R. Dois de Julho, 366 - St. Central, Araguaína - TO, 77805-020",
-  googleMapsUrl: "https://maps.app.goo.gl/UYnZBzU1mufmzSim7",
+  name: "Koi Sushi Porto",
+  shortName: "Koi",
+  instagramHandle: "@koisushi_porto",
+  instagramUrl: "https://www.instagram.com/koisushi_porto/",
+  phoneRaw: "+351 961 176 188",
+  whatsappNumber: "351961176188",
+  googleRating: "4,9",
+  googleReviews: "48",
+  city: "Porto",
+  openingHours: "12h–15h | 19h–23h",
+  address:
+    "Estrada Exterior da Circunvalação, 7824-F, Porto, Portugal 4200-162",
+  googleMapsUrl: "https://maps.app.goo.gl/BWotay8Vg5dZYrJ36",
 } as const;
 
-export const chambarWhatsAppMessages = {
-  order: "Olá, vim pelo site e quero fazer um pedido no Chambar.",
-  reservation: "Olá, vim pelo site e quero reservar uma mesa no Chambar.",
-  information: "Olá, vim pelo site e quero saber mais sobre o Chambar.",
-} as const;
+const phone = "351961176188";
 
-export function createChambarWhatsAppLink(message: string) {
-  return `https://api.whatsapp.com/send?phone=${CHAMBAR_CONFIG.whatsappNumber}&text=${encodeURIComponent(message)}`;
-}
+export const getWhatsappUrl = (source = "site") => {
+  const message =
+    source === "instagram"
+      ? "Olá! Vim pelo Instagram e quero fazer um pedido de take-away. O meu pedido é:"
+      : "Olá! Vim pelo site e quero fazer um pedido de take-away. O meu pedido é:";
+
+  return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+};
 
 export const chambarGoogleProof = `★★★★★ ${CHAMBAR_CONFIG.googleRating} no Google · ${CHAMBAR_CONFIG.googleReviews} avaliações`;

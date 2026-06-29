@@ -98,10 +98,11 @@ export function InstagramTestimonialsMarquee({
     <section ref={sectionRef} className="ig-rise mt-6 overflow-hidden">
       <div className="px-1">
         <h2 className="text-2xl font-black leading-tight text-neutral-950">
-          Quem conhece, recomenda.
+          Quem já veio, recomenda.
         </h2>
         <p className="mt-1 text-sm font-bold leading-6 text-neutral-600">
-          Comentários sobre a experiência Chambar.
+          Avaliações reais sobre frescura, atendimento, preço justo e
+          apresentação.
         </p>
       </div>
       <div className="mt-4 grid gap-3">

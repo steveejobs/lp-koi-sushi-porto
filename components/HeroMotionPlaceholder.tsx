@@ -8,15 +8,15 @@ export function HeroMotionPlaceholder() {
       <div className="relative grid aspect-[5/4] content-between p-8">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.08em] text-[var(--chambar-red)]">
-            Chambar à noite
+            À mesa
           </p>
           <p className="mt-4 max-w-[15rem] text-5xl font-black leading-[0.95] text-neutral-950">
-            Sushi e frutos do mar em Araguaína.
+            Menu Infinity e cozinha chinesa no Porto.
           </p>
         </div>
 
         <div className="grid gap-3">
-          {["Preto", "Vermelho", "Ritmo de jantar"].map((item) => (
+          {["Sushi", "Cozinha chinesa", "Take Away"].map((item) => (
             <div
               key={item}
               className="flex items-center justify-between border-b border-black/12 pb-3 text-sm font-black uppercase tracking-wide text-neutral-800"

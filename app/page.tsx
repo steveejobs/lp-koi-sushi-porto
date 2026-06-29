@@ -9,63 +9,58 @@ import { Reveal } from "@/components/Reveal";
 import { ScrollExperienceFeature } from "@/components/ScrollExperienceFeature";
 import { SectionIntro } from "@/components/SectionIntro";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
-import {
-  CHAMBAR_CONFIG,
-  chambarGoogleProof,
-  chambarWhatsAppMessages,
-} from "@/data/chambar-config";
+import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
 import {
   genericGalleryImages,
   localDishGalleryImages,
   locationImage,
 } from "@/data/chambar-media";
 import {
-  DELIVERY_URL,
   GOOGLE_MAPS_URL,
   INSTAGRAM_URL,
-  buildWhatsappLink,
+  TAKE_AWAY_URL,
+  getWhatsappUrl,
   images,
   navLinks,
-  whatsappMessages,
 } from "@/lib/site";
 
 const experiences = [
   {
-    title: "Delivery",
-    text: "Peça pelo delivery oficial e receba o Chambar onde estiver.",
-    cta: "Pedir delivery",
-    href: DELIVERY_URL,
+    title: "Take Away",
+    text: "Envie o pedido pelo WhatsApp e confirme as opções disponíveis.",
+    cta: "Pedir Take Away",
+    href: TAKE_AWAY_URL,
   },
   {
-    title: "WhatsApp",
-    text: "Fale direto com a equipe para pedidos, dúvidas ou reserva.",
-    cta: "Chamar no WhatsApp",
-    href: buildWhatsappLink(chambarWhatsAppMessages.information),
+    title: "Instagram",
+    text: "Acompanhe novidades, pratos e bastidores do Koi Sushi Porto.",
+    cta: "Ver Instagram",
+    href: INSTAGRAM_URL,
   },
   {
-    title: "Noite Chambar",
-    text: "Sushi, frutos do mar e uma experiência para aproveitar das 18h às 23h.",
-    cta: "Conhecer a experiência",
-    href: "#pratos-local",
+    title: "No restaurante",
+    text: "Estamos na Estrada Exterior da Circunvalação, no Porto.",
+    cta: "Ver localização",
+    href: GOOGLE_MAPS_URL,
   },
 ];
 
 const differentials = [
   {
-    title: "Sushi em nível Chambar",
-    text: "Peças bem apresentadas, combinados caprichados e sabor direto ao ponto.",
+    title: "Menu Infinity",
+    text: "Coma à vontade no restaurante com sushi, pratos quentes e opções para partilhar.",
   },
   {
-    title: "Frutos do mar",
-    text: "Opções para quem quer uma noite com mais variedade e presença à mesa.",
+    title: "Cozinha chinesa",
+    text: "Pratos quentes, entradas, massas e arroz para completar a refeição.",
   },
   {
-    title: "Delivery oficial",
-    text: "Pedido pelo canal Yooga oficial, com praticidade para receber onde estiver.",
+    title: "Take Away",
+    text: "Escolha as opções do menu e envie o pedido directamente pelo WhatsApp.",
   },
   {
-    title: "Noite das 18h às 23h",
-    text: "Horário pensado para jantar, pedir em casa ou aproveitar a saída.",
+    title: "Almoço e jantar",
+    text: "Estamos abertos das 12h às 15h e das 19h às 23h.",
   },
 ];
 
@@ -91,41 +86,41 @@ export default function Home() {
                 decoding="async"
                 className="mb-6 hidden h-auto w-[132px] object-contain md:block md:w-[160px]"
               />
-              <span className="eyebrow">{CHAMBAR_CONFIG.city}</span>
+              <span className="eyebrow">Koi Sushi Porto</span>
               <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.98] text-neutral-950 md:text-7xl">
-                Não é só sushi. É nível Chambar.
+                Sushi e cozinha chinesa no Porto
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-neutral-600 md:text-xl">
-                Sushi, frutos do mar e uma noite feita para virar experiência em
-                Araguaína.
+                Menu Infinity, All You Can Eat e Take Away com peças frescas,
+                pratos quentes e combinações para partilhar.
               </p>
               <p className="mt-4 text-sm font-black uppercase tracking-[0.08em] text-neutral-700">
-                Chambar Sushi & Frutos do Mar · {CHAMBAR_CONFIG.openingHours}
+                Koi Sushi Porto · {CHAMBAR_CONFIG.openingHours}
               </p>
               <p className="mt-4 text-sm font-black text-[var(--chambar-red)]">
                 {chambarGoogleProof}
               </p>
               <div className="mt-8 grid gap-3 sm:flex">
                 <a
-                  href={DELIVERY_URL}
+                  href={TAKE_AWAY_URL}
                   className="btn btn-primary"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Pedir delivery
+                  Pedir Take Away
                 </a>
                 <a
-                  href={buildWhatsappLink(whatsappMessages.heroReservation)}
+                  href={GOOGLE_MAPS_URL}
                   className="btn btn-outline"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Reservar pelo WhatsApp
+                  Ver localização
                 </a>
               </div>
               <div className="mt-9 flex items-center gap-4 border-l-2 border-[var(--chambar-red)] pl-4 text-sm font-bold text-neutral-700">
                 <span className="h-3 w-3 rounded-full bg-[var(--chambar-red)]" />
-                <span>Transformamos sua noite em experiência.</span>
+                <span>Menu Infinity · All You Can Eat · Take Away</span>
               </div>
             </div>
 
@@ -139,14 +134,15 @@ export default function Home() {
           <div className="container-page">
             <Reveal threshold={0.42} className="max-w-3xl">
               <p className="text-sm font-black text-[var(--chambar-red)]">
-                {chambarGoogleProof}
+                KOI SUSHI PORTO
               </p>
               <h2 className="mt-4 text-4xl font-black leading-[1.04] text-neutral-950 md:text-6xl">
-                Quem conhece, recomenda.
+                Sushi japonês e cozinha chinesa à mesa.
               </h2>
               <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                Clientes destacam apresentação, sabor e uma experiência noturna
-                acima do comum.
+                No Koi Sushi Porto, encontra sushi fresco, pratos quentes e
+                opções para partilhar. Escolha o Menu Infinity para comer à
+                vontade no restaurante ou peça Take Away pelo WhatsApp.
               </p>
             </Reveal>
           </div>
@@ -157,10 +153,15 @@ export default function Home() {
         <FoodGallerySection
           id="pratos-local"
           eyebrow="À mesa"
-          title="O Chambar servido à mesa."
-          copy="Pratos, combinações e detalhes da experiência no local."
+          title="Pratos do Koi"
+          copy="Sushi fresco, peças especiais e pratos quentes preparados na hora."
           images={localDishGalleryImages}
-          categories={["Pratos reais", "Combinados", "Peças", "Mesa Chambar"]}
+          categories={[
+            "Sushi",
+            "Peças especiais",
+            "Pratos quentes",
+            "Mesa Koi",
+          ]}
           backgroundClassName="bg-white"
         />
 
@@ -171,8 +172,8 @@ export default function Home() {
             <Reveal threshold={0.45}>
               <SectionIntro
                 eyebrow="Pedidos"
-                title="Sua noite começa aqui."
-                copy="Delivery, WhatsApp ou mesa: três formas diretas de aproveitar o Chambar."
+                title="O seu pedido começa aqui."
+                copy="Menu Infinity no restaurante, Take Away pelo WhatsApp ou uma visita ao Koi Sushi Porto."
               />
             </Reveal>
             <div className="mt-9 grid gap-4 md:grid-cols-3">
@@ -210,12 +211,12 @@ export default function Home() {
           <div className="container-page">
             <div className="fine-border rounded-lg bg-[#fffdf9] p-6 md:flex md:items-center md:justify-between md:gap-8">
               <p className="max-w-2xl text-2xl font-black leading-tight text-neutral-950">
-                Depois da mesa real, um respiro visual para aumentar o desejo do
-                pedido.
+                Sushi fresco, peças especiais e pratos quentes preparados na
+                hora.
               </p>
               <p className="mt-4 max-w-md text-sm font-bold leading-6 text-neutral-600 md:mt-0">
-                A próxima galeria é cinematográfica e complementar, sem tomar o
-                lugar da casa e dos pratos servidos no Chambar.
+                Escolha o que lhe apetece e faça o seu pedido de Take Away pelo
+                WhatsApp.
               </p>
             </div>
           </div>
@@ -224,10 +225,15 @@ export default function Home() {
         <FoodGallerySection
           id="galeria-generica"
           eyebrow="Galeria"
-          title="Cortes, brilho e desejo."
-          copy="Imagens para abrir o apetite antes do primeiro pedido."
+          title="Cortes, brilho e apetite."
+          copy="Imagens para escolher antes do primeiro pedido."
           images={genericGalleryImages}
-          categories={["Sushi", "Frutos do mar", "Close-ups", "Premium"]}
+          categories={[
+            "Sushi",
+            "Cozinha chinesa",
+            "Pratos quentes",
+            "Peças especiais",
+          ]}
           backgroundClassName="bg-[#f7f2ec]"
         />
 
@@ -236,8 +242,8 @@ export default function Home() {
             <Reveal threshold={0.45}>
               <SectionIntro
                 eyebrow="Diferenciais"
-                title="Por que escolher o Chambar."
-                copy="Sushi, frutos do mar e uma experiência noturna com presença."
+                title="Porquê escolher o Koi."
+                copy="Sushi, cozinha chinesa e Take Away com variedade, frescura e preço justo."
               />
             </Reveal>
             <div className="mt-9 grid gap-4 md:grid-cols-4">
@@ -268,17 +274,28 @@ export default function Home() {
             <div>
               <SectionIntro
                 eyebrow="Localização"
-                title="Estamos em Araguaína."
-                copy="Peça pelo delivery oficial, fale pelo WhatsApp ou acompanhe o Chambar no Instagram."
+                title="Estamos no Porto."
+                copy="Peça Take Away, fale pelo WhatsApp ou acompanhe o Koi Sushi Porto no Instagram."
               />
               <div className="mt-7 space-y-4 text-base leading-7 text-neutral-700">
                 <p>
-                  <strong className="text-neutral-950">Cidade:</strong>{" "}
-                  {CHAMBAR_CONFIG.city}
+                  <strong className="text-neutral-950">Endereço:</strong>{" "}
+                  {CHAMBAR_CONFIG.address}
                 </p>
                 <p>
                   <strong className="text-neutral-950">Horário:</strong>{" "}
                   {CHAMBAR_CONFIG.openingHours}
+                </p>
+                <p>
+                  <strong className="text-neutral-950">WhatsApp:</strong>{" "}
+                  <a
+                    href={getWhatsappUrl()}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-bold text-[var(--chambar-red)]"
+                  >
+                    {CHAMBAR_CONFIG.phoneRaw}
+                  </a>
                 </p>
                 <p>
                   <strong className="text-neutral-950">Instagram:</strong>{" "}
@@ -291,34 +308,15 @@ export default function Home() {
                     {CHAMBAR_CONFIG.instagramHandle}
                   </a>
                 </p>
-                <p>
-                  <strong className="text-neutral-950">Endereço:</strong>{" "}
-                  <a
-                    href={GOOGLE_MAPS_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-bold text-[var(--chambar-red)]"
-                  >
-                    {CHAMBAR_CONFIG.address}
-                  </a>
-                </p>
               </div>
               <div className="mt-8 grid gap-3 sm:flex">
                 <a
-                  href={DELIVERY_URL}
+                  href={TAKE_AWAY_URL}
                   className="btn btn-primary"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Pedir delivery
-                </a>
-                <a
-                  href={buildWhatsappLink(whatsappMessages.information)}
-                  className="btn btn-outline"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Chamar no WhatsApp
+                  Pedir Take Away
                 </a>
                 <a
                   href={INSTAGRAM_URL}
@@ -327,6 +325,14 @@ export default function Home() {
                   rel="noreferrer"
                 >
                   Ver Instagram
+                </a>
+                <a
+                  href={GOOGLE_MAPS_URL}
+                  className="btn btn-outline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Ver localização
                 </a>
               </div>
             </div>
@@ -345,10 +351,10 @@ export default function Home() {
               <div className="absolute right-5 top-5 h-16 w-16 rounded-full bg-[var(--chambar-red)] shadow-[0_14px_40px_rgba(196,30,47,.26)] md:h-20 md:w-20" />
               <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-white/92 p-4 shadow-lg backdrop-blur">
                 <p className="text-sm font-black text-neutral-950">
-                  Chambar Sushi & Frutos do Mar
+                  Koi Sushi Porto
                 </p>
                 <p className="mt-1 text-xs font-bold text-neutral-600">
-                  Araguaína · {CHAMBAR_CONFIG.openingHours}
+                  Porto · {CHAMBAR_CONFIG.openingHours}
                 </p>
               </div>
             </div>
@@ -372,7 +378,9 @@ export default function Home() {
               className="h-auto w-[142px] object-contain md:w-[156px]"
             />
             <p className="text-sm font-black text-white/88">
-              Chambar Sushi & Frutos do Mar · Araguaína - TO
+              Koi Sushi Porto · Sushi, cozinha chinesa, Menu Infinity e Take
+              Away no Porto. · Estrada Exterior da Circunvalação, 7824-F, Porto
+              · 12h–15h | 19h–23h · @koisushi_porto
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm font-bold text-white/72">
@@ -387,12 +395,12 @@ export default function Home() {
             ))}
             <SocialIconLinks />
             <a
-              href={buildWhatsappLink(whatsappMessages.footer)}
+              href={TAKE_AWAY_URL}
               target="_blank"
               rel="noreferrer"
               className="text-[var(--chambar-red)]"
             >
-              WhatsApp
+              Pedir Take Away
             </a>
           </div>
         </Reveal>
