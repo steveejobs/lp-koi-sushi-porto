@@ -46,7 +46,19 @@ const nightOptions = [
   "Take Away",
   "12h–15h | 19h–23h",
 ];
-const instagramTestimonials = chambarReviews.slice(0, 8);
+const instagramTestimonialNames = new Set([
+  "Anny",
+  "Carolina Castanho",
+  "Giovana Naiff",
+  "Teresa Sousa",
+  "Daniela Andrade",
+  "Diogo Silva",
+  "Jorge Monteiro",
+  "Ane",
+]);
+const instagramTestimonials = chambarReviews.filter(({ name }) =>
+  instagramTestimonialNames.has(name),
+);
 
 function IconArrow() {
   return (
