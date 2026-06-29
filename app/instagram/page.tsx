@@ -50,11 +50,11 @@ const instagramTestimonialNames = new Set([
   "Anny",
   "Carolina Castanho",
   "Giovana Naiff",
+  "Eduardo",
+  "Sheila Freire",
+  "Leticia Pi",
   "Teresa Sousa",
-  "Daniela Andrade",
-  "Diogo Silva",
-  "Jorge Monteiro",
-  "Ane",
+  "Ná",
 ]);
 const instagramTestimonials = chambarReviews.filter(({ name }) =>
   instagramTestimonialNames.has(name),

@@ -35,7 +35,7 @@ export const chambarTestimonials = [
   },
   {
     quote:
-      "Super valeu! Simples, com ótimo atendimento e opções do menu boas. Surpreendeu pelo custo-benefício.",
+      "Super valeu! Simples, com atendimento muito bom e opções do menu boas. Surpreendeu pelo custo-benefício.",
     name: "Sheila Freire",
     rating: 5,
     context: "Custo-benefício",
@@ -70,7 +70,7 @@ export const chambarTestimonials = [
   },
   {
     quote:
-      "Ótimo atendimento, muitas opções no menu e alta qualidade dos ingredientes. Tudo muito gostoso.",
+      "Atendimento muito bom, muitas opções no menu e alta qualidade dos ingredientes. Tudo muito saboroso.",
     name: "Victor Artico",
     rating: 5,
     context: "Ingredientes",
