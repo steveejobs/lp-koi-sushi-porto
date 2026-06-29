@@ -42,7 +42,7 @@ export function ChambarEstablishmentSection() {
               alt={mainImage.alt}
               fill
               sizes="(max-width: 1024px) 92vw, 64vw"
-              quality={88}
+              quality={75}
               loading="lazy"
               className="h-full w-full object-cover object-center"
             />

@@ -19,45 +19,45 @@ export const logoMedia = {
 } satisfies ChambarMediaAsset;
 
 export const heroImage = {
-  src: "/koi/hero/koi-sushi-porto-hero.jpg",
+  src: "/koi/hero/koi-sushi-porto-hero.webp",
   alt: "Sushi fresco do Koi Sushi Porto",
 } satisfies ChambarMediaAsset;
 
 export const facadeMedia = {
-  src: "/koi/establishment/koi-sushi-porto-interior-01.png",
+  src: "/koi/establishment/koi-sushi-porto-interior-01.webp",
   alt: "Ambiente do Koi Sushi Porto",
 } satisfies ChambarMediaAsset;
 
 export const locationImage = {
-  src: "/koi/establishment/koi-sushi-porto-interior-02.png",
+  src: "/koi/establishment/koi-sushi-porto-interior-02.webp",
   alt: "Ambiente do Koi Sushi Porto",
 } satisfies ChambarMediaAsset;
 
 export const genericGalleryImages = uniqueBySrc([
-  { src: "/koi/gallery/koi-sushi-porto-gallery-01.jpg", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-02.jpg", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-03.png", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-04.png", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-05.png", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-06.png", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-07.png", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-08.png", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-09.png", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-10.png", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-02.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-03.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-04.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-05.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-06.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-07.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-08.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-09.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-10.webp", alt: "Sushi fresco do Koi Sushi Porto" },
 ]) satisfies ChambarMediaAsset[];
 
 export const localDishGalleryImages = uniqueBySrc([
-  { src: "/koi/galeria/gallery-food-01.png", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-02.png", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-03.png", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/galeria/gallery-food-04.png", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-05.png", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-06.png", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/galeria/gallery-food-07.png", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-08.png", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-09.png", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/galeria/gallery-food-10.jpg", alt: "Sushi fresco do Koi Sushi Porto" },
-]) satisfies ChambarMediaAsset[];
+  { src: "/koi/galeria/gallery-food-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-02.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-03.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/galeria/gallery-food-04.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-05.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-06.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/galeria/gallery-food-07.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-08.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-09.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/galeria/gallery-food-10.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+].reverse()) satisfies ChambarMediaAsset[];
 
 export const establishmentImages = uniqueBySrc([
   facadeMedia,
@@ -65,7 +65,7 @@ export const establishmentImages = uniqueBySrc([
 
 export const scrollExperienceMedia = {
   background: {
-    src: "/koi/galeria/scroll-experience-bg.jpg",
+    src: "/koi/galeria/scroll-experience-bg.webp",
     alt: "",
   },
   video: "/koi/galeria/scroll-main-video.mp4",

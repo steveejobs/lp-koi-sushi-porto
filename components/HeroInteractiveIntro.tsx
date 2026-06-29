@@ -34,7 +34,7 @@ export function HeroInteractiveIntro() {
             alt={heroImage.alt}
             fill
             priority
-            quality={90}
+            quality={82}
             fetchPriority="high"
             sizes="(max-width: 768px) calc(100vw - 24px), (max-width: 1280px) calc(100vw - 32px), 1180px"
             className="absolute inset-0 z-20 object-cover object-[60%_50%] md:object-[58%_50%] lg:object-[60%_50%]"

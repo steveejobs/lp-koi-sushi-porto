@@ -50,7 +50,7 @@ function GalleryCard({
         alt={item.alt}
         fill
         sizes="(max-width: 768px) 180px, 320px"
-        quality={82}
+        quality={75}
         loading="lazy"
         className="h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:group-hover:scale-[1.02]"
       />
