@@ -5,7 +5,6 @@ import {
   buildWhatsappLink,
   images,
   navLinks,
-  whatsappMessages,
 } from "@/lib/site";
 
 function isExternalLink(href: string) {
@@ -48,7 +47,7 @@ export function Header() {
         <SocialIconLinks className="hidden xl:flex" />
 
         <a
-          href={buildWhatsappLink(whatsappMessages.order)}
+          href={buildWhatsappLink()}
           className="btn btn-primary hidden md:inline-flex"
           target="_blank"
           rel="noopener noreferrer"
@@ -58,7 +57,7 @@ export function Header() {
 
         <div className="flex shrink-0 items-center gap-2 md:hidden">
           <a
-            href={buildWhatsappLink(whatsappMessages.order)}
+            href={buildWhatsappLink()}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9a45c]/22 bg-[#16110d] text-[#fff8ed] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:text-[#25d366]"
             target="_blank"
             rel="noopener noreferrer"
@@ -68,7 +67,7 @@ export function Header() {
             <WhatsAppIcon className="h-[18px] w-[18px]" />
           </a>
           <a
-            href={buildWhatsappLink(whatsappMessages.order)}
+            href={buildWhatsappLink()}
             className="btn btn-primary hidden min-h-10 w-auto px-4 text-xs sm:inline-flex"
             target="_blank"
             rel="noopener noreferrer"

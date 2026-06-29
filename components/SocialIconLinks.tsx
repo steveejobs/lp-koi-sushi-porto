@@ -1,5 +1,5 @@
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import { INSTAGRAM_URL, buildWhatsappLink, whatsappMessages } from "@/lib/site";
+import { INSTAGRAM_URL, buildWhatsappLink } from "@/lib/site";
 
 type SocialIconLinksProps = {
   className?: string;
@@ -38,7 +38,7 @@ export function SocialIconLinks({ className = "" }: SocialIconLinksProps) {
         <InstagramIcon />
       </a>
       <a
-        href={buildWhatsappLink(whatsappMessages.footer)}
+        href={buildWhatsappLink()}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar com o Koi Sushi Porto pelo WhatsApp"

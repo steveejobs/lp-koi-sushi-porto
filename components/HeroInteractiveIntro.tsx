@@ -34,7 +34,7 @@ export function HeroInteractiveIntro() {
               className="mb-5 h-auto w-[118px] object-contain drop-shadow-[0_10px_28px_rgba(0,0,0,0.38)] md:w-[150px]"
             />
             <p className="max-w-sm text-sm font-black uppercase tracking-[0.08em] text-[#c9a45c]">
-              Menu Infinity - Take Away
+              Menu Infinity · Take Away
             </p>
             <p className="mt-3 max-w-[19rem] text-[1.42rem] font-black leading-[1.08] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] sm:max-w-md sm:text-2xl md:text-4xl">
               Sushi e cozinha chinesa feitos na hora.

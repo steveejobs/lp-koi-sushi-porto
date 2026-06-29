@@ -101,7 +101,7 @@ export function InstagramTestimonialsMarquee({
           Quem conhece, recomenda.
         </h2>
         <p className="mt-1 text-sm font-bold leading-6 text-neutral-600">
-          Comentarios sobre a experiencia Koi Sushi Porto.
+          Comentários sobre a experiência Koi Sushi Porto.
         </p>
       </div>
       <div className="mt-4 grid gap-3">

@@ -141,7 +141,8 @@ export default function InkReveal({
           wobble[2] * Math.sin(a * 7 + seed * 0.7);
         const px = x + Math.cos(a) * r * wob;
         const py = y + Math.sin(a) * r * wob;
-        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
       }
       ctx.closePath();
       ctx.fill();

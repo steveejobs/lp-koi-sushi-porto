@@ -1,16 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   takeAwayMenuImages,
   type ChambarMediaAsset,
 } from "@/data/chambar-media";
-import { buildWhatsappLink, whatsappMessages } from "@/lib/site";
-import {
-  CircularGallery,
-  type GalleryItem,
-} from "@/components/ui/circular-gallery";
+import { buildWhatsappLink } from "@/lib/site";
 
 type TakeAwayMenuItem = ChambarMediaAsset & {
   id: string;
@@ -20,41 +16,10 @@ type TakeAwayMenuItem = ChambarMediaAsset & {
 
 const menuImages = takeAwayMenuImages satisfies TakeAwayMenuItem[];
 
-function useDesktopGallery() {
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 1280px)");
-    const update = () => setEnabled(mediaQuery.matches);
-
-    update();
-    mediaQuery.addEventListener("change", update);
-
-    return () => mediaQuery.removeEventListener("change", update);
-  }, []);
-
-  return enabled;
-}
-
 export function MenuTakeAwaySection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
-  const showDesktopGallery = useDesktopGallery();
   const activeItem = menuImages[activeIndex];
-
-  const galleryItems = useMemo<GalleryItem[]>(
-    () =>
-      menuImages.slice(0, 8).map((item) => ({
-        common: item.title,
-        binomial: item.description,
-        photo: {
-          url: item.src,
-          text: item.alt,
-          by: "Koi Sushi Porto",
-        },
-      })),
-    [],
-  );
 
   const goToNext = () => {
     setActiveIndex((current) => (current + 1) % menuImages.length);
@@ -83,28 +48,25 @@ export function MenuTakeAwaySection() {
       <div className="container-page relative z-10">
         <div className="grid gap-5 md:grid-cols-[0.82fr_1.18fr] md:items-end">
           <div>
-            <span className="eyebrow text-[#c9a45c]">Cardapio Take Away</span>
+            <span className="eyebrow text-[#c9a45c]">Ementa Take Away</span>
             <h2 className="mt-5 max-w-2xl text-4xl font-black leading-[1.03] md:text-6xl">
-              Monte o seu Take Away
+              Escolha o seu Take Away
             </h2>
           </div>
           <p className="max-w-xl text-base font-semibold leading-7 text-[#efe2c8]/82 md:justify-self-end md:text-lg">
-            Cada caixa tem combinacoes de sushi a sua escolha. Veja as opcoes,
-            escolha os numeros e envie o pedido pelo WhatsApp.
+            Consulte as opções, escolha as peças e envie o pedido pelo
+            WhatsApp.
           </p>
         </div>
 
         <div className="mt-6 rounded-lg border border-[#c9a45c]/18 bg-[#16110d]/78 p-4 md:p-5">
-          <p className="text-sm font-bold leading-6 text-[#efe2c8]">
-            Escolha a sua caixa, veja as opcoes e envie o pedido pelo WhatsApp.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-black uppercase tracking-wide text-[#fff8ed]">
+          <div className="flex flex-wrap gap-2 text-xs font-black uppercase tracking-wide text-[#fff8ed]">
             {[
-              "1 caixa - 8 EUR",
-              "Com 4 tipos de sushi a sua escolha",
+              "1 caixa · 8 €",
+              "4 tipos de sushi à sua escolha",
               "2 caixas: oferta de 1 bebida",
               "4 caixas: pague 3",
-              "Promocoes nao acumulaveis",
+              "Promoções não acumuláveis",
             ].map((item) => (
               <span
                 key={item}
@@ -168,47 +130,43 @@ export function MenuTakeAwaySection() {
               />
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <a
-                href={buildWhatsappLink(whatsappMessages.order)}
+                href={buildWhatsappLink()}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="btn btn-primary"
               >
                 Pedir pelo WhatsApp
               </a>
+              <a
+                href={activeItem.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline"
+              >
+                Ver imagem completa
+              </a>
+              <button
+                type="button"
+                onClick={goToPrevious}
+                className="btn btn-outline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a45c]"
+              >
+                Anterior
+              </button>
               <button
                 type="button"
                 onClick={goToNext}
                 className="btn btn-outline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a45c]"
               >
-                Ver proximo cardapio
+                Próxima
               </button>
-            </div>
-
-            <div
-              className="mt-4 flex justify-center gap-2"
-              aria-label="Selecionar cardapio"
-            >
-              {menuImages.map((item, index) => (
-                <button
-                  key={`${item.id}-dot`}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  className={`h-2.5 rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c9a45c] ${
-                    activeIndex === index
-                      ? "w-7 bg-[#c9a45c]"
-                      : "w-2.5 bg-[#efe2c8]/32 hover:bg-[#efe2c8]/64"
-                  }`}
-                  aria-label={`Ver ${item.title}`}
-                />
-              ))}
             </div>
           </div>
 
           <aside className="order-3 rounded-lg border border-[#c9a45c]/18 bg-[#16110d]/86 p-5">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-[#c9a45c]">
-              Cardapio ativo
+              Ementa selecionada
             </p>
             <h3 className="mt-3 text-2xl font-black">{activeItem.title}</h3>
             <p className="mt-3 text-sm font-semibold leading-6 text-[#efe2c8]/78">
@@ -217,20 +175,10 @@ export function MenuTakeAwaySection() {
             <div className="mt-6 space-y-3 border-t border-[#efe2c8]/12 pt-5 text-sm font-bold leading-6 text-[#efe2c8]/86">
               <p>Menu Infinity e All You Can Eat no restaurante.</p>
               <p>Take Away com sushi fresco e pratos quentes.</p>
-              <p>Horario: 12h-15h | 19h-23h.</p>
+              <p>Horário: 12h–15h | 19h–23h.</p>
             </div>
           </aside>
         </div>
-
-        {showDesktopGallery ? (
-          <div className="mt-12 hidden h-[460px] overflow-hidden rounded-lg border border-[#c9a45c]/14 bg-black/20 xl:block">
-            <CircularGallery
-              items={galleryItems}
-              radius={440}
-              autoRotateSpeed={0.015}
-            />
-          </div>
-        ) : null}
       </div>
     </section>
   );

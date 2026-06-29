@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://koi-sushi-porto.vercel.app"),
   title: "Koi Sushi Porto | Sushi, cozinha chinesa e Take Away no Porto",
   description:
-    "Koi Sushi Porto: sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalacao.",
+    "Koi Sushi Porto: sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalação.",
   icons: {
     icon: [
       {

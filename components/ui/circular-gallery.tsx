@@ -86,7 +86,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
       <div
         ref={ref}
         role="region"
-        aria-label="Galeria circular de cardapios"
+        aria-label="Galeria circular de ementas"
         className={cn("relative flex h-full w-full items-center justify-center", className)}
         style={{ perspective: "2000px" }}
         {...props}
@@ -124,6 +124,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                 }}
               >
                 <div className="group relative h-full w-full overflow-hidden rounded-lg border border-[#c9a45c]/22 bg-[#16110d]/80 shadow-2xl">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.photo.url}
                     alt={item.photo.text}

@@ -1,25 +1,25 @@
 import Image from "next/image";
 import { CHAMBAR_CONFIG } from "@/data/chambar-config";
-import { establishmentImages } from "@/data/chambar-media";
+import { koiEstablishmentGallery } from "@/data/chambar-media";
 import { GOOGLE_MAPS_URL } from "@/lib/site";
 
 const presencePoints = [
   {
     title: "Menu completo",
-    text: "Sushi, cozinha chinesa, pratos quentes e combinacoes para partilhar.",
+    text: "Sushi, cozinha chinesa, pratos quentes e combinações para partilhar.",
   },
   {
     title: "Sala acolhedora",
-    text: "Madeira escura, luz quente e detalhes vermelhos para uma refeicao sem pressa.",
+    text: "Madeira escura, luz quente e detalhes vermelhos para uma refeição sem pressa.",
   },
   {
     title: "Take Away direto",
-    text: "Escolha as caixas do cardapio e envie o pedido pelo WhatsApp.",
+    text: "Escolha as opções da ementa e envie o pedido pelo WhatsApp.",
   },
 ];
 
 export function ChambarEstablishmentSection() {
-  const mainImage = establishmentImages[0];
+  const mainImage = koiEstablishmentGallery[0];
 
   return (
     <section id="ambiente" className="section-pad bg-[#16110d] text-[#fff8ed]">
@@ -52,8 +52,8 @@ export function ChambarEstablishmentSection() {
             <figcaption className="absolute bottom-5 left-5 right-5 max-w-md text-white">
               <span className="block h-1.5 w-10 rounded-full bg-[#c92127]" />
               <p className="mt-4 text-2xl font-black leading-tight md:text-3xl">
-                Sushi japones e cozinha chinesa num ambiente escuro, quente e
-                gastronomico.
+                Sushi japonês e cozinha chinesa num ambiente escuro, quente e
+                gastronómico.
               </p>
             </figcaption>
           </figure>
@@ -74,7 +74,7 @@ export function ChambarEstablishmentSection() {
 
             <article className="rounded-lg bg-[#c92127] p-5 text-white shadow-[0_20px_42px_rgba(0,0,0,0.22)] sm:col-span-3 lg:col-span-1">
               <p className="text-xs font-black uppercase tracking-[0.08em] text-white/70">
-                Endereco
+                Endereço
               </p>
               <p className="mt-3 text-base font-black leading-6">
                 {CHAMBAR_CONFIG.address}

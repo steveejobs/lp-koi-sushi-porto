@@ -30,7 +30,7 @@ function TestimonialCard({ testimonial }: { testimonial: ChambarTestimonial }) {
         </span>
       </div>
       <p className="mt-4 text-sm font-bold leading-6 text-[#fff8ed]">
-        "{testimonial.text}"
+        “{testimonial.text}”
       </p>
       <div className="mt-auto flex items-center justify-between gap-4 border-t border-[#efe2c8]/10 pt-4">
         <p className="text-sm font-black text-white">{testimonial.name}</p>
