@@ -36,11 +36,13 @@ export function InstagramMediaMarquee({ media }: InstagramMediaMarqueeProps) {
           {media.map((item) => (
             <figure
               key={`${item.src}-loop`}
+              aria-hidden="true"
               className="relative h-[214px] w-[166px] shrink-0 overflow-hidden rounded-[24px] bg-neutral-950 shadow-[0_14px_30px_rgba(16,16,16,0.1)]"
             >
               <Image
                 src={item.src}
                 alt=""
+                aria-hidden="true"
                 fill
                 quality={75}
                 sizes="166px"
