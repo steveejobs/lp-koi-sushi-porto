@@ -4,40 +4,58 @@ import { images } from "@/lib/site";
 
 export function HeroInteractiveIntro() {
   return (
-    <section className="bg-[#0f0d0a] pt-4 md:pt-6" aria-label="Abertura Koi Sushi Porto">
+    <section
+      className="bg-[var(--koi-dark)] pt-4 md:pt-6"
+      aria-label="Abertura Koi Sushi Porto"
+    >
       <div className="container-page">
-        <div className="intro-stage relative isolate mx-auto h-[62svh] min-h-[420px] overflow-hidden rounded-lg border border-[#c9a45c]/18 bg-[#050505] shadow-[0_28px_76px_rgba(0,0,0,0.3)] sm:h-[68svh] sm:min-h-[470px] md:h-[76vh] md:min-h-[576px]">
+        <div className="intro-stage relative isolate mx-auto h-[64svh] min-h-[430px] overflow-hidden rounded-lg border border-white/10 bg-[#050505] shadow-[0_28px_76px_rgba(16,16,16,0.1)] sm:h-[68svh] sm:min-h-[470px] md:h-[76vh] md:min-h-[576px] lg:w-[90%]">
           <div
-            className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_68%_36%,rgba(201,164,92,0.18),transparent_34%),linear-gradient(135deg,#050505_0%,#16110d_55%,#25080a_100%)]"
+            className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_70%_35%,rgba(184,146,74,0.18),transparent_38%),linear-gradient(135deg,#0f0d0a_0%,#16110d_58%,#26090b_100%)]"
             aria-hidden="true"
           />
+          <div
+            className="absolute inset-0 z-10 flex items-center justify-center"
+            aria-hidden="true"
+          >
+            <Image
+              src={images.logo}
+              alt=""
+              width={190}
+              height={82}
+              priority
+              quality={90}
+              fetchPriority="high"
+              className="h-auto w-[150px] object-contain opacity-90 drop-shadow-[0_14px_34px_rgba(0,0,0,0.32)] md:w-[190px]"
+            />
+          </div>
           <Image
             src={heroImage.src}
             alt={heroImage.alt}
             fill
             priority
-            quality={88}
+            quality={90}
             fetchPriority="high"
             sizes="(max-width: 768px) calc(100vw - 24px), (max-width: 1280px) calc(100vw - 32px), 1180px"
-            className="absolute inset-0 z-20 object-cover object-[52%_50%] md:object-center"
+            className="absolute inset-0 z-20 object-cover object-[60%_50%] md:object-[58%_50%] lg:object-[60%_50%]"
           />
-          <div className="absolute inset-0 z-30 bg-[linear-gradient(180deg,rgba(0,0,0,0.05)_0%,rgba(0,0,0,0.16)_48%,rgba(0,0,0,0.74)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.32)_46%,rgba(0,0,0,0.06)_100%)]" />
-          <div className="absolute inset-0 z-30 bg-[radial-gradient(circle_at_70%_42%,rgba(201,164,92,0.12),transparent_38%)]" />
+          <div className="absolute inset-0 z-30 bg-[linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.12)_48%,rgba(0,0,0,0.42)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.2)_38%,rgba(0,0,0,0.05)_100%)]" />
+          <div className="absolute inset-0 z-30 bg-[radial-gradient(circle_at_68%_48%,rgba(196,30,47,0.12),transparent_44%)]" />
 
-          <div className="hero-intro-copy relative z-40 flex h-full max-w-[560px] flex-col justify-end p-6 md:p-10">
+          <div className="hero-intro-copy relative z-40 flex h-full max-w-[520px] flex-col justify-end p-6 md:p-10">
             <Image
               src={images.logo}
               alt="Koi Sushi Porto"
-              width={180}
-              height={80}
+              width={170}
+              height={74}
               priority
-              className="mb-5 h-auto w-[118px] object-contain drop-shadow-[0_10px_28px_rgba(0,0,0,0.38)] md:w-[150px]"
+              className="mb-5 h-auto w-[128px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:w-[170px]"
             />
-            <p className="max-w-sm text-sm font-black uppercase tracking-[0.08em] text-[#c9a45c]">
-              Menu Infinity · Take Away
+            <p className="max-w-sm text-sm font-black uppercase tracking-[0.08em] text-white/82">
+              Menu Infinity · All You Can Eat · Take Away
             </p>
-            <p className="mt-3 max-w-[19rem] text-[1.42rem] font-black leading-[1.08] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] sm:max-w-md sm:text-2xl md:text-4xl">
-              Sushi e cozinha chinesa feitos na hora.
+            <p className="mt-3 max-w-md text-2xl font-black leading-[1.05] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] md:text-4xl">
+              Sushi e cozinha chinesa preparados na hora.
             </p>
           </div>
         </div>

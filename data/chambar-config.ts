@@ -5,6 +5,8 @@ export const CHAMBAR_CONFIG = {
   instagramUrl: "https://www.instagram.com/koisushi_porto/",
   phoneRaw: "+351 961 176 188",
   whatsappNumber: "351961176188",
+  googleRating: "4,9",
+  googleReviews: "48",
   city: "Porto, Portugal",
   openingHours: "12h–15h | 19h–23h",
   address:
@@ -25,4 +27,4 @@ export const getWhatsappUrl = (source = "site") => {
 
 export const createChambarWhatsAppLink = getWhatsappUrl;
 
-export const chambarGoogleProof = "Menu Infinity · All You Can Eat · Take Away";
+export const chambarGoogleProof = `★★★★★ ${CHAMBAR_CONFIG.googleRating} no Google · ${CHAMBAR_CONFIG.googleReviews} avaliações`;

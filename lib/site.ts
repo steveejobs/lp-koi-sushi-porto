@@ -1,17 +1,16 @@
+import { CHAMBAR_CONFIG, getWhatsappUrl } from "@/data/chambar-config";
 import {
-  CHAMBAR_CONFIG,
-  getWhatsappUrl,
-} from "@/data/chambar-config";
-import {
-  koiEstablishmentGallery,
-  koiFoodGallery,
-  koiHeroImages,
-  koiTableVisualMedia,
+  genericGalleryImages,
+  heroImage,
+  internalEnvironmentMedia,
+  localDishGalleryImages,
+  locationMedia,
   logoMedia,
+  scrollExperienceMedia,
 } from "@/data/chambar-media";
 
 export const WHATSAPP_NUMBER = CHAMBAR_CONFIG.whatsappNumber;
-export const FULL_SITE_URL = "https://koi-sushi-porto.vercel.app";
+export const FULL_SITE_URL = "https://koisushiporto.xyz";
 export const ADDRESS = CHAMBAR_CONFIG.address;
 export const GOOGLE_MAPS_URL = CHAMBAR_CONFIG.googleMapsUrl;
 export const INSTAGRAM_URL = CHAMBAR_CONFIG.instagramUrl;
@@ -23,19 +22,20 @@ export const buildWhatsappLink = getWhatsappUrl;
 
 export const navLinks = [
   { label: "Início", href: "#topo" },
-  { label: "Menu", href: "#menu" },
+  { label: "Pratos", href: "#pratos-local" },
+  { label: "Ambiente", href: "#ambiente" },
   { label: "Localização", href: "#localizacao" },
-  { label: "Instagram", href: INSTAGRAM_URL },
-  { label: "Pedir Take Away", href: buildWhatsappLink() },
 ];
 
 export const images = {
   logo: logoMedia.src,
-  ambienteInterno: koiEstablishmentGallery[0].src,
-  fachada: koiEstablishmentGallery[0].src,
-  heroIntro: koiHeroImages[0].src,
-  foodGallery: koiFoodGallery.map((item) => item.src),
-  scrollExperienceBg: koiTableVisualMedia.image.src,
-  scrollMainImage: koiTableVisualMedia.image.src,
-  locationFacade: koiEstablishmentGallery[1].src,
+  ambienteInterno: internalEnvironmentMedia.src,
+  fachada: internalEnvironmentMedia.src,
+  heroIntro: heroImage.src,
+  foodGallery: localDishGalleryImages.map((item) => item.src),
+  finalGallery: genericGalleryImages.map((item) => item.src),
+  scrollExperienceBg: scrollExperienceMedia.background.src,
+  scrollMainVideo: scrollExperienceMedia.video,
+  scrollMainVideoMobile: scrollExperienceMedia.mobileVideo,
+  locationFacade: locationMedia[1].src,
 };

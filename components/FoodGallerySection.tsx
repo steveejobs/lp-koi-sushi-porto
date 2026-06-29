@@ -17,11 +17,11 @@ type FoodGallerySectionProps = {
 };
 
 const defaultCategories = [
-  "Sushis",
+  "Sushi",
   "Cozinha chinesa",
-  "Combinados",
+  "Pratos quentes",
   "Peças especiais",
-  "Experiência",
+  "Take Away",
 ];
 
 function GalleryCard({

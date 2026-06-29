@@ -1,13 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0d0a;
-  --foreground: #fff8ed;
-  --chambar-red: #c92127;
-  --chambar-black: #0f0d0a;
-  --chambar-graphite: #16110d;
-  --chambar-line: rgba(201, 164, 92, 0.18);
-  --chambar-warm: #c9a45c;
+  --koi-dark: #0f0d0a;
+  --koi-charcoal: #16110d;
+  --koi-red: #a91f24;
+  --koi-gold: #b8924a;
+  --koi-paper: #efe2c8;
+  --koi-text: #fff8ed;
+  --background: #efe2c8;
+  --foreground: #0f0d0a;
+  --chambar-red: var(--koi-red);
+  --chambar-black: var(--koi-dark);
+  --chambar-graphite: var(--koi-charcoal);
+  --chambar-line: rgba(184, 146, 74, 0.22);
+  --chambar-warm: var(--koi-gold);
 }
 
 * {
@@ -28,7 +34,14 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background: var(--background);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.96), rgba(239, 226, 200, 0.9)),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 32px,
+      rgba(184, 146, 74, 0.025) 32px 33px
+    ),
+    var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
@@ -40,15 +53,8 @@ img {
 
 @layer components {
   .container-page {
-    width: min(calc(100% - 24px), 1180px);
-    max-width: 100%;
+    width: min(100% - 32px, 1180px);
     margin-inline: auto;
-  }
-
-  @media (min-width: 768px) {
-    .container-page {
-      width: min(calc(100% - 32px), 1180px);
-    }
   }
 
   .btn {
@@ -92,14 +98,14 @@ img {
   }
 
   .btn-outline {
-    border: 1px solid rgba(239, 226, 200, 0.28);
-    background: rgba(255, 248, 237, 0.08);
-    color: #fff8ed;
+    border: 1px solid rgba(16, 16, 16, 0.16);
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--chambar-black);
   }
 
   .btn-outline:hover {
     transform: translateY(-2px);
-    border-color: var(--chambar-warm);
+    border-color: var(--chambar-black);
   }
 
   .eyebrow {
@@ -132,7 +138,7 @@ img {
   }
 
   .fine-border {
-    border: 1px solid var(--chambar-line);
+    border: 1px solid rgba(184, 146, 74, 0.22);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -163,7 +169,42 @@ img {
 }
 
 .intro-stage {
-  background-color: #050505;
+  background-color: var(--koi-dark);
+}
+
+.koi-cloud-pattern {
+  border: 1px solid rgba(184, 146, 74, 0.24);
+  background:
+    radial-gradient(
+      circle at 24% 62%,
+      transparent 0 25%,
+      rgba(184, 146, 74, 0.24) 25.5% 26%,
+      transparent 26.5%
+    ),
+    radial-gradient(
+      circle at 58% 42%,
+      transparent 0 22%,
+      rgba(184, 146, 74, 0.2) 22.5% 23%,
+      transparent 23.5%
+    );
+}
+
+.koi-seal {
+  border: 1px solid rgba(169, 31, 36, 0.34);
+}
+
+.koi-seal::before,
+.koi-seal::after {
+  position: absolute;
+  inset: 18%;
+  border: 1px solid currentColor;
+  color: rgba(169, 31, 36, 0.32);
+  content: "";
+}
+
+.koi-seal::after {
+  inset: 34% 18%;
+  border-inline: 0;
 }
 
 .intro-stage::after {
@@ -249,11 +290,11 @@ img {
 }
 
 .ig-testimonials-left {
-  animation: igMarqueeLeft 38s linear infinite;
+  animation: igMarqueeLeft 78s linear infinite;
 }
 
 .ig-testimonials-right {
-  animation: igMarqueeRight 44s linear infinite;
+  animation: igMarqueeRight 86s linear infinite;
 }
 
 .ig-video-reveal {
@@ -329,7 +370,7 @@ img {
 
 .chambar-testimonials-section {
   position: relative;
-  border-block: 1px solid rgba(201, 164, 92, 0.14);
+  border-block: 1px solid rgba(16, 16, 16, 0.06);
 }
 
 .chambar-testimonials-row {
@@ -378,21 +419,19 @@ img {
 .chambar-testimonial-card {
   position: relative;
   width: clamp(280px, 31vw, 360px);
-  height: 248px;
+  min-height: 224px;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(201, 164, 92, 0.16);
+  border: 1px solid rgba(16, 16, 16, 0.1);
   border-radius: 8px;
   background:
     linear-gradient(
       135deg,
-      rgba(255, 248, 237, 0.08),
-      rgba(201, 33, 39, 0.08)
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 248, 240, 0.9)
     ),
-    #16110d;
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.18);
+    #fff;
+  box-shadow: 0 20px 44px rgba(16, 16, 16, 0.08);
   padding: 20px;
 }
 
@@ -402,8 +441,8 @@ img {
   bottom: -34px;
   width: 96px;
   height: 96px;
-  border-radius: 999px;
-  background: rgba(201, 164, 92, 0.08);
+  border-radius: 8px;
+  background: rgba(169, 31, 36, 0.08);
   content: "";
 }
 
@@ -528,7 +567,7 @@ img {
 
   .chambar-testimonial-card {
     width: clamp(260px, 82vw, 310px);
-    height: 262px;
+    min-height: 218px;
     padding: 18px;
   }
 }

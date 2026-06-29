@@ -30,20 +30,20 @@ export function SocialIconLinks({ className = "" }: SocialIconLinksProps) {
       <a
         href={INSTAGRAM_URL}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noreferrer"
         aria-label="Abrir Instagram do Koi Sushi Porto"
         title="Instagram"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9a45c]/22 bg-[#16110d] text-[#fff8ed] transition hover:-translate-y-0.5 hover:border-[#c9a45c] hover:text-[#c9a45c]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-800 transition hover:-translate-y-0.5 hover:border-[var(--chambar-red)] hover:text-[var(--chambar-red)]"
       >
         <InstagramIcon />
       </a>
       <a
         href={buildWhatsappLink()}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noreferrer"
         aria-label="Falar com o Koi Sushi Porto pelo WhatsApp"
         title="WhatsApp"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c9a45c]/22 bg-[#16110d] text-[#fff8ed] transition hover:-translate-y-0.5 hover:border-[#25d366]/45 hover:text-[#25d366]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-800 transition hover:-translate-y-0.5 hover:border-[#25d366]/45 hover:text-[#188f45]"
       >
         <WhatsAppIcon className="h-[18px] w-[18px]" />
       </a>

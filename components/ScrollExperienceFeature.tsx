@@ -6,12 +6,14 @@ import { scrollExperienceMedia } from "@/data/chambar-media";
 export function ScrollExperienceFeature() {
   return (
     <ScrollExpandMedia
-      mediaSrc={scrollExperienceMedia.feature.src}
-      mobileMediaSrc={scrollExperienceMedia.feature.src}
+      mediaSrc={scrollExperienceMedia.video}
+      mobileMediaSrc={scrollExperienceMedia.mobileVideo}
+      posterSrc={scrollExperienceMedia.background.src}
+      mobilePosterSrc={scrollExperienceMedia.background.src}
       bgImageSrc={scrollExperienceMedia.background.src}
-      title="Do primeiro olhar ao primeiro prato."
-      date="KOI SUSHI PORTO"
-      scrollToExpand="Sushi japonês, cozinha chinesa e pratos asiáticos com presença à mesa."
+      title="O Koi servido à mesa."
+      date="À MESA"
+      scrollToExpand="Sushi, pratos quentes e detalhes preparados na hora."
     />
   );
 }
