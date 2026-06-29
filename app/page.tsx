@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { ChambarEstablishmentSection } from "@/components/chambar/ChambarEstablishmentSection";
-import { ChambarTestimonialsMarquee } from "@/components/chambar/ChambarTestimonialsMarquee";
+import { KoiEstablishmentSection } from "@/components/chambar/KoiEstablishmentSection";
+import { KoiTestimonialsMarquee } from "@/components/chambar/KoiTestimonialsMarquee";
 import { FoodGallerySection } from "@/components/FoodGallerySection";
 import { Header } from "@/components/Header";
 import { HeroInteractiveIntro } from "@/components/HeroInteractiveIntro";
@@ -165,7 +165,7 @@ export default function Home() {
           backgroundClassName="bg-white"
         />
 
-        <ChambarEstablishmentSection />
+        <KoiEstablishmentSection />
 
         <section id="experiencias" className="section-pad bg-[#fffdf9]">
           <div className="container-page">
@@ -264,7 +264,7 @@ export default function Home() {
           </div>
         </section>
 
-        <ChambarTestimonialsMarquee />
+        <KoiTestimonialsMarquee />
 
         <section id="localizacao" className="section-pad bg-white">
           <Reveal

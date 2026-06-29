@@ -17,7 +17,7 @@ const presencePoints = [
   },
 ];
 
-export function ChambarEstablishmentSection() {
+export function KoiEstablishmentSection() {
   const mainImage = establishmentImages[0];
 
   return (

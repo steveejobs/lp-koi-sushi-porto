@@ -1,8 +1,8 @@
 import Image from "next/image";
-import type { ChambarMediaAsset } from "@/data/chambar-media";
+import type { KoiMediaAsset } from "@/data/chambar-media";
 
 type InstagramMediaMarqueeProps = {
-  media: ChambarMediaAsset[];
+  media: KoiMediaAsset[];
 };
 
 export function InstagramMediaMarquee({ media }: InstagramMediaMarqueeProps) {

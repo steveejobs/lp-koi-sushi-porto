@@ -1,6 +1,6 @@
 import { chambarTestimonials } from "@/src/data/chambar-testimonials";
 
-export type ChambarReview = {
+export type KoiReview = {
   name: string;
   source: string;
   text: string;
@@ -12,4 +12,4 @@ export const chambarReviews = chambarTestimonials.map(
     source: context ?? "Google",
     text: quote,
   }),
-) satisfies ChambarReview[];
+) satisfies KoiReview[];

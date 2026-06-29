@@ -1,4 +1,4 @@
-export type ChambarTestimonial = {
+export type KoiTestimonial = {
   quote: string;
   name: string;
   rating: 4.5 | 5;
@@ -136,4 +136,4 @@ export const chambarTestimonials = [
     rating: 5,
     context: "Preço honesto",
   },
-] satisfies ChambarTestimonial[];
+] satisfies KoiTestimonial[];

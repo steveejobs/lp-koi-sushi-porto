@@ -1,9 +1,9 @@
-export type ChambarMediaAsset = {
+export type KoiMediaAsset = {
   src: string;
   alt: string;
 };
 
-function uniqueBySrc<T extends ChambarMediaAsset>(items: T[]) {
+function uniqueBySrc<T extends KoiMediaAsset>(items: T[]) {
   const seen = new Set<string>();
 
   return items.filter((item) => {
@@ -16,22 +16,22 @@ function uniqueBySrc<T extends ChambarMediaAsset>(items: T[]) {
 export const logoMedia = {
   src: "/koi/logo/koi-sushi-porto-logo.png",
   alt: "Logo Koi Sushi Porto",
-} satisfies ChambarMediaAsset;
+} satisfies KoiMediaAsset;
 
 export const heroImage = {
   src: "/koi/hero/koi-sushi-porto-hero.webp",
   alt: "Sushi fresco do Koi Sushi Porto",
-} satisfies ChambarMediaAsset;
+} satisfies KoiMediaAsset;
 
 export const facadeMedia = {
   src: "/koi/establishment/koi-sushi-porto-interior-01.webp",
   alt: "Ambiente do Koi Sushi Porto",
-} satisfies ChambarMediaAsset;
+} satisfies KoiMediaAsset;
 
 export const locationImage = {
   src: "/koi/establishment/koi-sushi-porto-interior-02.webp",
   alt: "Ambiente do Koi Sushi Porto",
-} satisfies ChambarMediaAsset;
+} satisfies KoiMediaAsset;
 
 export const genericGalleryImages = uniqueBySrc([
   { src: "/koi/gallery/koi-sushi-porto-gallery-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
@@ -44,7 +44,7 @@ export const genericGalleryImages = uniqueBySrc([
   { src: "/koi/gallery/koi-sushi-porto-gallery-08.webp", alt: "Pratos do Koi Sushi Porto" },
   { src: "/koi/gallery/koi-sushi-porto-gallery-09.webp", alt: "Peças de sushi preparadas na hora" },
   { src: "/koi/gallery/koi-sushi-porto-gallery-10.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-]) satisfies ChambarMediaAsset[];
+]) satisfies KoiMediaAsset[];
 
 export const localDishGalleryImages = uniqueBySrc([
   { src: "/koi/galeria/gallery-food-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
@@ -57,11 +57,11 @@ export const localDishGalleryImages = uniqueBySrc([
   { src: "/koi/galeria/gallery-food-08.webp", alt: "Pratos do Koi Sushi Porto" },
   { src: "/koi/galeria/gallery-food-09.webp", alt: "Peças de sushi preparadas na hora" },
   { src: "/koi/galeria/gallery-food-10.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-].reverse()) satisfies ChambarMediaAsset[];
+].reverse()) satisfies KoiMediaAsset[];
 
 export const establishmentImages = uniqueBySrc([
   facadeMedia,
-]) satisfies ChambarMediaAsset[];
+]) satisfies KoiMediaAsset[];
 
 export const scrollExperienceMedia = {
   background: {
@@ -79,7 +79,7 @@ export const instagramFoodGalleryMedia = uniqueBySrc([
   localDishGalleryImages[3],
   localDishGalleryImages[7],
   localDishGalleryImages[9],
-]) satisfies ChambarMediaAsset[];
+]) satisfies KoiMediaAsset[];
 
 export const chambarMedia = {
   heroImage,
@@ -94,4 +94,4 @@ export const homeHeroImage = heroImage;
 export const internalEnvironmentMedia = facadeMedia;
 export const locationMedia = uniqueBySrc([
   locationImage,
-]) satisfies ChambarMediaAsset[];
+]) satisfies KoiMediaAsset[];

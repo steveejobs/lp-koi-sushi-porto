@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { ChambarReview } from "@/data/chambar-reviews";
+import type { KoiReview } from "@/data/chambar-reviews";
 
 type InstagramTestimonialsMarqueeProps = {
-  reviews: ChambarReview[];
+  reviews: KoiReview[];
 };
 
 function ReviewCard({
   review,
   hidden = false,
 }: {
-  review: ChambarReview;
+  review: KoiReview;
   hidden?: boolean;
 }) {
   return (
@@ -38,7 +38,7 @@ function ReviewRow({
   direction,
   playState,
 }: {
-  reviews: ChambarReview[];
+  reviews: KoiReview[];
   direction: "left" | "right";
   playState: "running" | "paused";
 }) {

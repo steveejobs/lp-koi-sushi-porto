@@ -3,7 +3,7 @@
 import Image from "next/image";
 import {
   genericGalleryImages,
-  type ChambarMediaAsset,
+  type KoiMediaAsset,
 } from "@/data/chambar-media";
 
 type FoodGallerySectionProps = {
@@ -11,7 +11,7 @@ type FoodGallerySectionProps = {
   eyebrow?: string;
   title?: string;
   copy?: string;
-  images?: ChambarMediaAsset[];
+  images?: KoiMediaAsset[];
   categories?: string[];
   backgroundClassName?: string;
 };
@@ -29,7 +29,7 @@ function GalleryCard({
   index,
   compact = false,
 }: {
-  item: ChambarMediaAsset;
+  item: KoiMediaAsset;
   index: number;
   compact?: boolean;
 }) {
@@ -66,7 +66,7 @@ function GalleryLoop({
   indexOffset = 0,
   compact = false,
 }: {
-  items: ChambarMediaAsset[];
+  items: KoiMediaAsset[];
   direction: "left" | "right";
   indexOffset?: number;
   compact?: boolean;

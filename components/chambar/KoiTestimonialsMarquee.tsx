@@ -1,14 +1,14 @@
 import {
-  type ChambarTestimonial,
+  type KoiTestimonial,
   chambarTestimonials,
 } from "@/src/data/chambar-testimonials";
 import { chambarGoogleProof } from "@/data/chambar-config";
 
-function formatRating(rating: ChambarTestimonial["rating"]) {
+function formatRating(rating: KoiTestimonial["rating"]) {
   return rating.toString().replace(".", ",");
 }
 
-function RatingStars({ rating }: { rating: ChambarTestimonial["rating"] }) {
+function RatingStars({ rating }: { rating: KoiTestimonial["rating"] }) {
   return (
     <div
       aria-label={`Avaliação ${formatRating(rating)} de 5`}
@@ -27,9 +27,15 @@ function RatingStars({ rating }: { rating: ChambarTestimonial["rating"] }) {
   );
 }
 
-function TestimonialCard({ testimonial }: { testimonial: ChambarTestimonial }) {
+function TestimonialCard({
+  testimonial,
+  hidden = false,
+}: {
+  testimonial: KoiTestimonial;
+  hidden?: boolean;
+}) {
   return (
-    <article className="chambar-testimonial-card">
+    <article aria-hidden={hidden || undefined} className="chambar-testimonial-card">
       <span className="chambar-testimonial-accent" aria-hidden="true" />
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -64,7 +70,7 @@ function TestimonialsSet({
   testimonials,
   hidden,
 }: {
-  testimonials: ChambarTestimonial[];
+  testimonials: KoiTestimonial[];
   hidden?: boolean;
 }) {
   return (
@@ -73,6 +79,7 @@ function TestimonialsSet({
         <TestimonialCard
           key={`${testimonial.quote}-${testimonial.context}`}
           testimonial={testimonial}
+          hidden={hidden}
         />
       ))}
     </div>
@@ -83,7 +90,7 @@ function TestimonialsRow({
   testimonials,
   direction,
 }: {
-  testimonials: ChambarTestimonial[];
+  testimonials: KoiTestimonial[];
   direction: "left" | "right";
 }) {
   return (
@@ -98,7 +105,7 @@ function TestimonialsRow({
   );
 }
 
-export function ChambarTestimonialsMarquee() {
+export function KoiTestimonialsMarquee() {
   const midpoint = Math.ceil(chambarTestimonials.length / 2);
   const rowOne = chambarTestimonials.slice(0, midpoint);
   const rowTwo = chambarTestimonials.slice(midpoint);
