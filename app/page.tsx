@@ -12,9 +12,9 @@ import { SocialIconLinks } from "@/components/SocialIconLinks";
 import { TableVisualSection } from "@/components/TableVisualSection";
 import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
 import {
-  foodGallery,
-  heroImages,
-  locationImage,
+  koiEstablishmentGallery,
+  koiFoodGallery,
+  koiHeroImages,
 } from "@/data/chambar-media";
 import {
   GOOGLE_MAPS_URL,
@@ -100,8 +100,8 @@ export default function Home() {
 
             <div className="relative hidden min-h-[520px] overflow-hidden rounded-lg border border-[#b8924a]/16 bg-[#16110d] md:block">
               <Image
-                src={heroImages[1].src}
-                alt={heroImages[1].alt}
+                src={koiHeroImages[1].src}
+                alt={koiHeroImages[1].alt}
                 fill
                 sizes="(max-width: 1280px) 48vw, 560px"
                 quality={86}
@@ -188,7 +188,7 @@ export default function Home() {
           eyebrow="Galeria"
           title="Pratos do Koi"
           copy="Sushi fresco, peças especiais e pratos quentes preparados na hora."
-          images={foodGallery}
+          images={koiFoodGallery}
           categories={["Sushi", "Peças especiais", "Cozinha chinesa", "Pratos quentes"]}
           backgroundClassName="bg-[#efe2c8]"
         />
@@ -266,8 +266,8 @@ export default function Home() {
 
             <div className="relative h-[300px] w-full overflow-hidden rounded-lg border border-[#b8924a]/16 bg-neutral-900 shadow-[0_22px_60px_rgba(0,0,0,0.24)] md:h-auto md:min-h-[460px]">
               <Image
-                src={locationImage.src}
-                alt={locationImage.alt}
+                src={koiEstablishmentGallery[1].src}
+                alt={koiEstablishmentGallery[1].alt}
                 fill
                 sizes="(max-width: 768px) 92vw, 48vw"
                 loading="lazy"

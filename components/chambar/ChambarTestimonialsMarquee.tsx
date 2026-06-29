@@ -26,7 +26,7 @@ function TestimonialCard({ testimonial }: { testimonial: ChambarTestimonial }) {
       <div className="flex items-center justify-between gap-3">
         <RatingStars rating={testimonial.rating} />
         <span
-          className="chambar-testimonial-tag rounded-full border border-[#a91f24]/35 bg-[#a91f24]/12 px-2.5 py-1 text-[0.68rem] font-black uppercase text-[#d7b978]"
+          className="chambar-testimonial-tag rounded-full border border-[#a91f24]/24 bg-[#a91f24]/8 px-2.5 py-1 text-[0.68rem] font-black uppercase text-[#b8924a]"
           title={testimonial.tag}
         >
           {testimonial.tag}

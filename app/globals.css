@@ -406,7 +406,7 @@ img {
   width: max-content;
   gap: var(--testimonial-gap);
   will-change: transform;
-  animation-duration: 65s;
+  animation-duration: 72s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -417,7 +417,7 @@ img {
 
 .chambar-testimonials-track-right {
   animation-name: marquee-right;
-  animation-duration: 82s;
+  animation-duration: 92s;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -590,16 +590,16 @@ img {
   }
 
   .chambar-testimonials-track {
-    animation-duration: 78s;
+    animation-duration: 90s;
   }
 
   .chambar-testimonials-track-right {
-    animation-duration: 90s;
+    animation-duration: 98s;
   }
 
   .chambar-testimonial-card {
     width: clamp(260px, 82vw, 310px);
-    height: 244px;
+    height: 236px;
     padding: 18px;
   }
 }

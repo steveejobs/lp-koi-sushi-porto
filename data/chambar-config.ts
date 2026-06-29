@@ -12,10 +12,11 @@ export const CHAMBAR_CONFIG = {
   googleMapsUrl: "https://maps.app.goo.gl/BWotay8Vg5dZYrJ36",
 } as const;
 
-export function createChambarWhatsAppLink() {
-  const phone = "351961176188";
-  const message =
-    "Olá! Vim pelo site e quero fazer um pedido de take-away. O meu pedido é:";
+export function createChambarWhatsAppLink(activeMenuTitle?: string) {
+  const phone = CHAMBAR_CONFIG.whatsappNumber;
+  const message = activeMenuTitle
+    ? `Olá! Vim pelo site e quero fazer um pedido de take-away. Estou a ver: ${activeMenuTitle}. O meu pedido é:`
+    : "Olá! Vim pelo site e quero fazer um pedido de take-away. O meu pedido é:";
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
 
   return whatsappUrl;

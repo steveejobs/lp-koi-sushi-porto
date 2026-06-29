@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { CHAMBAR_CONFIG } from "@/data/chambar-config";
-import { establishmentGallery } from "@/data/chambar-media";
+import { koiEstablishmentGallery } from "@/data/chambar-media";
 import { GOOGLE_MAPS_URL } from "@/lib/site";
 
 const presencePoints = [
@@ -19,7 +19,7 @@ const presencePoints = [
 ];
 
 export function ChambarEstablishmentSection() {
-  const mainImage = establishmentGallery[0];
+  const mainImage = koiEstablishmentGallery[0];
 
   return (
     <section id="ambiente" className="section-pad bg-[#16110d] text-[#fff8ed]">

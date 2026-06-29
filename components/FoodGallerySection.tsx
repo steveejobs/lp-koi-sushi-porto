@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import {
-  foodGallery,
-  type ChambarMediaAsset,
+  koiFoodGallery,
+  type KoiMediaAsset,
 } from "@/data/chambar-media";
 
 type FoodGallerySectionProps = {
@@ -11,7 +11,7 @@ type FoodGallerySectionProps = {
   eyebrow?: string;
   title?: string;
   copy?: string;
-  images?: ChambarMediaAsset[];
+  images?: KoiMediaAsset[];
   categories?: string[];
   backgroundClassName?: string;
 };
@@ -29,7 +29,7 @@ function GalleryCard({
   index,
   compact = false,
 }: {
-  item: ChambarMediaAsset;
+  item: KoiMediaAsset;
   index: number;
   compact?: boolean;
 }) {
@@ -65,7 +65,7 @@ function GalleryLoop({
   indexOffset = 0,
   compact = false,
 }: {
-  items: ChambarMediaAsset[];
+  items: KoiMediaAsset[];
   direction: "left" | "right";
   indexOffset?: number;
   compact?: boolean;
@@ -107,7 +107,7 @@ export function FoodGallerySection({
   eyebrow = "Galeria",
   title = "Cortes, brilho e desejo.",
   copy = "Imagens para abrir o apetite antes do primeiro pedido.",
-  images = foodGallery,
+  images = koiFoodGallery,
   categories = defaultCategories,
   backgroundClassName = "bg-[#f7f2ec]",
 }: FoodGallerySectionProps) {

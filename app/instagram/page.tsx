@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { chambarTestimonials } from "@/data/chambar-testimonials";
 import styles from "./instagram.module.css";
 
 export const metadata: Metadata = {
@@ -18,54 +17,6 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
 const instagramUrl = "https://www.instagram.com/koisushi_porto/";
 const mapsUrl = "https://maps.app.goo.gl/BWotay8Vg5dZYrJ36";
 
-const gallery = [
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-08.png",
-    alt: "Sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-03.png",
-    alt: "Peças de sushi preparadas no Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-04.png",
-    alt: "Pratos chineses preparados no Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-07.png",
-    alt: "Seleção de sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-09.png",
-    alt: "Combinado de sushi do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-05.png",
-    alt: "Sushi e sashimi apresentados no Koi Sushi Porto",
-  },
-  {
-    src: "/assets/establishment/koi-sushi-porto-interior-01.png",
-    alt: "Ambiente do restaurante Koi Sushi Porto",
-  },
-  {
-    src: "/assets/establishment/koi-sushi-porto-interior-02.png",
-    alt: "Sala do restaurante Koi Sushi Porto",
-  },
-] as const;
-
-const selectedNames = new Set([
-  "Anny",
-  "Carolina Castanho",
-  "Teresa Sousa",
-  "Daniela Andrade",
-  "Diogo Silva",
-  "Ane",
-]);
-
-const testimonials = chambarTestimonials.filter(({ name }) =>
-  selectedNames.has(name),
-);
-
 const links = [
   {
     label: "Pedir Take Away",
@@ -75,8 +26,8 @@ const links = [
     primary: true,
   },
   {
-    label: "Ver menu completo",
-    description: "Consultar sushi, caixas e pratos quentes",
+    label: "Ver Menu completo",
+    description: "Consultar o menu do Koi Sushi Porto",
     href: "/#menu",
     external: false,
   },
@@ -115,19 +66,12 @@ export default function InstagramPage() {
         <header className={styles.hero}>
           <Link
             href="/"
-            className={styles.logoLink}
+            className={styles.brandMark}
             aria-label="Ir para o site do Koi Sushi Porto"
           >
-            <Image
-              src="/assets/logo/koi-sushi-porto-logo.png"
-              alt="Logótipo oficial do Koi Sushi Porto"
-              width={1254}
-              height={1254}
-              priority
-              sizes="132px"
-              className={styles.logo}
-            />
+            Koi
           </Link>
+
           <p className={styles.kicker}>Porto · Portugal</p>
           <h1>Koi Sushi Porto</h1>
           <p className={styles.lead}>
@@ -140,7 +84,8 @@ export default function InstagramPage() {
             className={styles.rating}
             aria-label="4,9 em 5 no Google, com 48 avaliações"
           >
-            <span aria-hidden="true">★★★★★</span> 4,9 no Google · 48 avaliações
+            <span aria-hidden="true">★★★★★</span>
+            4,9 no Google · 48 avaliações
           </p>
           <ul className={styles.tags} aria-label="Especialidades e horário">
             <li>Sushi</li>
@@ -154,24 +99,25 @@ export default function InstagramPage() {
           className={styles.gallery}
           aria-label="Galeria do Koi Sushi Porto"
         >
-          {gallery.map((item, index) => (
-            <figure key={item.src} className={styles.galleryItem}>
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                priority={index === 0}
-                loading={index === 0 ? "eager" : "lazy"}
-                sizes={
-                  index === 0
-                    ? "(max-width: 720px) calc(100vw - 32px), 648px"
-                    : "(max-width: 720px) calc(50vw - 20px), 320px"
-                }
-                quality={index === 0 ? 82 : 75}
-                className={styles.galleryImage}
-              />
-            </figure>
-          ))}
+          <figure className={styles.galleryItem}>
+            <Image
+              src="/assets/gallery/koi-sushi-porto-gallery-07.png"
+              alt="Sushi fresco do Koi Sushi Porto"
+              fill
+              priority
+              sizes="(max-width: 720px) calc(50vw - 24px), 314px"
+              className={styles.galleryImage}
+            />
+          </figure>
+          <figure className={styles.galleryItem}>
+            <Image
+              src="/assets/gallery/koi-sushi-porto-gallery-09.png"
+              alt="Pratos do Koi Sushi Porto servidos à mesa"
+              fill
+              sizes="(max-width: 720px) calc(50vw - 24px), 314px"
+              className={styles.galleryImage}
+            />
+          </figure>
         </section>
 
         <nav className={styles.linkList} aria-label="Links principais">
@@ -202,12 +148,10 @@ export default function InstagramPage() {
           </div>
           <div className={styles.momentImage}>
             <Image
-              src="/assets/hero/koi-sushi-porto-hero.png"
-              alt="Sushi fresco apresentado no Koi Sushi Porto"
+              src="/assets/gallery/koi-sushi-porto-gallery-07.png"
+              alt="Sushi fresco do Koi Sushi Porto"
               fill
-              loading="lazy"
-              sizes="(max-width: 720px) calc(100vw - 56px), 620px"
-              quality={82}
+              sizes="(max-width: 720px) calc(100vw - 48px), 632px"
               className={styles.coverImage}
             />
           </div>
@@ -217,48 +161,32 @@ export default function InstagramPage() {
           className={styles.testimonials}
           aria-labelledby="testimonials-title"
         >
-          <p className={styles.eyebrow}>Avaliações Google</p>
-          <h2 id="testimonials-title">Quem já veio, recomenda.</h2>
-          <p className={styles.sectionIntro}>
-            Avaliações reais sobre frescura, atendimento, preço justo e
-            apresentação.
+          <p className={styles.eyebrow}>Opiniões</p>
+          <h2 id="testimonials-title">Conheça a experiência Koi.</h2>
+          <p className={styles.reviewNote}>
+            Consulte as avaliações no Google e no Instagram do Koi Sushi Porto.
           </p>
-          <div className={styles.testimonialGrid}>
-            {testimonials.map((testimonial) => (
-              <article
-                key={testimonial.name}
-                className={styles.testimonialCard}
-              >
-                <span className={styles.stars} aria-label="5 em 5 estrelas">
-                  ★★★★★
-                </span>
-                <blockquote>“{testimonial.text}”</blockquote>
-                <footer>
-                  <strong>{testimonial.name}</strong>
-                  <span>{testimonial.tag}</span>
-                </footer>
-              </article>
-            ))}
+          <div className={styles.reviewLinks}>
+            <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
+              Avaliações no Google
+              <ArrowIcon />
+            </a>
+            <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+              Ver Instagram
+              <ArrowIcon />
+            </a>
           </div>
         </section>
 
         <footer className={styles.footer}>
-          <Image
-            src="/assets/logo/koi-sushi-porto-logo.png"
-            alt=""
-            width={1254}
-            height={1254}
-            loading="lazy"
-            sizes="72px"
-          />
-          <div>
-            <strong>Koi Sushi Porto</strong>
-            <address>Estrada Exterior da Circunvalação, 7824-F, Porto</address>
-            <p>12h–15h | 19h–23h</p>
-            <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              @koisushi_porto
-            </a>
-          </div>
+          <strong>Koi Sushi Porto</strong>
+          <address>
+            Estrada Exterior da Circunvalação, 7824-F, Porto
+          </address>
+          <p>12h–15h | 19h–23h</p>
+          <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+            @koisushi_porto
+          </a>
         </footer>
       </div>
     </main>

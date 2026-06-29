@@ -3,13 +3,11 @@ import {
   createChambarWhatsAppLink,
 } from "@/data/chambar-config";
 import {
-  facadeMedia,
-  foodGalleryImages,
-  heroImage,
-  internalEnvironmentMedia,
-  locationMedia,
+  koiEstablishmentGallery,
+  koiFoodGallery,
+  koiHeroImages,
+  koiTableVisualMedia,
   logoMedia,
-  scrollExperienceMedia,
 } from "@/data/chambar-media";
 
 export const WHATSAPP_NUMBER = CHAMBAR_CONFIG.whatsappNumber;
@@ -33,11 +31,11 @@ export const navLinks = [
 
 export const images = {
   logo: logoMedia.src,
-  ambienteInterno: internalEnvironmentMedia.src,
-  fachada: facadeMedia.src,
-  heroIntro: heroImage.src,
-  foodGallery: foodGalleryImages.map((item) => item.src),
-  scrollExperienceBg: scrollExperienceMedia.background.src,
-  scrollMainImage: scrollExperienceMedia.feature.src,
-  locationFacade: locationMedia[0].src,
+  ambienteInterno: koiEstablishmentGallery[0].src,
+  fachada: koiEstablishmentGallery[0].src,
+  heroIntro: koiHeroImages[0].src,
+  foodGallery: koiFoodGallery.map((item) => item.src),
+  scrollExperienceBg: koiTableVisualMedia.image.src,
+  scrollMainImage: koiTableVisualMedia.image.src,
+  locationFacade: koiEstablishmentGallery[1].src,
 };

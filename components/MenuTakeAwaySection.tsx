@@ -78,7 +78,7 @@ export function MenuTakeAwaySection() {
     };
   }, [isLightboxOpen]);
 
-  const whatsappUrl = buildWhatsappLink();
+  const whatsappUrl = buildWhatsappLink(activeItem.title);
 
   const lightbox = isLightboxOpen
     ? createPortal(

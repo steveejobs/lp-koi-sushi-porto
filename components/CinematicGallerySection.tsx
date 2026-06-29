@@ -1,12 +1,8 @@
 import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { cinematicGallery } from "@/data/chambar-media";
+import { koiFinalGallery } from "@/data/chambar-media";
 
 export function CinematicGallerySection() {
-  const galleryItems = cinematicGallery.filter(
-    (item) => item.role === "gallery" && item.type !== "video",
-  );
-
   return (
     <section
       id="detalhes"
@@ -34,7 +30,7 @@ export function CinematicGallerySection() {
         </Reveal>
 
         <div className="no-scrollbar -mr-3 mt-9 flex snap-x snap-mandatory gap-3 overflow-x-auto pr-3 md:mr-0 md:grid md:grid-cols-12 md:gap-4 md:overflow-visible md:pr-0">
-          {galleryItems.map((item, index) => (
+          {koiFinalGallery.map((item, index) => (
             <Reveal
               key={item.src}
               threshold={0.12}
