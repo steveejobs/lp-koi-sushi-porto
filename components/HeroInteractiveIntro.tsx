@@ -2,6 +2,8 @@ import Image from "next/image";
 import { heroImage } from "@/data/chambar-media";
 import { images } from "@/lib/site";
 
+import { HeroImageReveal } from "@/components/HeroImageReveal";
+
 export function HeroInteractiveIntro() {
   return (
     <section
@@ -27,20 +29,24 @@ export function HeroInteractiveIntro() {
               className="h-auto w-[150px] object-contain opacity-90 drop-shadow-[0_14px_34px_rgba(0,0,0,0.32)] md:w-[190px]"
             />
           </div>
-          <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
-            fill
-            priority
-            quality={82}
-            fetchPriority="high"
-            sizes="(max-width: 768px) calc(100vw - 24px), (max-width: 1280px) calc(100vw - 32px), 1180px"
-            className="absolute inset-0 z-20 object-cover object-[60%_50%] md:object-[58%_50%] lg:object-[60%_50%]"
-          />
-          <div className="absolute inset-0 z-30 bg-[linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.12)_48%,rgba(0,0,0,0.42)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.2)_38%,rgba(0,0,0,0.05)_100%)]" />
-          <div className="absolute inset-0 z-30 bg-[radial-gradient(circle_at_68%_48%,rgba(196,30,47,0.12),transparent_44%)]" />
+          <div className="absolute inset-0 z-20">
+            <HeroImageReveal className="h-full w-full">
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                fill
+                priority
+                quality={82}
+                fetchPriority="high"
+                sizes="(max-width: 768px) calc(100vw - 24px), (max-width: 1280px) calc(100vw - 32px), 1180px"
+                className="absolute inset-0 z-0 object-cover object-[60%_50%] md:object-[58%_50%] lg:object-[60%_50%]"
+              />
+            </HeroImageReveal>
+          </div>
+          <div className="pointer-events-none absolute inset-0 z-30 bg-[linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.12)_48%,rgba(0,0,0,0.42)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.46)_0%,rgba(0,0,0,0.2)_38%,rgba(0,0,0,0.05)_100%)]" />
+          <div className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(circle_at_68%_48%,rgba(196,30,47,0.12),transparent_44%)]" />
 
-          <div className="hero-intro-copy relative z-40 flex h-full max-w-[520px] flex-col justify-end p-6 md:p-10">
+          <div className="hero-intro-copy pointer-events-none relative z-40 flex h-full max-w-[520px] flex-col justify-end p-6 md:p-10">
             <Image
               src={images.logo}
               alt="Logo Koi Sushi Porto"
