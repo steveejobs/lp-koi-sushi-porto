@@ -11,9 +11,9 @@ export function ScrollExperienceFeature() {
       posterSrc={scrollExperienceMedia.background.src}
       mobilePosterSrc={scrollExperienceMedia.background.src}
       bgImageSrc={scrollExperienceMedia.background.src}
-      title="O Koi servido à mesa."
-      date="À MESA"
-      scrollToExpand="Sushi, pratos quentes e detalhes preparados na hora."
+      title="Do primeiro olhar ao primeiro prato."
+      date="CHAMBAR À NOITE"
+      scrollToExpand="Sushi, frutos do mar e uma experiência pensada para a noite."
     />
   );
 }

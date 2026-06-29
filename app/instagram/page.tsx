@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import {
   CHAMBAR_CONFIG,
   chambarGoogleProof,
-  getWhatsappUrl,
+  chambarWhatsAppMessages,
 } from "@/data/chambar-config";
 import { chambarReviews } from "@/data/chambar-reviews";
 import {
@@ -16,38 +16,41 @@ import {
   scrollExperienceMedia,
 } from "@/data/chambar-media";
 import {
+  DELIVERY_URL,
+  FULL_SITE_URL,
   GOOGLE_MAPS_URL,
   INSTAGRAM_URL,
   OPENING_HOURS,
+  createWhatsAppLink,
 } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Koi Sushi Porto | Links",
+  metadataBase: new URL(FULL_SITE_URL),
+  title: "Chambar Sushi & Frutos do Mar | Links",
   description:
-    "Sushi, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away no Porto.",
+    "Peça delivery, fale pelo WhatsApp e acompanhe o Chambar Sushi & Frutos do Mar em Araguaína.",
   openGraph: {
-    title: "Koi Sushi Porto | Links",
+    title: "Chambar Sushi & Frutos do Mar | Links",
     description:
-      "Peça Take Away, veja a localização e acompanhe o Koi Sushi Porto.",
+      "Delivery, WhatsApp, Instagram e site completo do Chambar em Araguaína.",
     url: "/instagram",
     images: [
       {
-        url: "/assets/hero/koi-sushi-porto-hero.png",
-        width: 1452,
-        height: 1083,
-        alt: "Sushi fresco do Koi Sushi Porto",
+        url: "/chambar/og-chambar.jpg",
+        width: 1600,
+        height: 900,
+        alt: "Chambar Sushi & Frutos do Mar",
       },
     ],
   },
 };
 
-const whatsappUrl = getWhatsappUrl("instagram");
-const serviceTags = [
-  "Sushi",
-  "Cozinha chinesa",
-  "Take Away",
-  "12h–15h | 19h–23h",
-];
+const whatsappLinks = {
+  reservation: createWhatsAppLink(chambarWhatsAppMessages.reservation),
+  information: createWhatsAppLink(chambarWhatsAppMessages.information),
+};
+
+const nightOptions = ["Sushi", "Frutos do mar", "18h às 23h"];
 const instagramTestimonials = chambarReviews.slice(0, 8);
 
 function IconArrow() {
@@ -96,21 +99,19 @@ function LinkButton({
   children,
   icon,
   primary = false,
-  external = true,
   delay,
 }: {
   href: string;
   children: React.ReactNode;
   icon: React.ReactNode;
   primary?: boolean;
-  external?: boolean;
   delay: number;
 }) {
   return (
     <a
       href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
+      target="_blank"
+      rel="noreferrer"
       className={`ig-rise flex min-h-[56px] items-center justify-between gap-4 rounded-[18px] border px-5 text-[0.95rem] font-black transition active:scale-[0.985] ${
         primary
           ? "border-neutral-950 bg-neutral-950 text-white shadow-[0_16px_34px_rgba(16,16,16,0.16)]"
@@ -123,7 +124,7 @@ function LinkButton({
           className={`flex h-9 w-9 items-center justify-center rounded-full ${
             primary
               ? "bg-white/12 text-white"
-              : "bg-[#fff4ec] text-[var(--koi-red)]"
+              : "bg-[#fff4ec] text-[var(--chambar-red)]"
           }`}
         >
           {icon}
@@ -137,7 +138,7 @@ function LinkButton({
 
 export default function InstagramLinksPage() {
   return (
-    <main className="min-h-svh bg-[radial-gradient(circle_at_top,rgba(169,31,36,0.08),transparent_30%),linear-gradient(180deg,#fffdf9,#efe2c8)] px-4 py-5 text-neutral-950 sm:px-6 sm:py-8">
+    <main className="min-h-svh bg-[radial-gradient(circle_at_top,rgba(196,30,47,0.08),transparent_30%),linear-gradient(180deg,#fffdf9,#f8f0e7)] px-4 py-5 text-neutral-950 sm:px-6 sm:py-8">
       <div className="mx-auto w-full max-w-[460px] overflow-hidden rounded-[28px] border border-black/8 bg-[#fffdf9]/92 px-4 py-5 shadow-[0_24px_70px_rgba(16,16,16,0.1)] backdrop-blur sm:px-5">
         <header className="ig-rise text-center">
           <Image
@@ -149,26 +150,27 @@ export default function InstagramLinksPage() {
             className="mx-auto h-auto w-[172px] object-contain"
           />
           <h1 className="mt-4 text-2xl font-black leading-tight">
-            Koi Sushi Porto
+            Chambar Sushi & Frutos do Mar
           </h1>
           <p className="mx-auto mt-2 max-w-[19rem] text-[1.68rem] font-black leading-[1.04]">
-            Sushi, cozinha chinesa e Take Away no Porto.
+            Não é só sushi. É nível Chambar.
           </p>
           <p className="mx-auto mt-3 max-w-[20rem] text-sm font-bold leading-6 text-neutral-600">
-            Menu Infinity, All You Can Eat e pratos preparados na hora.
+            Sushi, frutos do mar e uma noite feita para virar experiência em
+            Araguaína.
           </p>
           <p className="mt-4 inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-3.5 py-2 text-xs font-black text-neutral-900 shadow-[0_10px_22px_rgba(16,16,16,0.04)]">
-            <span className="mr-2 text-[var(--koi-red)]">★★★★★</span>
+            <span className="mr-2 text-[var(--chambar-red)]">★★★★★</span>
             {CHAMBAR_CONFIG.googleRating} no Google ·{" "}
             {CHAMBAR_CONFIG.googleReviews} avaliações
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2">
-            {serviceTags.map((tag) => (
+            {nightOptions.map((option) => (
               <span
-                key={tag}
+                key={option}
                 className="rounded-full border border-black/10 bg-white/78 px-3 py-1.5 text-[0.68rem] font-black uppercase text-neutral-700"
               >
-                {tag}
+                {option}
               </span>
             ))}
           </div>
@@ -178,41 +180,24 @@ export default function InstagramLinksPage() {
 
         <nav className="mt-5 grid gap-3" aria-label="Links principais">
           <LinkButton
-            href={whatsappUrl}
+            href={DELIVERY_URL}
             icon={<IconBag />}
             primary
             delay={150}
           >
-            Pedir Take Away
+            Pedir delivery
           </LinkButton>
           <LinkButton
-            href="/"
-            icon={<IconArrow />}
-            external={false}
+            href={whatsappLinks.reservation}
+            icon={<WhatsAppIcon className="h-5 w-5" />}
             delay={220}
           >
-            Ver Menu
+            Chamar no WhatsApp
           </LinkButton>
-          <LinkButton
-            href={GOOGLE_MAPS_URL}
-            icon={<IconArrow />}
-            delay={290}
-          >
-            Ver localização
-          </LinkButton>
-          <LinkButton
-            href={INSTAGRAM_URL}
-            icon={<IconInstagram />}
-            delay={360}
-          >
+          <LinkButton href={INSTAGRAM_URL} icon={<IconInstagram />} delay={290}>
             Instagram
           </LinkButton>
-          <LinkButton
-            href="/"
-            icon={<IconArrow />}
-            external={false}
-            delay={430}
-          >
+          <LinkButton href={FULL_SITE_URL} icon={<IconArrow />} delay={360}>
             Site completo
           </LinkButton>
         </nav>
@@ -225,11 +210,11 @@ export default function InstagramLinksPage() {
         <InstagramTestimonialsMarquee reviews={instagramTestimonials} />
 
         <section
-          className="ig-rise mt-5 rounded-[24px] bg-[var(--koi-dark)] p-4 text-white shadow-[0_14px_34px_rgba(16,16,16,0.12)]"
+          className="ig-rise mt-5 rounded-[24px] bg-[var(--chambar-black)] p-4 text-white shadow-[0_14px_34px_rgba(16,16,16,0.12)]"
           style={{ "--ig-delay": "640ms" } as React.CSSProperties}
         >
           <h2 className="text-2xl font-black leading-tight">
-            Estamos no Porto.
+            Estamos em Araguaína.
           </h2>
           <div className="mt-3 space-y-2 text-sm font-bold leading-6 text-white/72">
             <p>{chambarGoogleProof}</p>
@@ -238,8 +223,8 @@ export default function InstagramLinksPage() {
               <a
                 href={GOOGLE_MAPS_URL}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="text-white underline decoration-[var(--koi-red)] decoration-2 underline-offset-4"
+                rel="noreferrer"
+                className="text-white underline decoration-[var(--chambar-red)] decoration-2 underline-offset-4"
               >
                 {CHAMBAR_CONFIG.address}
               </a>
@@ -247,19 +232,19 @@ export default function InstagramLinksPage() {
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2">
             <a
-              href={GOOGLE_MAPS_URL}
+              href={DELIVERY_URL}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noreferrer"
               className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-white text-sm font-black text-neutral-950 active:scale-[0.985]"
             >
-              <IconArrow />
-              Localização
+              <IconBag />
+              Delivery
             </a>
             <a
-              href={whatsappUrl}
+              href={whatsappLinks.information}
               target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--koi-red)] text-sm font-black text-white active:scale-[0.985]"
+              rel="noreferrer"
+              className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--chambar-red)] text-sm font-black text-white active:scale-[0.985]"
             >
               <WhatsAppIcon className="h-4 w-4" />
               WhatsApp
@@ -268,7 +253,7 @@ export default function InstagramLinksPage() {
         </section>
 
         <footer className="ig-rise mt-5 pb-1 text-center text-xs font-black text-neutral-500">
-          <p>Koi Sushi Porto · Porto, Portugal</p>
+          <p>Chambar Sushi & Frutos do Mar · Araguaína - TO</p>
         </footer>
       </div>
     </main>

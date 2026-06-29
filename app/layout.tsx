@@ -2,51 +2,38 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://koisushiporto.xyz"),
-  title: "Koi Sushi Porto | Sushi, cozinha chinesa e Take Away no Porto",
+  metadataBase: new URL("https://lp-chambar.vercel.app"),
+  title: "Chambar Sushi & Frutos do Mar | Araguaína",
   description:
-    "Koi Sushi Porto: sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalação.",
+    "Peça delivery, fale pelo WhatsApp e conheça o Chambar Sushi & Frutos do Mar em Araguaína. Não é só sushi. É nível Chambar.",
   icons: {
     icon: [
       {
-        url: "/favicon.ico",
-        sizes: "any",
-      },
-      {
-        url: "/favicon.png",
+        url: "/chambar/favicon-chambar.png",
         sizes: "512x512",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/apple-touch-icon.png",
-        sizes: "180x180",
+        url: "/chambar/favicon-chambar.png",
+        sizes: "512x512",
         type: "image/png",
       },
     ],
   },
   openGraph: {
-    title: "Koi Sushi Porto | Sushi, cozinha chinesa e Take Away no Porto",
+    title: "Chambar Sushi & Frutos do Mar",
     description:
-      "Koi Sushi Porto: sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalação.",
-    type: "website",
-    locale: "pt_PT",
+      "Sushi, frutos do mar e delivery em Araguaína. Não é só sushi. É nível Chambar.",
     images: [
       {
-        url: "/assets/hero/koi-sushi-porto-hero.png",
-        width: 1452,
-        height: 1083,
-        alt: "Sushi fresco do Koi Sushi Porto",
+        url: "/chambar/og-chambar.jpg",
+        width: 1600,
+        height: 900,
+        alt: "Chambar Sushi & Frutos do Mar em Araguaína",
       },
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Koi Sushi Porto | Sushi e Take Away no Porto",
-    description:
-      "Sushi fresco, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away no Porto.",
-    images: ["/assets/hero/koi-sushi-porto-hero.png"],
   },
 };
 
@@ -56,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-PT">
+    <html lang="pt-BR">
       <body>{children}</body>
     </html>
   );

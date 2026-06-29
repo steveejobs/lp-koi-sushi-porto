@@ -6,12 +6,13 @@ import { Header } from "@/components/Header";
 import { HeroInteractiveIntro } from "@/components/HeroInteractiveIntro";
 import { HeroMotionPlaceholder } from "@/components/HeroMotionPlaceholder";
 import { Reveal } from "@/components/Reveal";
+import { ScrollExperienceFeature } from "@/components/ScrollExperienceFeature";
 import { SectionIntro } from "@/components/SectionIntro";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
-import { TableVisualSection } from "@/components/TableVisualSection";
 import {
   CHAMBAR_CONFIG,
   chambarGoogleProof,
+  chambarWhatsAppMessages,
 } from "@/data/chambar-config";
 import {
   genericGalleryImages,
@@ -19,50 +20,52 @@ import {
   locationImage,
 } from "@/data/chambar-media";
 import {
+  DELIVERY_URL,
   GOOGLE_MAPS_URL,
   INSTAGRAM_URL,
   buildWhatsappLink,
   images,
   navLinks,
+  whatsappMessages,
 } from "@/lib/site";
 
 const experiences = [
   {
-    title: "Menu Infinity",
-    text: "Coma à vontade no restaurante com sushi, pratos quentes e opções para partilhar.",
-    cta: "Ver localização",
-    href: GOOGLE_MAPS_URL,
+    title: "Delivery",
+    text: "Peça pelo delivery oficial e receba o Chambar onde estiver.",
+    cta: "Pedir delivery",
+    href: DELIVERY_URL,
   },
   {
-    title: "Cozinha chinesa",
-    text: "Massas, arroz, entradas e pratos quentes preparados na hora.",
-    cta: "Ver pratos",
+    title: "WhatsApp",
+    text: "Fale direto com a equipe para pedidos, dúvidas ou reserva.",
+    cta: "Chamar no WhatsApp",
+    href: buildWhatsappLink(chambarWhatsAppMessages.information),
+  },
+  {
+    title: "Noite Chambar",
+    text: "Sushi, frutos do mar e uma experiência para aproveitar das 18h às 23h.",
+    cta: "Conhecer a experiência",
     href: "#pratos-local",
-  },
-  {
-    title: "Take Away",
-    text: "Escolha o menu, confirme os números e envie o pedido pelo WhatsApp.",
-    cta: "Pedir Take Away",
-    href: buildWhatsappLink(),
   },
 ];
 
 const differentials = [
   {
-    title: "Sushi fresco",
-    text: "Peças preparadas na hora, com combinações para partilhar.",
+    title: "Sushi em nível Chambar",
+    text: "Peças bem apresentadas, combinados caprichados e sabor direto ao ponto.",
   },
   {
-    title: "Menu Infinity",
-    text: "Uma forma directa de provar sushi e pratos quentes à vontade.",
+    title: "Frutos do mar",
+    text: "Opções para quem quer uma noite com mais variedade e presença à mesa.",
   },
   {
-    title: "Cozinha chinesa",
-    text: "Massas, arroz, entradas e pratos quentes feitos no momento.",
+    title: "Delivery oficial",
+    text: "Pedido pelo canal Yooga oficial, com praticidade para receber onde estiver.",
   },
   {
-    title: "Take Away",
-    text: "Faça o seu pedido pelo WhatsApp e levante no restaurante.",
+    title: "Noite das 18h às 23h",
+    text: "Horário pensado para jantar, pedir em casa ou aproveitar a saída.",
   },
 ];
 
@@ -74,63 +77,54 @@ export default function Home() {
         <HeroInteractiveIntro />
 
         <section className="relative border-b border-black/10 bg-[#fffdf9] py-10 md:min-h-[calc(100svh-80px)] md:py-16">
-          <div
-            className="koi-cloud-pattern absolute left-[-72px] top-20 h-40 w-40 opacity-30 md:left-10 md:h-64 md:w-64"
-            aria-hidden="true"
-          />
-          <div
-            className="koi-seal absolute right-[-32px] top-24 h-28 w-28 rounded-sm bg-[var(--koi-red)]/10 md:right-12 md:h-40 md:w-40"
-            aria-hidden="true"
-          />
+          <div className="absolute left-[-72px] top-20 h-40 w-40 rounded-full border border-red-700/15 md:left-10 md:h-64 md:w-64" />
+          <div className="absolute right-[-80px] top-24 h-44 w-44 rounded-full bg-[var(--chambar-red)]/8 md:right-12 md:h-72 md:w-72" />
 
           <div className="container-page grid items-center gap-10 md:grid-cols-[0.95fr_1.05fr]">
             <div className="relative z-10 animate-[riseIn_700ms_ease_both]">
               <Image
                 src={images.logo}
-                alt="Koi Sushi Porto"
+                alt="Chambar Sushi & Frutos do Mar"
                 width={168}
                 height={72}
                 priority
                 className="mb-6 hidden h-auto w-[132px] object-contain md:block md:w-[160px]"
               />
-              <span className="eyebrow">KOI SUSHI PORTO</span>
+              <span className="eyebrow">{CHAMBAR_CONFIG.city}</span>
               <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.98] text-neutral-950 md:text-7xl">
-                Sushi e cozinha chinesa no Porto
+                Não é só sushi. É nível Chambar.
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-neutral-600 md:text-xl">
-                Menu Infinity, All You Can Eat e Take Away com peças frescas,
-                pratos quentes e combinações para partilhar.
+                Sushi, frutos do mar e uma noite feita para virar experiência em
+                Araguaína.
               </p>
               <p className="mt-4 text-sm font-black uppercase tracking-[0.08em] text-neutral-700">
-                Koi Sushi Porto · {CHAMBAR_CONFIG.openingHours}
+                Chambar Sushi & Frutos do Mar · {CHAMBAR_CONFIG.openingHours}
               </p>
-              <p className="mt-4 text-sm font-black text-[var(--koi-red)]">
+              <p className="mt-4 text-sm font-black text-[var(--chambar-red)]">
                 {chambarGoogleProof}
               </p>
               <div className="mt-8 grid gap-3 sm:flex">
                 <a
-                  href={buildWhatsappLink()}
+                  href={DELIVERY_URL}
                   className="btn btn-primary"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noreferrer"
                 >
-                  Pedir Take Away
+                  Pedir delivery
                 </a>
                 <a
-                  href={GOOGLE_MAPS_URL}
+                  href={buildWhatsappLink(whatsappMessages.heroReservation)}
                   className="btn btn-outline"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noreferrer"
                 >
-                  Ver localização
+                  Reservar pelo WhatsApp
                 </a>
               </div>
-              <div className="mt-9 flex items-center gap-4 border-l-2 border-[var(--koi-gold)] pl-4 text-sm font-bold text-neutral-700">
-                <span
-                  className="h-3 w-3 rounded-sm bg-[var(--koi-red)]"
-                  aria-hidden="true"
-                />
-                <span>Sushi japonês e cozinha chinesa à mesa.</span>
+              <div className="mt-9 flex items-center gap-4 border-l-2 border-[var(--chambar-red)] pl-4 text-sm font-bold text-neutral-700">
+                <span className="h-3 w-3 rounded-full bg-[var(--chambar-red)]" />
+                <span>Transformamos sua noite em experiência.</span>
               </div>
             </div>
 
@@ -143,35 +137,29 @@ export default function Home() {
         <section className="section-pad bg-white">
           <div className="container-page">
             <Reveal threshold={0.42} className="max-w-3xl">
-              <p className="text-sm font-black text-[var(--koi-red)]">
-                KOI SUSHI PORTO
+              <p className="text-sm font-black text-[var(--chambar-red)]">
+                {chambarGoogleProof}
               </p>
               <h2 className="mt-4 text-4xl font-black leading-[1.04] text-neutral-950 md:text-6xl">
-                Sushi japonês e cozinha chinesa à mesa.
+                Quem conhece, recomenda.
               </h2>
               <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                No Koi Sushi Porto, encontra sushi fresco, pratos quentes e
-                opções para partilhar. Escolha o Menu Infinity para comer à
-                vontade no restaurante ou peça Take Away pelo WhatsApp.
+                Clientes destacam apresentação, sabor e uma experiência noturna
+                acima do comum.
               </p>
             </Reveal>
           </div>
         </section>
 
-        <TableVisualSection />
+        <ScrollExperienceFeature />
 
         <FoodGallerySection
           id="pratos-local"
-          eyebrow="Pratos"
-          title="Pratos do Koi"
-          copy="Sushi fresco, peças especiais e pratos quentes preparados na hora."
+          eyebrow="À mesa"
+          title="O Chambar servido à mesa."
+          copy="Pratos, combinações e detalhes da experiência no local."
           images={localDishGalleryImages}
-          categories={[
-            "Sushi",
-            "Cozinha chinesa",
-            "Pratos quentes",
-            "Peças especiais",
-          ]}
+          categories={["Pratos reais", "Combinados", "Peças", "Mesa Chambar"]}
           backgroundClassName="bg-white"
         />
 
@@ -181,9 +169,9 @@ export default function Home() {
           <div className="container-page">
             <Reveal threshold={0.45}>
               <SectionIntro
-                eyebrow="No Koi"
-                title="Escolha como aproveitar."
-                copy="Menu Infinity, cozinha chinesa e Take Away com opções preparadas na hora."
+                eyebrow="Pedidos"
+                title="Sua noite começa aqui."
+                copy="Delivery, WhatsApp ou mesa: três formas diretas de aproveitar o Chambar."
               />
             </Reveal>
             <div className="mt-9 grid gap-4 md:grid-cols-3">
@@ -195,7 +183,7 @@ export default function Home() {
                   className="h-full"
                 >
                   <article className="fine-border group h-full rounded-lg bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-                    <div className="mb-8 h-px w-16 bg-[var(--koi-gold)] transition-all duration-500 group-hover:w-24" />
+                    <div className="mb-8 h-px w-16 bg-[var(--chambar-red)] transition-all duration-500 group-hover:w-24" />
                     <h3 className="text-2xl font-black text-neutral-950">
                       {item.title}
                     </h3>
@@ -206,11 +194,7 @@ export default function Home() {
                       href={item.href}
                       className="btn btn-dark mt-6 w-full"
                       target={item.href.startsWith("#") ? undefined : "_blank"}
-                      rel={
-                        item.href.startsWith("#")
-                          ? undefined
-                          : "noopener noreferrer"
-                      }
+                      rel={item.href.startsWith("#") ? undefined : "noreferrer"}
                     >
                       {item.cta}
                     </a>
@@ -225,10 +209,12 @@ export default function Home() {
           <div className="container-page">
             <div className="fine-border rounded-lg bg-[#fffdf9] p-6 md:flex md:items-center md:justify-between md:gap-8">
               <p className="max-w-2xl text-2xl font-black leading-tight text-neutral-950">
-                Cortes, brilho e apetite.
+                Depois da mesa real, um respiro visual para aumentar o desejo do
+                pedido.
               </p>
               <p className="mt-4 max-w-md text-sm font-bold leading-6 text-neutral-600 md:mt-0">
-                Imagens para escolher antes do primeiro pedido.
+                A próxima galeria é cinematográfica e complementar, sem tomar o
+                lugar da casa e dos pratos servidos no Chambar.
               </p>
             </div>
           </div>
@@ -237,10 +223,10 @@ export default function Home() {
         <FoodGallerySection
           id="galeria-generica"
           eyebrow="Galeria"
-          title="Cortes, brilho e apetite."
-          copy="Imagens para escolher antes do primeiro pedido."
+          title="Cortes, brilho e desejo."
+          copy="Imagens para abrir o apetite antes do primeiro pedido."
           images={genericGalleryImages}
-          categories={["Sushi", "Detalhes", "Peças", "Preparação"]}
+          categories={["Sushi", "Frutos do mar", "Close-ups", "Premium"]}
           backgroundClassName="bg-[#f7f2ec]"
         />
 
@@ -248,16 +234,16 @@ export default function Home() {
           <div className="container-page">
             <Reveal threshold={0.45}>
               <SectionIntro
-                eyebrow="Preparado na hora"
-                title="Sushi, pratos quentes e opções para partilhar."
-                copy="No restaurante ou em Take Away, o Koi junta sabores japoneses e chineses."
+                eyebrow="Diferenciais"
+                title="Por que escolher o Chambar."
+                copy="Sushi, frutos do mar e uma experiência noturna com presença."
               />
             </Reveal>
             <div className="mt-9 grid gap-4 md:grid-cols-4">
               {differentials.map((item, index) => (
                 <Reveal key={item.title} delay={index * 80} threshold={0.2}>
                   <article className="fine-border h-full rounded-lg bg-[#fffdf9] p-5">
-                    <div className="mb-6 h-2 w-10 rounded-sm bg-[var(--koi-red)]" />
+                    <div className="mb-6 h-2 w-10 rounded-full bg-[var(--chambar-red)]" />
                     <h3 className="text-xl font-black text-neutral-950">
                       {item.title}
                     </h3>
@@ -281,20 +267,13 @@ export default function Home() {
             <div>
               <SectionIntro
                 eyebrow="Localização"
-                title="Estamos no Porto."
-                copy="Peça Take Away, fale pelo WhatsApp ou acompanhe o Koi Sushi Porto no Instagram."
+                title="Estamos em Araguaína."
+                copy="Peça pelo delivery oficial, fale pelo WhatsApp ou acompanhe o Chambar no Instagram."
               />
               <div className="mt-7 space-y-4 text-base leading-7 text-neutral-700">
                 <p>
-                  <strong className="text-neutral-950">Endereço:</strong>{" "}
-                  <a
-                    href={GOOGLE_MAPS_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-[var(--koi-red)]"
-                  >
-                    {CHAMBAR_CONFIG.address}
-                  </a>
+                  <strong className="text-neutral-950">Cidade:</strong>{" "}
+                  {CHAMBAR_CONFIG.city}
                 </p>
                 <p>
                   <strong className="text-neutral-950">Horário:</strong>{" "}
@@ -305,46 +284,46 @@ export default function Home() {
                   <a
                     href={INSTAGRAM_URL}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-[var(--koi-red)]"
+                    rel="noreferrer"
+                    className="font-bold text-[var(--chambar-red)]"
                   >
                     {CHAMBAR_CONFIG.instagramHandle}
                   </a>
                 </p>
                 <p>
-                  <strong className="text-neutral-950">WhatsApp:</strong>{" "}
+                  <strong className="text-neutral-950">Endereço:</strong>{" "}
                   <a
-                    href={buildWhatsappLink()}
+                    href={GOOGLE_MAPS_URL}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-[var(--koi-red)]"
+                    rel="noreferrer"
+                    className="font-bold text-[var(--chambar-red)]"
                   >
-                    {CHAMBAR_CONFIG.phoneRaw}
+                    {CHAMBAR_CONFIG.address}
                   </a>
                 </p>
               </div>
               <div className="mt-8 grid gap-3 sm:flex">
                 <a
-                  href={buildWhatsappLink()}
+                  href={DELIVERY_URL}
                   className="btn btn-primary"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noreferrer"
                 >
-                  Pedir Take Away
+                  Pedir delivery
                 </a>
                 <a
-                  href={GOOGLE_MAPS_URL}
+                  href={buildWhatsappLink(whatsappMessages.information)}
                   className="btn btn-outline"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noreferrer"
                 >
-                  Ver localização
+                  Chamar no WhatsApp
                 </a>
                 <a
                   href={INSTAGRAM_URL}
                   className="btn btn-outline"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noreferrer"
                 >
                   Ver Instagram
                 </a>
@@ -361,16 +340,13 @@ export default function Home() {
                 className="object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/62 via-black/10 to-transparent" />
-              <div
-                className="koi-seal absolute right-5 top-5 h-16 w-16 rounded-sm bg-[var(--koi-red)] shadow-[0_14px_40px_rgba(169,31,36,.26)] md:h-20 md:w-20"
-                aria-hidden="true"
-              />
+              <div className="absolute right-5 top-5 h-16 w-16 rounded-full bg-[var(--chambar-red)] shadow-[0_14px_40px_rgba(196,30,47,.26)] md:h-20 md:w-20" />
               <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-white/92 p-4 shadow-lg backdrop-blur">
                 <p className="text-sm font-black text-neutral-950">
-                  Koi Sushi Porto
+                  Chambar Sushi & Frutos do Mar
                 </p>
                 <p className="mt-1 text-xs font-bold text-neutral-600">
-                  Porto · {CHAMBAR_CONFIG.openingHours}
+                  Araguaína · {CHAMBAR_CONFIG.openingHours}
                 </p>
               </div>
             </div>
@@ -378,7 +354,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-white/10 bg-[var(--koi-dark)] py-10">
+      <footer className="border-t border-white/10 bg-[var(--chambar-black)] py-10">
         <Reveal
           threshold={0.35}
           className="container-page flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
@@ -392,7 +368,7 @@ export default function Home() {
               className="h-auto w-[142px] object-contain md:w-[156px]"
             />
             <p className="text-sm font-black text-white/88">
-              Koi Sushi Porto · Porto, Portugal
+              Chambar Sushi & Frutos do Mar · Araguaína - TO
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm font-bold text-white/72">
@@ -400,17 +376,17 @@ export default function Home() {
               <a
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-[var(--koi-gold)]"
+                className="transition-colors hover:text-[var(--chambar-red)]"
               >
                 {link.label}
               </a>
             ))}
             <SocialIconLinks />
             <a
-              href={buildWhatsappLink()}
+              href={buildWhatsappLink(whatsappMessages.footer)}
               target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--koi-red)]"
+              rel="noreferrer"
+              className="text-[var(--chambar-red)]"
             >
               WhatsApp
             </a>

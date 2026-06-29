@@ -14,155 +14,95 @@ function uniqueBySrc<T extends ChambarMediaAsset>(items: T[]) {
 }
 
 export const logoMedia = {
-  src: "/assets/logo/koi-sushi-porto-logo.png",
-  alt: "Logo Koi Sushi Porto",
+  src: "/logo sem fundo.png",
+  alt: "Logo do Chambar Sushi & Frutos do Mar",
 } satisfies ChambarMediaAsset;
 
 export const heroImage = {
-  src: "/assets/hero/koi-sushi-porto-hero.png",
-  alt: "Sushi fresco do Koi Sushi Porto",
+  src: "/chambar/hero/chambar-hero-optimized.webp",
+  alt: "Sushi sendo finalizado no Chambar",
 } satisfies ChambarMediaAsset;
 
-export const localDishGalleryImages = uniqueBySrc([
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-01.jpg",
-    alt: "Sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-02.jpg",
-    alt: "Peças de sushi preparadas na hora",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-03.png",
-    alt: "Peças de sushi preparadas na hora",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-04.png",
-    alt: "Pratos asiáticos do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-05.png",
-    alt: "Sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-06.png",
-    alt: "Peças de sushi preparadas na hora",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-07.png",
-    alt: "Sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/assets/gallery/koi-sushi-porto-gallery-09.png",
-    alt: "Pratos asiáticos do Koi Sushi Porto",
-  },
-]) satisfies ChambarMediaAsset[];
-
-export const genericGalleryImages = uniqueBySrc([
-  {
-    src: "/galeria/gallery-food-10.jpg",
-    alt: "Sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/galeria/gallery-food-11.jpg",
-    alt: "Peças de sushi preparadas na hora",
-  },
-  {
-    src: "/galeria/gallery-food-13.jpg",
-    alt: "Sushi fresco do Koi Sushi Porto",
-  },
-  {
-    src: "/galeria/gallery-food-15.jpg",
-    alt: "Peças de sushi preparadas na hora",
-  },
-  {
-    src: "/galeria/gallery-food-17.jpg",
-    alt: "Pratos asiáticos do Koi Sushi Porto",
-  },
-  {
-    src: "/galeria/gallery-food-19.jpg",
-    alt: "Peças de sushi preparadas na hora",
-  },
-]) satisfies ChambarMediaAsset[];
-
-export const takeAwayMenuImages = [
-  {
-    id: "take-away-sushi",
-    title: "Take Away",
-    description: "Sashimi, temaki, gunkan, rolos grandes e sushi frito.",
-    src: "/koi sushi cardapio/take way (1).png",
-    alt: "Menu Take Away do Koi Sushi Porto com opções de sushi",
-  },
-  {
-    id: "take-away-especial",
-    title: "Take Away",
-    description: "Peças especiais para completar o seu pedido.",
-    src: "/koi sushi cardapio/take way (2).png",
-    alt: "Menu Take Away do Koi Sushi Porto com peças especiais",
-  },
-  {
-    id: "take-away-combinado",
-    title: "Take Away",
-    description: "Combinações e promoções para pedidos Take Away.",
-    src: "/koi sushi cardapio/take way (3).png",
-    alt: "Menu Take Away do Koi Sushi Porto com combinações",
-  },
-] satisfies (ChambarMediaAsset & {
-  id: string;
-  title: string;
-  description: string;
-})[];
-
-export const establishmentImages = uniqueBySrc([
-  {
-    src: "/assets/establishment/koi-sushi-porto-interior-01.png",
-    alt: "Ambiente do restaurante Koi Sushi Porto",
-  },
-  {
-    src: "/assets/establishment/koi-sushi-porto-interior-02.png",
-    alt: "Ambiente do restaurante Koi Sushi Porto",
-  },
-]) satisfies ChambarMediaAsset[];
+export const facadeMedia = {
+  src: "/chambar/fachada-chambar.png",
+  alt: "Fachada do Chambar Sushi & Frutos do Mar à noite",
+} satisfies ChambarMediaAsset;
 
 export const locationImage = {
-  ...establishmentImages[1],
-  alt: "Ambiente do restaurante Koi Sushi Porto",
+  ...facadeMedia,
+  alt: "Fachada do Chambar em Araguaína",
 } satisfies ChambarMediaAsset;
 
-export const koiTableVisualMedia = {
-  image: {
-    src: "/galeria/imagem hero.jpg",
-    alt: "Pratos asiáticos do Koi Sushi Porto",
+export const genericGalleryImages = uniqueBySrc([
+  { src: "/galeria/gallery-food-01.png", alt: "Sushi em composição premium" },
+  { src: "/galeria/gallery-food-02.png", alt: "Peças de sushi em close-up" },
+  { src: "/galeria/gallery-food-03.png", alt: "Seleção de sashimis" },
+  {
+    src: "/galeria/gallery-food-04.png",
+    alt: "Prato japonês com apresentação elegante",
   },
-  videoDesktop: "/galeria/scroll-main-video.mp4",
-  videoMobile: "/galeria/scroll-main-video-mobile.mp4",
-  poster: "/galeria/gallery-food-18.jpg",
-  videoAlt: "Peças de sushi preparadas na hora",
-} as const;
+  { src: "/galeria/gallery-food-05.png", alt: "Sushi especial em detalhe" },
+  { src: "/galeria/gallery-food-06.png", alt: "Combinado japonês em mesa" },
+  { src: "/galeria/gallery-food-07.png", alt: "Peças de sushi finalizadas" },
+  {
+    src: "/galeria/gallery-food-08.png",
+    alt: "Prato de sushi com acabamento premium",
+  },
+  {
+    src: "/galeria/gallery-food-09.png",
+    alt: "Seleção japonesa para delivery",
+  },
+  {
+    src: "/galeria/gallery-food-10.jpg",
+    alt: "Sushi com brilho e corte preciso",
+  },
+  { src: "/galeria/gallery-food-11.jpg", alt: "Detalhe de prato japonês" },
+  { src: "/galeria/gallery-food-12.jpg", alt: "Combinado de sushi e sashimi" },
+]) satisfies ChambarMediaAsset[];
+
+export const localDishGalleryImages = uniqueBySrc([
+  { src: "/chambar/dish-01.jpg", alt: "Combinado de sushi servido no Chambar" },
+  {
+    src: "/chambar/dish-02.jpg",
+    alt: "Prato real do Chambar com peças variadas",
+  },
+  { src: "/chambar/dish-03.jpg", alt: "Sushi do Chambar servido à mesa" },
+  {
+    src: "/chambar/dish-04.jpg",
+    alt: "Combinado do Chambar com salmão e peças especiais",
+  },
+  { src: "/chambar/dish-05.jpg", alt: "Prato de sushi preparado pelo Chambar" },
+  { src: "/chambar/dish-06.jpg", alt: "Peças de sushi reais do Chambar" },
+  {
+    src: "/chambar/dish-07.webp",
+    alt: "Combinado de sushi e frutos do mar do Chambar",
+  },
+  { src: "/chambar/dish-08.jpg", alt: "Combinado de vinte peças do Chambar" },
+  { src: "/chambar/dish-09.webp", alt: "Combinado de trinta peças do Chambar" },
+  { src: "/chambar/dish-10.jpg", alt: "Hot Philadelphia servido no Chambar" },
+]) satisfies ChambarMediaAsset[];
+
+export const establishmentImages = uniqueBySrc([
+  facadeMedia,
+]) satisfies ChambarMediaAsset[];
 
 export const scrollExperienceMedia = {
   background: {
     src: "/galeria/scroll-experience-bg.jpg",
     alt: "",
   },
-  video: "/galeria/scroll-main-video.mp4",
+  video: "/galeria/scroll-main-video-mobile.mp4",
   mobileVideo: "/galeria/scroll-main-video-mobile.mp4",
 } as const;
 
 export const instagramFoodGalleryMedia = uniqueBySrc([
+  localDishGalleryImages[0],
+  localDishGalleryImages[1],
   localDishGalleryImages[2],
   localDishGalleryImages[3],
-  localDishGalleryImages[4],
-  localDishGalleryImages[5],
-  localDishGalleryImages[6],
   localDishGalleryImages[7],
+  localDishGalleryImages[9],
 ]) satisfies ChambarMediaAsset[];
-
-export const foodGalleryImages = localDishGalleryImages;
-export const homeHeroImage = heroImage;
-export const facadeMedia = establishmentImages[0];
-export const internalEnvironmentMedia = establishmentImages[0];
-export const locationMedia = establishmentImages;
 
 export const chambarMedia = {
   heroImage,
@@ -171,3 +111,10 @@ export const chambarMedia = {
   establishmentImages,
   locationImage,
 } as const;
+
+export const foodGalleryImages = genericGalleryImages;
+export const homeHeroImage = heroImage;
+export const internalEnvironmentMedia = facadeMedia;
+export const locationMedia = uniqueBySrc([
+  locationImage,
+]) satisfies ChambarMediaAsset[];

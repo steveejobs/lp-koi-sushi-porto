@@ -1,28 +1,44 @@
-import { CHAMBAR_CONFIG, getWhatsappUrl } from "@/data/chambar-config";
 import {
-  genericGalleryImages,
+  CHAMBAR_CONFIG,
+  chambarWhatsAppMessages,
+  createChambarWhatsAppLink,
+} from "@/data/chambar-config";
+import {
+  facadeMedia,
+  foodGalleryImages,
   heroImage,
   internalEnvironmentMedia,
-  localDishGalleryImages,
   locationMedia,
   logoMedia,
   scrollExperienceMedia,
 } from "@/data/chambar-media";
 
 export const WHATSAPP_NUMBER = CHAMBAR_CONFIG.whatsappNumber;
-export const FULL_SITE_URL = "https://koisushiporto.xyz";
+export const FULL_SITE_URL = "https://lp-chambar.vercel.app";
 export const ADDRESS = CHAMBAR_CONFIG.address;
 export const GOOGLE_MAPS_URL = CHAMBAR_CONFIG.googleMapsUrl;
 export const INSTAGRAM_URL = CHAMBAR_CONFIG.instagramUrl;
-export const DELIVERY_URL = getWhatsappUrl();
+export const DELIVERY_URL = CHAMBAR_CONFIG.deliveryUrl;
 export const OPENING_HOURS = CHAMBAR_CONFIG.openingHours;
 
-export const createWhatsAppLink = getWhatsappUrl;
-export const buildWhatsappLink = getWhatsappUrl;
+export const createWhatsAppLink = createChambarWhatsAppLink;
+export const buildWhatsappLink = createChambarWhatsAppLink;
+
+export const whatsappMessages = {
+  headerReservation: chambarWhatsAppMessages.reservation,
+  heroReservation: chambarWhatsAppMessages.reservation,
+  order: chambarWhatsAppMessages.order,
+  delivery: chambarWhatsAppMessages.order,
+  reservation: chambarWhatsAppMessages.reservation,
+  information: chambarWhatsAppMessages.information,
+  locationReservation: chambarWhatsAppMessages.reservation,
+  location: chambarWhatsAppMessages.information,
+  footer: chambarWhatsAppMessages.information,
+};
 
 export const navLinks = [
-  { label: "Início", href: "#topo" },
-  { label: "Pratos", href: "#pratos-local" },
+  { label: "Pedir", href: "#experiencias" },
+  { label: "Galerias", href: "#galeria-generica" },
   { label: "Ambiente", href: "#ambiente" },
   { label: "Localização", href: "#localizacao" },
 ];
@@ -30,12 +46,11 @@ export const navLinks = [
 export const images = {
   logo: logoMedia.src,
   ambienteInterno: internalEnvironmentMedia.src,
-  fachada: internalEnvironmentMedia.src,
+  fachada: facadeMedia.src,
   heroIntro: heroImage.src,
-  foodGallery: localDishGalleryImages.map((item) => item.src),
-  finalGallery: genericGalleryImages.map((item) => item.src),
+  foodGallery: foodGalleryImages.map((item) => item.src),
   scrollExperienceBg: scrollExperienceMedia.background.src,
   scrollMainVideo: scrollExperienceMedia.video,
   scrollMainVideoMobile: scrollExperienceMedia.mobileVideo,
-  locationFacade: locationMedia[1].src,
+  locationFacade: locationMedia[0].src,
 };

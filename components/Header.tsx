@@ -5,6 +5,7 @@ import {
   buildWhatsappLink,
   images,
   navLinks,
+  whatsappMessages,
 } from "@/lib/site";
 
 export function Header() {
@@ -14,11 +15,11 @@ export function Header() {
         <a
           href="#topo"
           className="flex shrink-0 items-center gap-3"
-          aria-label="Koi Sushi Porto"
+          aria-label="Chambar Sushi & Frutos do Mar"
         >
           <Image
             src={images.logo}
-            alt="Koi Sushi Porto"
+            alt="Chambar Sushi & Frutos do Mar"
             width={190}
             height={64}
             priority
@@ -41,32 +42,32 @@ export function Header() {
         <SocialIconLinks className="hidden xl:flex" />
 
         <a
-          href={buildWhatsappLink()}
+          href={buildWhatsappLink(whatsappMessages.headerReservation)}
           className="btn btn-primary hidden md:inline-flex"
           target="_blank"
           rel="noreferrer"
         >
-          Pedir Take Away
+          Reservar
         </a>
 
         <div className="flex shrink-0 items-center gap-2 md:hidden">
           <a
-            href={buildWhatsappLink()}
+            href={buildWhatsappLink(whatsappMessages.headerReservation)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-neutral-900 shadow-[0_10px_24px_rgba(16,16,16,0.06)] transition hover:text-[#188f45]"
             target="_blank"
             rel="noreferrer"
-            aria-label="Falar com o Koi Sushi Porto pelo WhatsApp"
+            aria-label="Falar com o Chambar pelo WhatsApp"
             title="WhatsApp"
           >
             <WhatsAppIcon className="h-[18px] w-[18px]" />
           </a>
           <a
-            href={buildWhatsappLink()}
+            href={buildWhatsappLink(whatsappMessages.headerReservation)}
             className="btn btn-primary min-h-10 w-auto px-4 text-xs"
             target="_blank"
             rel="noreferrer"
           >
-            Pedir
+            Reservar
           </a>
         </div>
       </div>

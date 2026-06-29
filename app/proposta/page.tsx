@@ -5,7 +5,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { logoMedia } from "@/data/chambar-media";
 
 export const metadata: Metadata = {
-  title: "Proposta comercial | Koi Sushi Porto",
+  title: "Proposta comercial | Chambar",
   description:
     "Proposta comercial para estratégia, presença digital e aquisição de clientes com páginas, Google e tráfego pago.",
   alternates: {
@@ -18,9 +18,7 @@ export const metadata: Metadata = {
 };
 
 const proposalWhatsappPhone = "5563991081785";
-const proposalWhatsappMessage =
-  "Olá, quero avançar com a proposta comercial.";
-const proposalWhatsappUrl = `https://api.whatsapp.com/send?phone=${proposalWhatsappPhone}&text=${encodeURIComponent(proposalWhatsappMessage)}`;
+const proposalWhatsappUrl = `https://api.whatsapp.com/send?phone=${proposalWhatsappPhone}&text=Olá%2C%20quero%20avançar%20com%20a%20proposta%20comercial.`;
 
 const services = [
   {
@@ -165,7 +163,7 @@ export default function ProposalPage() {
             <a
               href="/"
               className="inline-flex items-center gap-3"
-              aria-label="Voltar para o site Koi Sushi Porto"
+              aria-label="Voltar para o site Chambar"
             >
               <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] p-2">
                 <Image

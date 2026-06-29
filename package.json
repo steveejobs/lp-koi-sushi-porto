@@ -1,10 +1,9 @@
 {
-  "name": "koi-sushi-porto",
+  "name": "chambar-landing-page",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "node -r ./scripts/next-node-globals.cjs ./node_modules/next/dist/bin/next dev",
-    "lint": "tsc --noEmit",
     "build": "node -r ./scripts/next-node-globals.cjs ./node_modules/next/dist/bin/next build"
   },
   "dependencies": {

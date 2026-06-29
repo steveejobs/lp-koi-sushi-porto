@@ -4,16 +4,16 @@ import { establishmentImages } from "@/data/chambar-media";
 
 const presencePoints = [
   {
-    title: "Menu Infinity",
-    text: "Coma à vontade no restaurante com sushi, pratos quentes e opções para partilhar.",
+    title: "Fachada marcada",
+    text: "Preto, vermelho e luz de noite para reconhecer a casa antes de entrar.",
   },
   {
-    title: "Cozinha chinesa",
-    text: "Massas, arroz, entradas e pratos quentes preparados na hora.",
+    title: "Salão ativo",
+    text: "Mesas, atendimento e movimento para transformar a saída em experiência.",
   },
   {
-    title: "Take Away",
-    text: "Escolha o menu, confirme os números e envie o pedido pelo WhatsApp.",
+    title: "Clima de jantar",
+    text: "Ambiente pensado para pedir, sentar e aproveitar das 18h às 23h.",
   },
 ];
 
@@ -27,12 +27,11 @@ export function ChambarEstablishmentSection() {
           <div>
             <span className="eyebrow">Ambiente</span>
             <h2 className="mt-5 max-w-2xl text-4xl font-black leading-[1.02] text-neutral-950 md:text-6xl">
-              Um espaço acolhedor no Porto.
+              Uma noite no Chambar.
             </h2>
           </div>
           <p className="max-w-xl text-base font-semibold leading-7 text-neutral-600 md:justify-self-end md:text-lg">
-            Restaurante preparado para Menu Infinity, All You Can Eat, sushi,
-            cozinha chinesa e Take Away.
+            Fachada, salão e atmosfera para transformar a saída em experiência.
           </p>
         </div>
 
@@ -51,7 +50,7 @@ export function ChambarEstablishmentSection() {
             <figcaption className="absolute bottom-5 left-5 right-5 max-w-md text-white">
               <span className="block h-1.5 w-10 rounded-full bg-[var(--chambar-red)]" />
               <p className="mt-4 text-2xl font-black leading-tight md:text-3xl">
-                Sushi japonês e cozinha chinesa num ambiente acolhedor no Porto.
+                A casa aparece cedo porque a experiência começa antes do prato.
               </p>
             </figcaption>
           </figure>

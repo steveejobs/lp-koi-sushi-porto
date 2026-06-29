@@ -9,7 +9,7 @@ export function InstagramMediaMarquee({ media }: InstagramMediaMarqueeProps) {
   return (
     <section
       className="ig-rise mt-5 overflow-hidden"
-      aria-label="Galeria do Koi Sushi Porto"
+      aria-label="Vitrine Chambar"
     >
       <div className="ig-marquee ig-marquee-left flex w-max gap-3">
         <div className="flex gap-3">

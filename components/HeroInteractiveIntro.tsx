@@ -5,13 +5,13 @@ import { images } from "@/lib/site";
 export function HeroInteractiveIntro() {
   return (
     <section
-      className="bg-[var(--koi-dark)] pt-4 md:pt-6"
-      aria-label="Abertura Koi Sushi Porto"
+      className="bg-[#050505] pt-4 md:pt-6"
+      aria-label="Abertura Chambar"
     >
       <div className="container-page">
         <div className="intro-stage relative isolate mx-auto h-[64svh] min-h-[430px] overflow-hidden rounded-lg border border-white/10 bg-[#050505] shadow-[0_28px_76px_rgba(16,16,16,0.1)] sm:h-[68svh] sm:min-h-[470px] md:h-[76vh] md:min-h-[576px] lg:w-[90%]">
           <div
-            className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_70%_35%,rgba(184,146,74,0.18),transparent_38%),linear-gradient(135deg,#0f0d0a_0%,#16110d_58%,#26090b_100%)]"
+            className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_70%_35%,rgba(196,30,47,0.2),transparent_38%),linear-gradient(135deg,#050505_0%,#121212_58%,#1c080b_100%)]"
             aria-hidden="true"
           />
           <div
@@ -45,17 +45,17 @@ export function HeroInteractiveIntro() {
           <div className="hero-intro-copy relative z-40 flex h-full max-w-[520px] flex-col justify-end p-6 md:p-10">
             <Image
               src={images.logo}
-              alt="Koi Sushi Porto"
+              alt="Chambar Sushi & Frutos do Mar"
               width={170}
               height={74}
               priority
               className="mb-5 h-auto w-[128px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:w-[170px]"
             />
             <p className="max-w-sm text-sm font-black uppercase tracking-[0.08em] text-white/82">
-              Menu Infinity · All You Can Eat · Take Away
+              Sushi, frutos do mar e delivery
             </p>
             <p className="mt-3 max-w-md text-2xl font-black leading-[1.05] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] md:text-4xl">
-              Sushi e cozinha chinesa preparados na hora.
+              Transformamos sua noite em experiência.
             </p>
           </div>
         </div>

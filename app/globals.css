@@ -1,19 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --koi-dark: #0f0d0a;
-  --koi-charcoal: #16110d;
-  --koi-red: #a91f24;
-  --koi-gold: #b8924a;
-  --koi-paper: #efe2c8;
-  --koi-text: #fff8ed;
-  --background: #efe2c8;
-  --foreground: #0f0d0a;
-  --chambar-red: var(--koi-red);
-  --chambar-black: var(--koi-dark);
-  --chambar-graphite: var(--koi-charcoal);
-  --chambar-line: rgba(184, 146, 74, 0.22);
-  --chambar-warm: var(--koi-gold);
+  --background: #fffdf9;
+  --foreground: #141414;
+  --chambar-red: #c41e2f;
+  --chambar-black: #050505;
+  --chambar-graphite: #242424;
+  --chambar-line: #e8e0d8;
+  --chambar-warm: #b87a43;
 }
 
 * {
@@ -35,12 +29,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 253, 249, 0.96), rgba(239, 226, 200, 0.9)),
-    repeating-linear-gradient(
-      135deg,
-      transparent 0 32px,
-      rgba(184, 146, 74, 0.025) 32px 33px
-    ),
+    linear-gradient(180deg, rgba(255, 253, 249, 0.96), rgba(255, 253, 249, 1)),
     var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
@@ -138,7 +127,7 @@ img {
   }
 
   .fine-border {
-    border: 1px solid rgba(184, 146, 74, 0.22);
+    border: 1px solid rgba(16, 16, 16, 0.1);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -169,42 +158,7 @@ img {
 }
 
 .intro-stage {
-  background-color: var(--koi-dark);
-}
-
-.koi-cloud-pattern {
-  border: 1px solid rgba(184, 146, 74, 0.24);
-  background:
-    radial-gradient(
-      circle at 24% 62%,
-      transparent 0 25%,
-      rgba(184, 146, 74, 0.24) 25.5% 26%,
-      transparent 26.5%
-    ),
-    radial-gradient(
-      circle at 58% 42%,
-      transparent 0 22%,
-      rgba(184, 146, 74, 0.2) 22.5% 23%,
-      transparent 23.5%
-    );
-}
-
-.koi-seal {
-  border: 1px solid rgba(169, 31, 36, 0.34);
-}
-
-.koi-seal::before,
-.koi-seal::after {
-  position: absolute;
-  inset: 18%;
-  border: 1px solid currentColor;
-  color: rgba(169, 31, 36, 0.32);
-  content: "";
-}
-
-.koi-seal::after {
-  inset: 34% 18%;
-  border-inline: 0;
+  background-color: #050505;
 }
 
 .intro-stage::after {
@@ -290,11 +244,11 @@ img {
 }
 
 .ig-testimonials-left {
-  animation: igMarqueeLeft 78s linear infinite;
+  animation: igMarqueeLeft 38s linear infinite;
 }
 
 .ig-testimonials-right {
-  animation: igMarqueeRight 86s linear infinite;
+  animation: igMarqueeRight 44s linear infinite;
 }
 
 .ig-video-reveal {
@@ -392,7 +346,7 @@ img {
   width: max-content;
   gap: var(--testimonial-gap);
   will-change: transform;
-  animation-duration: 68s;
+  animation-duration: 46s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -403,7 +357,7 @@ img {
 
 .chambar-testimonials-track-right {
   animation-name: marquee-right;
-  animation-duration: 74s;
+  animation-duration: 52s;
 }
 
 .chambar-testimonials-row:hover .chambar-testimonials-track,
@@ -441,8 +395,8 @@ img {
   bottom: -34px;
   width: 96px;
   height: 96px;
-  border-radius: 8px;
-  background: rgba(169, 31, 36, 0.08);
+  border-radius: 999px;
+  background: rgba(196, 30, 47, 0.08);
   content: "";
 }
 
@@ -558,11 +512,11 @@ img {
   }
 
   .chambar-testimonials-track {
-    animation-duration: 84s;
+    animation-duration: 42s;
   }
 
   .chambar-testimonials-track-right {
-    animation-duration: 92s;
+    animation-duration: 48s;
   }
 
   .chambar-testimonial-card {
