@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -9,7 +9,7 @@ import { koiMenuPages, type KoiMenuPage } from "@/data/koi-menu-pages";
 
 const WHATSAPP_PHONE = "351961176188";
 const WHATSAPP_BASE_MESSAGE =
-  "Olá! Vim pelo site e quero fazer um pedido de take-away. O meu pedido é:";
+  "OlÃ¡! Vim pelo site e quero fazer um pedido de take-away. O meu pedido Ã©:";
 
 function buildWhatsappUrl() {
   return `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(WHATSAPP_BASE_MESSAGE)}`;
@@ -30,7 +30,7 @@ function wrapPageIndex(index: number, length: number) {
 }
 
 function pageLabel(index: number, total: number) {
-  return `Página ${index + 1} de ${total}`;
+  return `PÃ¡gina ${index + 1} de ${total}`;
 }
 
 function MenuPagesLightbox({
@@ -89,13 +89,13 @@ function MenuPagesLightbox({
         <header className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-5 md:py-4">
           <div className="min-w-0">
             <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#c9a45c]">
-              CARDÁPIO TAKE AWAY
+              CARDÃPIO TAKE AWAY
             </p>
             <h2
               id="menu-page-title"
               className="mt-1 text-base font-black leading-tight text-white md:text-xl"
             >
-              Menu Take Away · {pageLabel(activeIndex, totalPages)}
+              Menu Take Away Â· {pageLabel(activeIndex, totalPages)}
             </h2>
           </div>
           <button
@@ -103,7 +103,7 @@ function MenuPagesLightbox({
             type="button"
             className="shrink-0 rounded-full border border-white/15 bg-white px-4 py-2 text-sm font-black text-neutral-950 transition hover:bg-[#f5e7cf]"
             onClick={onClose}
-            aria-label="Fechar cardápio"
+            aria-label="Fechar cardÃ¡pio"
           >
             Fechar
           </button>
@@ -122,7 +122,7 @@ function MenuPagesLightbox({
 
           <aside className="min-h-0 rounded-[12px] border border-white/10 bg-white/[0.045] p-2 md:flex md:flex-col md:p-3">
             <p className="mb-2 hidden text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/50 md:block">
-              Páginas
+              PÃ¡ginas
             </p>
             <div className="koi-menu-scroll flex gap-2 overflow-x-auto pb-1 md:min-h-0 md:flex-1 md:flex-col md:overflow-x-hidden md:overflow-y-auto md:pr-1">
               {pages.map((page, index) => (
@@ -135,7 +135,7 @@ function MenuPagesLightbox({
                       : "border-white/10 bg-black/18 text-white hover:border-white/30 hover:bg-white/8"
                   }`}
                   onClick={() => goToPage(index)}
-                  aria-label={`Abrir página ${index + 1} de ${totalPages}`}
+                  aria-label={`Abrir pÃ¡gina ${index + 1} de ${totalPages}`}
                 >
                   <span className="flex h-[72px] w-14 shrink-0 items-center justify-center overflow-hidden rounded-[7px] bg-white md:h-20 md:w-16">
                     <img
@@ -147,7 +147,7 @@ function MenuPagesLightbox({
                     />
                   </span>
                   <span className="block min-w-0 text-xs font-black leading-tight">
-                    Página {index + 1}
+                    PÃ¡gina {index + 1}
                   </span>
                 </button>
               ))}
@@ -227,18 +227,18 @@ export function MenuTakeAwaySection() {
             Monte o seu Take Away
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-            Veja o cardápio completo, escolha a sua caixa de sushi ou peça
+            Veja o cardÃ¡pio completo, escolha a sua caixa de sushi ou peÃ§a
             pratos chineses e Take Away pelo WhatsApp.
           </p>
         </div>
 
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
+        <div className="relative z-30 mt-7 flex flex-wrap justify-center gap-3">
           <button
             type="button"
             className="btn btn-primary"
             onClick={openFirstPage}
           >
-            Ver cardápio completo
+            Ver cardÃ¡pio completo
           </button>
           <a
             href={whatsappUrl}
@@ -250,22 +250,33 @@ export function MenuTakeAwaySection() {
           </a>
         </div>
 
-        <div className="mx-auto mt-5 text-center" aria-live="polite">
+        <div
+          className="relative z-20 mx-auto mt-5 text-center"
+          aria-live="polite"
+        >
           <p className="text-sm font-black uppercase tracking-[0.12em] text-[var(--chambar-red)]">
             {pageLabel(activeGalleryIndex, totalPages)}
           </p>
         </div>
 
-        <div className="mx-auto mt-3 flex w-full max-w-[1280px] justify-center overflow-visible md:mt-5">
+        <div className="relative z-10 mx-auto mt-3 flex w-full max-w-[1280px] justify-center overflow-visible md:mt-5 lg:mt-[clamp(48px,5vw,88px)]">
           {galleryItems.length > 0 ? (
             <CircularGallery
               items={galleryItems}
+              desktopConfig={{
+                autoRotateSpeed: 0.008,
+                radius: 460,
+                visibleSideCount: 1,
+                sideOpacity: 0.12,
+                sideScale: 0.76,
+                farOpacity: 0,
+              }}
               onItemClick={openMenuPage}
               onActiveIndexChange={setActiveGalleryIndex}
             />
           ) : (
             <p className="rounded-lg border border-black/10 bg-white p-6 text-center text-sm font-bold text-neutral-600">
-              As imagens do cardápio Take Away ainda não foram encontradas.
+              As imagens do cardÃ¡pio Take Away ainda nÃ£o foram encontradas.
             </p>
           )}
         </div>

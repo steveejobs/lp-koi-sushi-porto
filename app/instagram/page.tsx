@@ -1,11 +1,17 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
 import { InstagramMenuTakeAwaySection } from "@/components/InstagramMenuTakeAwaySection";
 import { InstagramTestimonialsMarquee } from "@/components/InstagramTestimonialsMarquee";
+import { InstagramVideoMoment } from "@/components/InstagramVideoMoment";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
-import { logoMedia } from "@/data/chambar-media";
+import {
+  instagramFoodGalleryMedia,
+  logoMedia,
+  scrollExperienceMedia,
+} from "@/data/chambar-media";
 import {
   FULL_SITE_URL,
   GOOGLE_MAPS_URL,
@@ -163,6 +169,8 @@ export default function InstagramLinksPage() {
           </div>
         </header>
 
+        <InstagramMediaMarquee media={instagramFoodGalleryMedia} />
+
         <nav className="mt-5 grid gap-3" aria-label="Links principais">
           <LinkButton
             href={getWhatsappUrl("instagram")}
@@ -185,6 +193,11 @@ export default function InstagramLinksPage() {
             Site completo
           </LinkButton>
         </nav>
+
+        <InstagramVideoMoment
+          videoSrc={scrollExperienceMedia.mobileVideo}
+          posterSrc={scrollExperienceMedia.background.src}
+        />
 
         <InstagramMenuTakeAwaySection />
 

@@ -18,6 +18,7 @@ export type CircularGalleryItem = {
 type CircularGalleryProps = Omit<HTMLAttributes<HTMLDivElement>, "onClick"> & {
   items: CircularGalleryItem[];
   autoRotateSpeed?: number;
+  desktopConfig?: DesktopGalleryConfig;
   onItemClick?: (item: CircularGalleryItem, index: number) => void;
   onActiveIndexChange?: (index: number) => void;
 };
@@ -41,6 +42,21 @@ type GalleryConfig = {
   farOpacity: number;
   radius: number;
   visibleSideCount: number;
+};
+
+type DesktopGalleryConfig = Partial<
+  Pick<
+    GalleryConfig,
+    | "perspective"
+    | "radius"
+    | "visibleSideCount"
+    | "sideScale"
+    | "sideOpacity"
+    | "farScale"
+    | "farOpacity"
+  >
+> & {
+  autoRotateSpeed?: number;
 };
 
 const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
@@ -164,6 +180,7 @@ export function CircularGallery({
   items,
   className,
   autoRotateSpeed = 0.005,
+  desktopConfig,
   onItemClick,
   onActiveIndexChange,
   style,
@@ -173,7 +190,7 @@ export function CircularGallery({
   const [isDragging, setIsDragging] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const reducedMotion = useReducedMotion();
-  const gallery = useResponsiveGallery();
+  const responsiveGallery = useResponsiveGallery();
   const frameRef = useRef<number | null>(null);
   const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerIdRef = useRef<number | null>(null);
@@ -191,7 +208,14 @@ export function CircularGallery({
     ? wrapIndex(Math.round(rawActivePosition), itemCount)
     : 0;
   const activePositionDelta = rawActivePosition - Math.round(rawActivePosition);
-  const isDesktop = gallery.breakpoint === "desktop";
+  const isDesktop = responsiveGallery.breakpoint === "desktop";
+  const gallery =
+    isDesktop && desktopConfig
+      ? { ...responsiveGallery, ...desktopConfig }
+      : responsiveGallery;
+  const effectiveAutoRotateSpeed = isDesktop
+    ? (desktopConfig?.autoRotateSpeed ?? autoRotateSpeed)
+    : autoRotateSpeed;
 
   const pauseAutoplay = () => {
     setIsPaused(true);
@@ -224,7 +248,7 @@ export function CircularGallery({
     if (reducedMotion || isPaused || isDragging || itemCount < 2) return;
 
     const rotate = () => {
-      setRotation((current) => current - autoRotateSpeed);
+      setRotation((current) => current - effectiveAutoRotateSpeed);
       frameRef.current = requestAnimationFrame(rotate);
     };
 
@@ -234,7 +258,13 @@ export function CircularGallery({
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       frameRef.current = null;
     };
-  }, [autoRotateSpeed, isDragging, isPaused, itemCount, reducedMotion]);
+  }, [
+    effectiveAutoRotateSpeed,
+    isDragging,
+    isPaused,
+    itemCount,
+    reducedMotion,
+  ]);
 
   useEffect(() => {
     return () => {
