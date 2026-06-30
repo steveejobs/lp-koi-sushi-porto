@@ -4,36 +4,35 @@ import {
   type HTMLAttributes,
   type PointerEvent,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
 
-type GalleryImage = {
-  src: string;
-  alt: string;
-  position?: string;
-};
-
-export type GalleryItem = {
+export type CircularGalleryItem = {
   id: string;
   title: string;
-  description: string;
-  image: GalleryImage;
-  meta?: string;
+  src: string;
+  alt: string;
 };
 
-type CircularGalleryProps = Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> & {
-  items: GalleryItem[];
+type CircularGalleryProps = Omit<HTMLAttributes<HTMLDivElement>, "onClick"> & {
+  items: CircularGalleryItem[];
+  radius?: number;
   autoRotateSpeed?: number;
-  onSelect?: (item: GalleryItem, index: number) => void;
-  onViewItems?: (item: GalleryItem, index: number) => void;
-  selectLabel?: string;
-  viewLabel?: string;
+  onItemClick?: (item: CircularGalleryItem, index: number) => void;
 };
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
+}
+
+function normalizeAngle(angle: number) {
+  return ((angle % 360) + 360) % 360;
+}
+
+function frontDistance(angle: number) {
+  const normalized = normalizeAngle(angle);
+  return Math.abs(normalized > 180 ? 360 - normalized : normalized);
 }
 
 function useReducedMotion() {
@@ -52,75 +51,95 @@ function useReducedMotion() {
   return reducedMotion;
 }
 
-function wrapIndex(index: number, length: number) {
-  if (length <= 0) return 0;
-  return ((index % length) + length) % length;
-}
+function useResponsiveRadius(radius?: number) {
+  const [resolvedRadius, setResolvedRadius] = useState(radius ?? 560);
 
-function relativeIndex(index: number, activeIndex: number, length: number) {
-  const raw = index - activeIndex;
-  const half = length / 2;
+  useEffect(() => {
+    if (typeof radius === "number") {
+      setResolvedRadius(radius);
+      return;
+    }
 
-  if (raw > half) return raw - length;
-  if (raw < -half) return raw + length;
+    const update = () => {
+      const width = window.innerWidth;
 
-  return raw;
+      if (width < 480) setResolvedRadius(240);
+      else if (width < 768) setResolvedRadius(280);
+      else if (width < 1024) setResolvedRadius(410);
+      else setResolvedRadius(560);
+    };
+
+    update();
+    window.addEventListener("resize", update);
+
+    return () => window.removeEventListener("resize", update);
+  }, [radius]);
+
+  return resolvedRadius;
 }
 
 export function CircularGallery({
   items,
   className,
-  autoRotateSpeed = 4200,
-  onSelect,
-  onViewItems,
-  selectLabel = "Abrir zoom",
-  viewLabel = "Ver menu completo",
+  radius,
+  autoRotateSpeed = 0.025,
+  onItemClick,
+  style,
   ...props
 }: CircularGalleryProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [dragOffset, setDragOffset] = useState(0);
+  const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const reducedMotion = useReducedMotion();
+  const resolvedRadius = useResponsiveRadius(radius);
+  const frameRef = useRef<number | null>(null);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerIdRef = useRef<number | null>(null);
   const startXRef = useRef(0);
   const startYRef = useRef(0);
-  const dragDistanceRef = useRef(0);
+  const startRotationRef = useRef(0);
+  const maxMoveXRef = useRef(0);
   const suppressClickRef = useRef(false);
-  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [autoplayPaused, setAutoplayPaused] = useState(false);
-
-  const activeItem = items[activeIndex] ?? items[0];
   const itemCount = items.length;
+  const anglePerItem = itemCount > 0 ? 360 / itemCount : 0;
 
-  const goTo = (nextIndex: number) => {
-    setActiveIndex(wrapIndex(nextIndex, itemCount));
-  };
-
-  const pauseAutoplayBriefly = () => {
-    setAutoplayPaused(true);
+  const pauseAutoplay = () => {
+    setIsPaused(true);
 
     if (resumeTimeoutRef.current) {
       clearTimeout(resumeTimeoutRef.current);
+      resumeTimeoutRef.current = null;
     }
+  };
+
+  const resumeAutoplaySoon = () => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
 
     resumeTimeoutRef.current = setTimeout(() => {
-      setAutoplayPaused(false);
+      setIsPaused(false);
       resumeTimeoutRef.current = null;
     }, 1000);
   };
 
   useEffect(() => {
-    if (reducedMotion || autoplayPaused || isDragging || itemCount < 2) return;
+    if (reducedMotion || isPaused || isDragging || itemCount < 2) return;
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((current) => wrapIndex(current + 1, itemCount));
-    }, autoRotateSpeed);
+    const rotate = () => {
+      setRotation((current) => current + autoRotateSpeed);
+      frameRef.current = requestAnimationFrame(rotate);
+    };
 
-    return () => window.clearInterval(interval);
-  }, [autoRotateSpeed, autoplayPaused, isDragging, itemCount, reducedMotion]);
+    frameRef.current = requestAnimationFrame(rotate);
+
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    };
+  }, [autoRotateSpeed, isDragging, isPaused, itemCount, reducedMotion]);
 
   useEffect(() => {
     return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
       if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     };
   }, []);
@@ -131,9 +150,11 @@ export function CircularGallery({
     pointerIdRef.current = event.pointerId;
     startXRef.current = event.clientX;
     startYRef.current = event.clientY;
-    dragDistanceRef.current = 0;
+    startRotationRef.current = rotation;
+    maxMoveXRef.current = 0;
+    suppressClickRef.current = false;
     setIsDragging(true);
-    setAutoplayPaused(true);
+    pauseAutoplay();
     event.currentTarget.setPointerCapture(event.pointerId);
   };
 
@@ -142,167 +163,95 @@ export function CircularGallery({
 
     const deltaX = event.clientX - startXRef.current;
     const deltaY = event.clientY - startYRef.current;
-    dragDistanceRef.current = Math.max(
-      dragDistanceRef.current,
-      Math.abs(deltaX),
-    );
+    maxMoveXRef.current = Math.max(maxMoveXRef.current, Math.abs(deltaX));
 
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      setDragOffset(deltaX);
+    if (Math.abs(deltaX) > Math.abs(deltaY) * 0.75) {
+      setRotation(startRotationRef.current + deltaX * 0.24);
     }
   };
 
   const finishPointerGesture = (event: PointerEvent<HTMLDivElement>) => {
     if (pointerIdRef.current !== event.pointerId) return;
 
-    const deltaX = event.clientX - startXRef.current;
-    const moved = Math.abs(deltaX);
-    suppressClickRef.current = moved > 8;
-
-    if (moved > 52) {
-      goTo(activeIndex + (deltaX < 0 ? 1 : -1));
-    }
-
+    suppressClickRef.current = maxMoveXRef.current > 6;
     pointerIdRef.current = null;
-    setDragOffset(0);
     setIsDragging(false);
-    pauseAutoplayBriefly();
+    resumeAutoplaySoon();
   };
 
-  const handleCardClick = (item: GalleryItem, index: number) => {
+  const handleItemClick = (item: CircularGalleryItem, index: number) => {
+    pauseAutoplay();
+    resumeAutoplaySoon();
+
     if (suppressClickRef.current) {
       suppressClickRef.current = false;
       return;
     }
 
-    onSelect?.(item, index);
+    onItemClick?.(item, index);
   };
 
-  const orderedItems = useMemo(
-    () =>
-      items.map((item, index) => ({
-        item,
-        index,
-        relative: relativeIndex(index, activeIndex, itemCount),
-      })),
-    [activeIndex, itemCount, items],
-  );
+  if (itemCount === 0) return null;
 
   return (
     <div
       role="region"
-      aria-label="Páginas do menu Take Away"
-      className={cn("relative mx-auto w-full max-w-5xl", className)}
+      aria-label="Cardápio Take Away em galeria circular"
+      className={cn(
+        "relative mx-auto flex h-[430px] w-full max-w-[1120px] touch-pan-y items-center justify-center overflow-hidden sm:h-[500px] md:h-[610px]",
+        className,
+      )}
+      style={{ perspective: "1800px", ...style }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={finishPointerGesture}
+      onPointerCancel={finishPointerGesture}
       {...props}
     >
       <div
-        className="relative mx-auto h-[520px] max-w-[980px] touch-pan-y overflow-hidden rounded-[30px] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(196,30,47,0.12),transparent_42%),#130f0f] shadow-[0_24px_70px_rgba(16,16,16,0.12)] md:h-[620px] md:rounded-[34px]"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={finishPointerGesture}
-        onPointerCancel={finishPointerGesture}
+        className={cn(
+          "relative h-full w-full transition-transform duration-150 ease-linear",
+          isDragging && "transition-none",
+        )}
+        style={{
+          transform: `rotateY(${rotation}deg)`,
+          transformStyle: "preserve-3d",
+        }}
       >
-        <div className="absolute inset-x-4 top-4 z-20 flex items-center justify-between gap-3 text-white md:inset-x-6 md:top-6">
-          <p className="rounded-full bg-black/42 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] backdrop-blur">
-            {activeItem?.meta}
-          </p>
-          {activeItem ? (
+        {items.map((item, index) => {
+          const itemAngle = index * anglePerItem;
+          const distance = frontDistance(itemAngle + rotation);
+          const opacity = Math.max(0.18, 1 - distance / 150);
+          const scale = Math.max(0.78, 1 - distance / 900);
+
+          return (
             <button
+              key={item.id}
               type="button"
-              className="rounded-full border border-white/25 bg-white/12 px-3 py-2 text-xs font-black text-white backdrop-blur transition hover:bg-white/20"
-              onClick={() => onViewItems?.(activeItem, activeIndex)}
+              className="absolute left-1/2 top-1/2 block h-[330px] w-[236px] overflow-hidden rounded-[18px] border border-white/18 bg-[#111] p-2 text-left shadow-[0_28px_70px_rgba(0,0,0,0.3)] outline-none ring-offset-2 transition-opacity duration-300 focus-visible:ring-4 focus-visible:ring-white/60 sm:h-[390px] sm:w-[278px] md:h-[470px] md:w-[336px]"
+              style={{
+                opacity,
+                zIndex: Math.round(1000 - distance),
+                transform: `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${resolvedRadius}px) scale(${scale})`,
+                transformStyle: "preserve-3d",
+              }}
+              aria-label={`Abrir zoom: ${item.title}`}
+              onClick={() => handleItemClick(item, index)}
             >
-              {viewLabel}
+              <span className="flex h-full w-full items-center justify-center rounded-[12px] bg-neutral-100 p-2">
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="h-full w-full select-none object-contain"
+                  loading={distance < 90 ? "eager" : "lazy"}
+                  decoding="async"
+                  draggable={false}
+                />
+              </span>
+              <span className="sr-only">{item.title}</span>
             </button>
-          ) : null}
-        </div>
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          {orderedItems.map(({ item, index, relative }) => {
-            const distance = Math.abs(relative);
-            const isActive = index === activeIndex;
-            const translateX = relative * 190 + dragOffset;
-            const scale = Math.max(0.72, 1 - distance * 0.13);
-            const opacity =
-              distance > 3 ? 0 : Math.max(0.32, 1 - distance * 0.24);
-
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={cn(
-                  "absolute left-1/2 top-1/2 block w-[78vw] max-w-[330px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[22px] border bg-white text-left shadow-[0_28px_70px_rgba(0,0,0,0.34)] transition-[opacity,transform] duration-500 ease-out focus:outline-none focus:ring-4 focus:ring-white/55 md:w-[355px] md:max-w-none",
-                  isDragging && "transition-none",
-                  isActive ? "border-white/70" : "border-white/20",
-                )}
-                style={{
-                  opacity,
-                  zIndex: 20 - distance,
-                  transform: `translate3d(calc(-50% + ${translateX}px), -50%, 0) scale(${scale})`,
-                  pointerEvents: distance > 2 ? "none" : "auto",
-                }}
-                aria-label={`${selectLabel}: ${item.title}`}
-                onClick={() => handleCardClick(item, index)}
-              >
-                <span className="block aspect-[0.72] w-full bg-neutral-100 p-2 md:p-3">
-                  <img
-                    src={item.image.src}
-                    alt={item.image.alt}
-                    loading={isActive ? "eager" : "lazy"}
-                    decoding="async"
-                    className="h-full w-full select-none object-contain"
-                    draggable={false}
-                    style={{ objectPosition: item.image.position ?? "center" }}
-                  />
-                </span>
-                <span className="block border-t border-black/10 bg-white px-4 py-3">
-                  <span className="block text-sm font-black leading-tight text-neutral-950">
-                    {item.title}
-                  </span>
-                  <span className="mt-1 block text-xs font-bold text-neutral-500">
-                    Toque para ampliar
-                  </span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="absolute inset-x-5 bottom-5 z-20 flex items-center justify-between gap-3 md:inset-x-6 md:bottom-6">
-          <button
-            type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/12 text-xl font-black text-white backdrop-blur transition hover:bg-white/20"
-            aria-label="Página anterior do menu"
-            onClick={() => {
-              goTo(activeIndex - 1);
-              pauseAutoplayBriefly();
-            }}
-          >
-            ‹
-          </button>
-          <div className="flex gap-1.5" aria-hidden="true">
-            {items.map((item, index) => (
-              <span
-                key={item.id}
-                className={cn(
-                  "h-2 rounded-full transition-all",
-                  index === activeIndex ? "w-7 bg-white" : "w-2 bg-white/42",
-                )}
-              />
-            ))}
-          </div>
-          <button
-            type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/12 text-xl font-black text-white backdrop-blur transition hover:bg-white/20"
-            aria-label="Página seguinte do menu"
-            onClick={() => {
-              goTo(activeIndex + 1);
-              pauseAutoplayBriefly();
-            }}
-          >
-            ›
-          </button>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

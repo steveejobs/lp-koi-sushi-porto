@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { KoiEstablishmentSection } from "@/components/chambar/KoiEstablishmentSection";
 import { KoiTestimonialsMarquee } from "@/components/chambar/KoiTestimonialsMarquee";
 import { MenuTakeAwaySection } from "@/components/MenuTakeAwaySection";
@@ -64,19 +64,19 @@ const introCards = [
 const chineseCuisineCards = [
   {
     title: "Entradas",
-    text: "Opções para começar e partilhar à mesa.",
+    text: "Opções para começar a refeição e partilhar à mesa.",
   },
   {
     title: "Massas",
-    text: "Pratos quentes para completar a refeição.",
+    text: "Pratos quentes preparados na hora.",
   },
   {
     title: "Arroz",
-    text: "Acompanhamentos e combinações do menu.",
+    text: "Acompanhamentos e combinações para completar o pedido.",
   },
   {
     title: "Pratos quentes",
-    text: "Opções preparadas na hora para restaurante ou Take Away.",
+    text: "Sabores de cozinha chinesa para comer no restaurante ou levar.",
   },
 ];
 
