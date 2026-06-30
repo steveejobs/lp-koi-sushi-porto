@@ -29,9 +29,18 @@ function RatingStars({ rating }: { rating: KoiTestimonial["rating"] }) {
   );
 }
 
-function TestimonialCard({ testimonial }: { testimonial: KoiTestimonial }) {
+function TestimonialCard({
+  testimonial,
+  isHidden = false,
+}: {
+  testimonial: KoiTestimonial;
+  isHidden?: boolean;
+}) {
   return (
-    <article className="chambar-testimonial-card">
+    <article
+      className="chambar-testimonial-card"
+      aria-hidden={isHidden ? "true" : undefined}
+    >
       <span className="chambar-testimonial-accent" aria-hidden="true" />
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -64,32 +73,42 @@ function TestimonialCard({ testimonial }: { testimonial: KoiTestimonial }) {
 
 function TestimonialsSet({
   testimonials,
+  isHidden = false,
 }: {
   testimonials: KoiTestimonial[];
+  isHidden?: boolean;
 }) {
   return (
-    <div className="chambar-testimonials-set">
+    <ul
+      className="chambar-testimonials-set"
+      aria-hidden={isHidden ? "true" : undefined}
+    >
       {testimonials.map((testimonial) => (
-        <TestimonialCard
+        <li
           key={`${testimonial.quote}-${testimonial.context}`}
-          testimonial={testimonial}
-        />
+          aria-hidden={isHidden ? "true" : undefined}
+        >
+          <TestimonialCard testimonial={testimonial} isHidden={isHidden} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
 function TestimonialsRow({
   testimonials,
+  direction,
 }: {
   testimonials: KoiTestimonial[];
+  direction: "left" | "right";
 }) {
   return (
     <div className="chambar-testimonials-row">
       <div
-        className="chambar-testimonials-track"
+        className={`chambar-testimonials-track chambar-testimonials-track-${direction}`}
       >
         <TestimonialsSet testimonials={testimonials} />
+        <TestimonialsSet testimonials={testimonials} isHidden />
       </div>
     </div>
   );
@@ -121,8 +140,8 @@ export function KoiTestimonialsMarquee() {
       </div>
 
       <div className="mt-10 space-y-4 overflow-hidden md:mt-12 md:space-y-5">
-        <TestimonialsRow testimonials={rowOne} />
-        <TestimonialsRow testimonials={rowTwo} />
+        <TestimonialsRow testimonials={rowOne} direction="left" />
+        <TestimonialsRow testimonials={rowTwo} direction="right" />
       </div>
     </section>
   );

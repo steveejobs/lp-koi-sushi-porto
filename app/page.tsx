@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { KoiEstablishmentSection } from "@/components/chambar/KoiEstablishmentSection";
 import { KoiTestimonialsMarquee } from "@/components/chambar/KoiTestimonialsMarquee";
+import { MenuTakeAwaySection } from "@/components/MenuTakeAwaySection";
 import { FoodGallerySection } from "@/components/FoodGallerySection";
 import { Header } from "@/components/Header";
 import { HeroInteractiveIntro } from "@/components/HeroInteractiveIntro";
@@ -150,19 +151,21 @@ export default function Home() {
 
         <ScrollExperienceFeature />
 
+        <MenuTakeAwaySection />
+
         <FoodGallerySection
-          id="pratos-local"
-          eyebrow="À mesa"
-          title="Pratos do Koi"
-          copy="Sushi fresco, peças especiais e pratos quentes preparados na hora."
-          images={localDishGalleryImages}
+          id="galeria-generica"
+          eyebrow="Galeria"
+          title="Cortes, brilho e apetite."
+          copy="Imagens para escolher antes do primeiro pedido."
+          images={genericGalleryImages}
           categories={[
             "Sushi",
-            "Peças especiais",
+            "Cozinha chinesa",
             "Pratos quentes",
-            "Mesa Koi",
+            "Peças especiais",
           ]}
-          backgroundClassName="bg-white"
+          backgroundClassName="bg-[#f7f2ec]"
         />
 
         <KoiEstablishmentSection />
@@ -223,18 +226,18 @@ export default function Home() {
         </section>
 
         <FoodGallerySection
-          id="galeria-generica"
-          eyebrow="Galeria"
-          title="Cortes, brilho e apetite."
-          copy="Imagens para escolher antes do primeiro pedido."
-          images={genericGalleryImages}
+          id="pratos-local"
+          eyebrow="À mesa"
+          title="Pratos do Koi"
+          copy="Sushi fresco, peças especiais e pratos quentes preparados na hora."
+          images={localDishGalleryImages}
           categories={[
             "Sushi",
-            "Cozinha chinesa",
-            "Pratos quentes",
             "Peças especiais",
+            "Pratos quentes",
+            "Mesa Koi",
           ]}
-          backgroundClassName="bg-[#f7f2ec]"
+          backgroundClassName="bg-white"
         />
 
         <section className="section-pad bg-white">

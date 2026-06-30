@@ -178,7 +178,7 @@ export default function InstagramLinksPage() {
           >
             Pedir Take Away
           </LinkButton>
-          <LinkButton href="/#pratos-local" icon={<IconBag />} delay={220}>
+          <LinkButton href="/#menu-take-away" icon={<IconBag />} delay={220}>
             Ver Menu
           </LinkButton>
           <LinkButton href={GOOGLE_MAPS_URL} icon={<IconArrow />} delay={290}>

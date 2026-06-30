@@ -34,30 +34,30 @@ export const locationImage = {
 } satisfies KoiMediaAsset;
 
 export const genericGalleryImages = uniqueBySrc([
-  { src: "/koi/gallery/koi-sushi-porto-gallery-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-02.webp", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-03.webp", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-04.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-05.webp", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-06.webp", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-07.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-08.webp", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/gallery/koi-sushi-porto-gallery-09.webp", alt: "Peças de sushi preparadas na hora" },
   { src: "/koi/gallery/koi-sushi-porto-gallery-10.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-09.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-08.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-07.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-06.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-05.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-04.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-03.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-02.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/gallery/koi-sushi-porto-gallery-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
 ]) satisfies KoiMediaAsset[];
 
 export const localDishGalleryImages = uniqueBySrc([
-  { src: "/koi/galeria/gallery-food-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-02.webp", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-03.webp", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/galeria/gallery-food-04.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-05.webp", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-06.webp", alt: "Peças de sushi preparadas na hora" },
-  { src: "/koi/galeria/gallery-food-07.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-08.webp", alt: "Pratos do Koi Sushi Porto" },
-  { src: "/koi/galeria/gallery-food-09.webp", alt: "Peças de sushi preparadas na hora" },
   { src: "/koi/galeria/gallery-food-10.webp", alt: "Sushi fresco do Koi Sushi Porto" },
-].reverse()) satisfies KoiMediaAsset[];
+  { src: "/koi/galeria/gallery-food-09.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/galeria/gallery-food-08.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-07.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-06.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/galeria/gallery-food-05.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-04.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-03.webp", alt: "Peças de sushi preparadas na hora" },
+  { src: "/koi/galeria/gallery-food-02.webp", alt: "Pratos do Koi Sushi Porto" },
+  { src: "/koi/galeria/gallery-food-01.webp", alt: "Sushi fresco do Koi Sushi Porto" },
+]) satisfies KoiMediaAsset[];
 
 export const establishmentImages = uniqueBySrc([
   facadeMedia,
