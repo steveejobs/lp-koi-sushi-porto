@@ -45,6 +45,74 @@ function useReducedMotion() {
   return reducedMotion;
 }
 
+type InstagramMenu3DMode = "mobile" | "tablet";
+
+type InstagramMenu3DConfig = {
+  mode: InstagramMenu3DMode;
+  perspective: number;
+  stageHeight: string;
+  cardWidth: string;
+  cardHeight: string;
+  sideTranslate: number;
+  sideRotate: number;
+  sideDepth: number;
+  sideScale: number;
+  sideOpacity: number;
+};
+
+const INSTAGRAM_MENU_3D_CONFIG: Record<
+  InstagramMenu3DMode,
+  InstagramMenu3DConfig
+> = {
+  mobile: {
+    mode: "mobile",
+    perspective: 1050,
+    stageHeight: "min(68svh, 500px)",
+    cardWidth: "min(84vw, 330px)",
+    cardHeight: "min(62svh, 470px)",
+    sideTranslate: 34,
+    sideRotate: 30,
+    sideDepth: -120,
+    sideScale: 0.78,
+    sideOpacity: 0.34,
+  },
+  tablet: {
+    mode: "tablet",
+    perspective: 1400,
+    stageHeight: "min(72svh, 560px)",
+    cardWidth: "min(74vw, 340px)",
+    cardHeight: "min(66svh, 500px)",
+    sideTranslate: 40,
+    sideRotate: 28,
+    sideDepth: -140,
+    sideScale: 0.82,
+    sideOpacity: 0.42,
+  },
+};
+
+function useInstagramMenu3DConfig() {
+  const [config, setConfig] = useState<InstagramMenu3DConfig>(
+    INSTAGRAM_MENU_3D_CONFIG.mobile,
+  );
+
+  useEffect(() => {
+    const update = () => {
+      setConfig(
+        window.innerWidth >= 768
+          ? INSTAGRAM_MENU_3D_CONFIG.tablet
+          : INSTAGRAM_MENU_3D_CONFIG.mobile,
+      );
+    };
+
+    update();
+    window.addEventListener("resize", update);
+
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return config;
+}
+
 type InstagramMenuLightboxProps = {
   open: boolean;
   activeIndex: number;
@@ -206,6 +274,7 @@ export function InstagramMenuTakeAwaySection() {
   const suppressClickRef = useRef(false);
   const whatsappUrl = getWhatsappUrl("instagram");
   const totalPages = koiMenuPages.length;
+  const menu3d = useInstagramMenu3DConfig();
 
   const pauseAutoplay = () => {
     setIsPaused(true);
@@ -281,15 +350,18 @@ export function InstagramMenuTakeAwaySection() {
 
     const deltaX = event.clientX - startXRef.current;
     const deltaY = event.clientY - startYRef.current;
-    const isHorizontalSwipe = Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY);
+    const isHorizontalSwipe =
+      Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY);
 
-    suppressClickRef.current = maxMoveXRef.current > 8;
+    suppressClickRef.current = maxMoveXRef.current >= 6;
     pointerIdRef.current = null;
     setIsDragging(false);
     setDragOffset(0);
 
     if (isHorizontalSwipe) {
-      setActiveIndex((current) => wrapPageIndex(current + (deltaX < 0 ? 1 : -1), totalPages));
+      setActiveIndex((current) =>
+        wrapPageIndex(current + (deltaX < 0 ? 1 : -1), totalPages),
+      );
     }
 
     resumeAutoplaySoon();
@@ -351,7 +423,12 @@ export function InstagramMenuTakeAwaySection() {
 
       <div
         className="relative mx-auto mt-2 h-[min(68svh,480px)] min-h-[360px] w-full touch-pan-y overflow-hidden"
-        style={{ perspective: "1100px" }}
+        style={{
+          height: menu3d.stageHeight,
+          perspective: `${menu3d.perspective}px`,
+          perspectiveOrigin: "50% 50%",
+          transformStyle: "preserve-3d",
+        }}
         role="region"
         aria-label="Cardápio Take Away animado"
         onPointerDown={handlePointerDown}
@@ -361,32 +438,42 @@ export function InstagramMenuTakeAwaySection() {
       >
         {koiMenuPages.map((page, index) => {
           const offset = shortestOffset(index, activeIndex, totalPages);
-          const distance = Math.abs(offset);
-          const isActive = distance === 0;
-          const isVisible = distance <= 1;
-          const itemAngle = offset * -34;
-          const scale = isActive ? 1 : 0.76;
-          const opacity = !isVisible ? 0 : isActive ? 1 : 0.26;
-          const dragX = isActive ? dragOffset * 0.12 : 0;
-          const transform = `translate3d(calc(-50% + ${dragX}px), -50%, 0) rotateY(${itemAngle}deg) translateZ(175px) scale(${scale})`;
+          const dragProgress =
+            dragOffset / (menu3d.mode === "mobile" ? 260 : 300);
+          const visualOffset = offset + dragProgress;
+          const distance = Math.abs(visualOffset);
+          const discreteDistance = Math.abs(offset);
+          const isActive = discreteDistance === 0;
+          const isVisible = distance <= 1.16;
+          const scale = isActive && distance < 0.52 ? 1 : menu3d.sideScale;
+          const opacity = !isVisible
+            ? 0
+            : isActive && distance < 0.52
+              ? 1
+              : menu3d.sideOpacity;
+          const coverflowOffset = Math.max(-1, Math.min(1, visualOffset));
+          const transform = `translate3d(-50%, -50%, 0) translateX(${coverflowOffset * menu3d.sideTranslate}%) rotateY(${coverflowOffset * -menu3d.sideRotate}deg) translateZ(${isActive && distance < 0.52 ? 0 : menu3d.sideDepth}px) scale(${scale})`;
 
           return (
             <button
               key={page.id}
               type="button"
-              className={`absolute left-1/2 top-1/2 h-[min(62svh,450px)] min-h-[340px] w-[min(82vw,330px)] overflow-hidden rounded-[14px] p-2 transition-[opacity,transform] duration-500 ${
+              className={`absolute left-1/2 top-1/2 min-h-[340px] overflow-hidden rounded-[14px] transition-[opacity,transform] duration-500 ${
                 isDragging ? "transition-none" : ""
               }`}
               style={{
+                width: menu3d.cardWidth,
+                height: menu3d.cardHeight,
+                padding: isActive ? "8px" : "3px",
                 border: isActive
-                  ? "1px solid rgba(0,0,0,0.12)"
-                  : "1px solid rgba(0,0,0,0.04)",
-                background: isActive ? "#f5f5f5" : "rgba(20,20,20,0.12)",
+                  ? "1px solid rgba(255,255,255,0.16)"
+                  : "1px solid rgba(255,255,255,0.05)",
+                background: isActive ? "#101010" : "rgba(12,12,12,0.34)",
                 boxShadow: isActive
-                  ? "0 18px 42px rgba(16,16,16,0.16)"
-                  : "0 8px 18px rgba(16,16,16,0.08)",
+                  ? "0 18px 42px rgba(16,16,16,0.18)"
+                  : "0 10px 22px rgba(16,16,16,0.1)",
                 opacity,
-                zIndex: isActive ? 20 : 1,
+                zIndex: isActive ? 40 : Math.max(1, 20 - distance * 10),
                 transform,
                 transformStyle: "preserve-3d",
                 pointerEvents: isActive ? "auto" : "none",
@@ -401,6 +488,7 @@ export function InstagramMenuTakeAwaySection() {
                   src={page.src}
                   alt={page.alt}
                   className="h-full w-full select-none object-contain"
+                  sizes="(max-width: 767px) 84vw, 340px"
                   loading={isActive ? "eager" : "lazy"}
                   decoding="async"
                   draggable={false}

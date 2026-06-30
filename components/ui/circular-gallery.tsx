@@ -84,7 +84,7 @@ function useResponsiveGallery(radius?: number) {
         setConfig({
           radius: 175,
           visibleSideCount: 1,
-          perspective: 1100,
+          perspective: 1050,
           mode: "mobile",
         });
       } else if (width < 1024) {
@@ -150,9 +150,12 @@ export function CircularGallery({
   const lastActiveIndexRef = useRef<number | null>(null);
   const itemCount = items.length;
   const anglePerItem = itemCount > 0 ? 360 / itemCount : 0;
+  const rawActivePosition =
+    itemCount && anglePerItem ? -rotation / anglePerItem : 0;
   const activeIndex = itemCount
-    ? wrapIndex(Math.round(-rotation / anglePerItem), itemCount)
+    ? wrapIndex(Math.round(rawActivePosition), itemCount)
     : 0;
+  const activePositionDelta = rawActivePosition - Math.round(rawActivePosition);
 
   const pauseAutoplay = () => {
     setIsPaused(true);
@@ -233,7 +236,7 @@ export function CircularGallery({
   const finishPointerGesture = (event: PointerEvent<HTMLDivElement>) => {
     if (pointerIdRef.current !== event.pointerId) return;
 
-    suppressClickRef.current = maxMoveXRef.current > 6;
+    suppressClickRef.current = maxMoveXRef.current >= 6;
     pointerIdRef.current = null;
     setIsDragging(false);
     resumeAutoplaySoon();
@@ -261,7 +264,11 @@ export function CircularGallery({
         "relative mx-auto flex h-[min(68svh,500px)] min-h-[380px] w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-hidden sm:h-[min(72svh,560px)] md:h-[600px] lg:h-[680px] lg:overflow-visible",
         className,
       )}
-      style={{ perspective: `${perspective}px`, ...style }}
+      style={{
+        perspective: `${perspective}px`,
+        perspectiveOrigin: "50% 50%",
+        ...style,
+      }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={finishPointerGesture}
@@ -274,50 +281,78 @@ export function CircularGallery({
           isDragging && "transition-none",
         )}
         style={{
-          transform: `rotateY(${rotation}deg)`,
+          transform: `rotateY(${mode === "desktop" ? rotation : 0}deg) translateZ(0)`,
           transformStyle: "preserve-3d",
         }}
       >
         {items.map((item, index) => {
           const itemAngle = index * anglePerItem;
           const offset = shortestOffset(index, activeIndex, itemCount);
-          const distance = Math.abs(offset);
-          const isVisible = distance <= visibleSideCount;
-          const isActive = distance === 0;
-          const sideOpacity = mode === "mobile" ? 0.28 : mode === "tablet" ? 0.34 : 0.58;
-          const sideScale = mode === "mobile" ? 0.76 : mode === "tablet" ? 0.8 : 0.76;
+          const isCoverflow = mode !== "desktop";
+          const coverflowOffset = offset - activePositionDelta;
+          const distance = Math.abs(isCoverflow ? coverflowOffset : offset);
+          const discreteDistance = Math.abs(offset);
+          const isVisible = isCoverflow
+            ? distance <= 1.16
+            : discreteDistance <= visibleSideCount;
+          const isActive = discreteDistance === 0;
+          const sideOpacity =
+            mode === "mobile" ? 0.34 : mode === "tablet" ? 0.42 : 0.58;
+          const sideScale =
+            mode === "mobile" ? 0.78 : mode === "tablet" ? 0.82 : 0.76;
           const farScale = mode === "desktop" ? 0.6 : 0.72;
           const opacity = !isVisible
             ? 0
-            : isActive
+            : isActive && distance < 0.52
               ? 1
-              : distance === 1
+              : discreteDistance === 1 || (isCoverflow && distance <= 1.16)
                 ? sideOpacity
                 : mode === "desktop"
                   ? 0.2
                   : 0;
-          const scale = isActive ? 1 : distance === 1 ? sideScale : farScale;
-          const transform = `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${resolvedRadius}px) scale(${scale})`;
-          const sideCard = !isActive && mode !== "desktop";
+          const scale =
+            isActive && distance < 0.52
+              ? 1
+              : discreteDistance === 1
+                ? sideScale
+                : farScale;
+          const clampedCoverflowOffset = Math.max(
+            -1,
+            Math.min(1, coverflowOffset),
+          );
+          const coverflowTranslate = mode === "mobile" ? 34 : 40;
+          const coverflowRotate = mode === "mobile" ? 30 : 28;
+          const coverflowDepth = mode === "mobile" ? -120 : -140;
+          const transform = isCoverflow
+            ? `translate(-50%, -50%) translateX(${clampedCoverflowOffset * coverflowTranslate}%) rotateY(${clampedCoverflowOffset * -coverflowRotate}deg) translateZ(${isActive && distance < 0.52 ? 0 : coverflowDepth}px) scale(${scale})`
+            : `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${resolvedRadius}px) scale(${scale})`;
+          const sideCard = !isActive && isCoverflow;
 
           return (
             <button
               key={item.id}
               type="button"
-              className="absolute left-1/2 top-1/2 block h-[min(62svh,480px)] min-h-[340px] w-[min(82vw,330px)] overflow-hidden rounded-[12px] text-left outline-none ring-offset-2 transition-opacity duration-300 focus-visible:ring-4 focus-visible:ring-white/60 sm:h-[min(68svh,500px)] sm:w-[min(84vw,350px)] md:h-[500px] md:w-[340px] lg:h-[470px] lg:w-[336px]"
+              className="absolute left-1/2 top-1/2 block h-[min(62svh,470px)] min-h-[340px] w-[min(84vw,330px)] overflow-hidden rounded-[12px] text-left outline-none ring-offset-2 transition-[opacity,transform] duration-300 focus-visible:ring-4 focus-visible:ring-white/60 md:h-[min(66svh,500px)] md:w-[min(74vw,340px)] lg:h-[470px] lg:w-[336px]"
               style={{
                 border: sideCard
-                  ? "1px solid rgba(255,255,255,0.06)"
-                  : "1px solid rgba(255,255,255,0.18)",
-                background: sideCard ? "rgba(17,17,17,0.28)" : "#111",
+                  ? "1px solid rgba(255,255,255,0.05)"
+                  : "1px solid rgba(255,255,255,0.16)",
+                background: sideCard ? "rgba(12,12,12,0.34)" : "#101010",
                 boxShadow: sideCard
-                  ? "0 8px 18px rgba(0,0,0,0.12)"
-                  : "0 24px 58px rgba(0,0,0,0.28)",
+                  ? "0 10px 22px rgba(0,0,0,0.16)"
+                  : "0 24px 58px rgba(0,0,0,0.3)",
                 opacity,
                 zIndex: isActive ? 100 : Math.max(1, 30 - distance),
                 transform,
                 transformStyle: "preserve-3d",
-                pointerEvents: isActive ? "auto" : "none",
+                pointerEvents:
+                  mode === "desktop"
+                    ? isVisible
+                      ? "auto"
+                      : "none"
+                    : isActive
+                      ? "auto"
+                      : "none",
               }}
               aria-hidden={!isActive}
               aria-label={`Abrir zoom: ${item.title}`}
@@ -325,14 +360,17 @@ export function CircularGallery({
               onClick={() => handleItemClick(item, index)}
             >
               <span
-                className="flex h-full w-full items-center justify-center rounded-[8px] p-2"
-                style={{ background: sideCard ? "rgba(245,245,245,0.16)" : "#f5f5f5" }}
+                className="flex h-full w-full items-center justify-center rounded-[8px]"
+                style={{
+                  background: sideCard ? "rgba(12,12,12,0.12)" : "#101010",
+                  padding: sideCard ? "3px" : "8px",
+                }}
               >
                 <img
                   src={item.src}
                   alt={item.alt}
                   className="h-full w-full select-none object-contain"
-                  sizes="(max-width: 767px) 82vw, (max-width: 1023px) 340px, 336px"
+                  sizes="(max-width: 767px) 84vw, (max-width: 1023px) 74vw, 336px"
                   loading={isActive ? "eager" : "lazy"}
                   decoding="async"
                   draggable={false}
