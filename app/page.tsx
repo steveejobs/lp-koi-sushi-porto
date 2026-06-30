@@ -4,8 +4,6 @@ import { KoiTestimonialsMarquee } from "@/components/chambar/KoiTestimonialsMarq
 import { MenuTakeAwaySection } from "@/components/MenuTakeAwaySection";
 import { FoodGallerySection } from "@/components/FoodGallerySection";
 import { Header } from "@/components/Header";
-import { HeroInteractiveIntro } from "@/components/HeroInteractiveIntro";
-import { HeroMotionPlaceholder } from "@/components/HeroMotionPlaceholder";
 import { Reveal } from "@/components/Reveal";
 import { ScrollExperienceFeature } from "@/components/ScrollExperienceFeature";
 import { SectionIntro } from "@/components/SectionIntro";
@@ -13,6 +11,7 @@ import { SocialIconLinks } from "@/components/SocialIconLinks";
 import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
 import {
   genericGalleryImages,
+  heroImage,
   localDishGalleryImages,
   locationImage,
 } from "@/data/chambar-media";
@@ -80,7 +79,7 @@ const chineseCuisineCards = [
   },
 ];
 
-const heroChips = ["Sushi", "Cozinha chinesa", "Pratos quentes", "Take Away"];
+const heroChips = ["Menu Infinity", "Cozinha chinesa", "Take Away"];
 
 const differentials = [
   {
@@ -106,22 +105,31 @@ export default function Home() {
     <>
       <Header />
       <main id="topo" className="overflow-hidden pt-16 md:pt-20">
-        <HeroInteractiveIntro />
+        <section className="relative isolate border-b border-black/10 bg-[#fffdf9] py-8 md:py-12">
+          <div className="absolute inset-y-0 right-0 hidden w-[46%] overflow-hidden md:block">
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              fill
+              priority
+              quality={82}
+              fetchPriority="high"
+              sizes="46vw"
+              className="object-cover object-[58%_50%]"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,#fffdf9_0%,rgba(255,253,249,0.82)_25%,rgba(255,253,249,0.22)_58%,rgba(255,253,249,0.02)_100%)]" />
+          </div>
 
-        <section className="relative border-b border-black/10 bg-[#fffdf9] py-10 md:min-h-[calc(100svh-80px)] md:py-16">
-          <div className="absolute left-[-72px] top-20 h-40 w-40 rounded-full border border-red-700/15 md:left-10 md:h-64 md:w-64" />
-          <div className="absolute right-[-80px] top-24 h-44 w-44 rounded-full bg-[var(--chambar-red)]/8 md:right-12 md:h-72 md:w-72" />
-
-          <div className="container-page grid items-center gap-10 md:grid-cols-[0.95fr_1.05fr]">
+          <div className="container-page grid items-center gap-8 md:min-h-[calc(78svh-80px)] md:grid-cols-[0.72fr_0.28fr]">
             <div className="relative z-10 animate-[riseIn_700ms_ease_both]">
               <Image
                 src={images.logo}
                 alt="Logo Koi Sushi Porto"
                 width={168}
                 height={72}
-                loading="lazy"
+                loading="eager"
                 decoding="async"
-                className="mb-6 hidden h-auto w-[132px] object-contain md:block md:w-[160px]"
+                className="mb-6 h-auto w-[132px] object-contain md:w-[160px]"
               />
               <span className="eyebrow">Koi Sushi Porto</span>
               <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.98] text-neutral-950 md:text-7xl">
@@ -155,7 +163,7 @@ export default function Home() {
                   Ver localização
                 </a>
               </div>
-              <div className="mt-8 flex flex-wrap items-center gap-2">
+              <div className="mt-7 flex flex-wrap items-center gap-2">
                 {heroChips.map((chip) => (
                   <span
                     key={chip}
@@ -164,40 +172,28 @@ export default function Home() {
                     {chip}
                   </span>
                 ))}
-                <span className="koi-red-seal px-4 py-2 text-xs font-black uppercase tracking-wide">
-                  Preparado na hora
-                </span>
               </div>
-            </div>
-
-            <div className="hidden md:block">
-              <HeroMotionPlaceholder />
             </div>
           </div>
         </section>
 
-        <section className="section-pad koi-rice-paper">
+        <section className="koi-rice-paper border-b border-black/8 py-8 md:py-10">
           <div className="container-page">
             <Reveal threshold={0.42} className="max-w-3xl">
               <p className="text-sm font-black text-[var(--chambar-red)]">
                 KOI SUSHI PORTO
               </p>
-              <h2 className="mt-4 text-4xl font-black leading-[1.04] text-neutral-950 md:text-6xl">
+              <h2 className="mt-3 text-3xl font-black leading-[1.04] text-neutral-950 md:text-5xl">
                 Sushi, cozinha chinesa e momentos à mesa.
               </h2>
-              <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                O Koi Sushi Porto é um restaurante na Estrada Exterior da
-                Circunvalação, no Porto, pensado para quem aprecia sushi, pratos
-                chineses, convívio e comida preparada na hora.
-              </p>
               <p className="mt-4 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                No Menu Infinity – All You Can Eat, pode desfrutar de peças de
-                sushi, entradas, massas, arroz e pratos quentes. Para levar, há
-                Take Away pelo WhatsApp.
+                No Koi Sushi Porto, pode comer à vontade com Menu Infinity,
+                escolher pratos chineses preparados na hora ou pedir Take Away
+                pelo WhatsApp.
               </p>
             </Reveal>
 
-            <div className="mt-9 grid gap-4 md:grid-cols-3">
+            <div className="mt-7 grid gap-4 md:grid-cols-3">
               {introCards.map((card, index) => (
                 <Reveal key={card.title} delay={index * 90} threshold={0.24}>
                   <article className="koi-chinese-panel koi-lattice-bg h-full rounded-lg p-5">

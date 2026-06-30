@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   type HTMLAttributes,
@@ -17,10 +17,71 @@ export type CircularGalleryItem = {
 
 type CircularGalleryProps = Omit<HTMLAttributes<HTMLDivElement>, "onClick"> & {
   items: CircularGalleryItem[];
-  radius?: number;
   autoRotateSpeed?: number;
   onItemClick?: (item: CircularGalleryItem, index: number) => void;
   onActiveIndexChange?: (index: number) => void;
+};
+
+type GalleryBreakpoint = "mobile" | "tablet" | "desktop";
+
+type GalleryConfig = {
+  breakpoint: GalleryBreakpoint;
+  perspective: number;
+  stageHeight: string;
+  stageMinHeight: number;
+  cardWidth: string;
+  cardHeight: string;
+  cardMinHeight: number;
+  sideTranslate: number;
+  sideRotate: number;
+  sideDepth: number;
+  sideScale: number;
+  sideOpacity: number;
+};
+
+const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
+  mobile: {
+    breakpoint: "mobile",
+    perspective: 1100,
+    stageHeight: "min(68svh, 520px)",
+    stageMinHeight: 360,
+    cardWidth: "min(88vw, 340px)",
+    cardHeight: "min(62svh, 500px)",
+    cardMinHeight: 330,
+    sideTranslate: 30,
+    sideRotate: 28,
+    sideDepth: -120,
+    sideScale: 0.76,
+    sideOpacity: 0.16,
+  },
+  tablet: {
+    breakpoint: "tablet",
+    perspective: 1350,
+    stageHeight: "min(70svh, 560px)",
+    stageMinHeight: 390,
+    cardWidth: "min(74vw, 360px)",
+    cardHeight: "min(66svh, 520px)",
+    cardMinHeight: 360,
+    sideTranslate: 44,
+    sideRotate: 30,
+    sideDepth: -150,
+    sideScale: 0.78,
+    sideOpacity: 0.2,
+  },
+  desktop: {
+    breakpoint: "desktop",
+    perspective: 1850,
+    stageHeight: "680px",
+    stageMinHeight: 520,
+    cardWidth: "390px",
+    cardHeight: "585px",
+    cardMinHeight: 520,
+    sideTranslate: 60,
+    sideRotate: 36,
+    sideDepth: -190,
+    sideScale: 0.8,
+    sideOpacity: 0.22,
+  },
 };
 
 function cn(...classes: Array<string | false | null | undefined>) {
@@ -58,56 +119,19 @@ function useReducedMotion() {
   return reducedMotion;
 }
 
-function useResponsiveGallery(radius?: number) {
-  const [config, setConfig] = useState({
-    radius: radius ?? 520,
-    visibleSideCount: 2,
-    perspective: 1800,
-    mode: "desktop" as "mobile" | "tablet" | "desktop",
-  });
+function useResponsiveGallery() {
+  const [config, setConfig] = useState<GalleryConfig>(GALLERY_CONFIG.desktop);
 
   useEffect(() => {
-    if (typeof radius === "number") {
-      setConfig({
-        radius,
-        visibleSideCount: 2,
-        perspective: 1800,
-        mode: "desktop",
-      });
-      return;
-    }
-
     const update = () => {
       const width = window.innerWidth;
 
       if (width < 768) {
-        setConfig({
-          radius: 175,
-          visibleSideCount: 1,
-          perspective: 1050,
-          mode: "mobile",
-        });
+        setConfig(GALLERY_CONFIG.mobile);
       } else if (width < 1024) {
-        setConfig({
-          radius: 300,
-          visibleSideCount: 1,
-          perspective: 1400,
-          mode: "tablet",
-        });
-      } else if (width < 1280) {
-        setConfig({
-          radius: 460,
-          visibleSideCount: 2,
-          perspective: 1800,
-          mode: "desktop",
-        });
+        setConfig(GALLERY_CONFIG.tablet);
       } else {
-        setConfig({
-          radius: 520,
-          visibleSideCount: 2,
-          perspective: 1900,
-          mode: "desktop",
-        });
+        setConfig(GALLERY_CONFIG.desktop);
       }
     };
 
@@ -115,15 +139,15 @@ function useResponsiveGallery(radius?: number) {
     window.addEventListener("resize", update);
 
     return () => window.removeEventListener("resize", update);
-  }, [radius]);
+  }, []);
 
   return config;
 }
+
 export function CircularGallery({
   items,
   className,
-  radius,
-  autoRotateSpeed = 0.035,
+  autoRotateSpeed = 0.005,
   onItemClick,
   onActiveIndexChange,
   style,
@@ -133,12 +157,7 @@ export function CircularGallery({
   const [isDragging, setIsDragging] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const reducedMotion = useReducedMotion();
-  const {
-    radius: resolvedRadius,
-    visibleSideCount,
-    perspective,
-    mode,
-  } = useResponsiveGallery(radius);
+  const gallery = useResponsiveGallery();
   const frameRef = useRef<number | null>(null);
   const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerIdRef = useRef<number | null>(null);
@@ -229,7 +248,7 @@ export function CircularGallery({
     maxMoveXRef.current = Math.max(maxMoveXRef.current, Math.abs(deltaX));
 
     if (Math.abs(deltaX) > Math.abs(deltaY) * 0.75) {
-      setRotation(startRotationRef.current + deltaX * 0.24);
+      setRotation(startRotationRef.current + deltaX * 0.2);
     }
   };
 
@@ -259,13 +278,15 @@ export function CircularGallery({
   return (
     <div
       role="region"
-      aria-label="Cardápio Take Away em galeria circular"
+      aria-label={"Card\u00e1pio Take Away em galeria 3D"}
       className={cn(
-        "relative mx-auto flex h-[min(68svh,500px)] min-h-[380px] w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-hidden sm:h-[min(72svh,560px)] md:h-[600px] lg:h-[680px] lg:overflow-visible",
+        "relative mx-auto flex w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-hidden",
         className,
       )}
       style={{
-        perspective: `${perspective}px`,
+        height: gallery.stageHeight,
+        minHeight: `${gallery.stageMinHeight}px`,
+        perspective: `${gallery.perspective}px`,
         perspectiveOrigin: "50% 50%",
         ...style,
       }}
@@ -277,105 +298,60 @@ export function CircularGallery({
     >
       <div
         className={cn(
-          "relative h-full w-full overflow-hidden transition-transform duration-150 ease-linear lg:overflow-visible",
+          "relative h-full w-full overflow-hidden transition-transform duration-150 ease-linear",
           isDragging && "transition-none",
         )}
-        style={{
-          transform: `rotateY(${mode === "desktop" ? rotation : 0}deg) translateZ(0)`,
-          transformStyle: "preserve-3d",
-        }}
+        style={{ transformStyle: "preserve-3d" }}
       >
         {items.map((item, index) => {
-          const itemAngle = index * anglePerItem;
           const offset = shortestOffset(index, activeIndex, itemCount);
-          const isCoverflow = mode !== "desktop";
-          const coverflowOffset = offset - activePositionDelta;
-          const distance = Math.abs(isCoverflow ? coverflowOffset : offset);
+          const visualOffset = offset - activePositionDelta;
+          const distance = Math.abs(visualOffset);
           const discreteDistance = Math.abs(offset);
-          const isVisible = isCoverflow
-            ? distance <= 1.16
-            : discreteDistance <= visibleSideCount;
           const isActive = discreteDistance === 0;
-          const sideOpacity =
-            mode === "mobile" ? 0.34 : mode === "tablet" ? 0.42 : 0.58;
-          const sideScale =
-            mode === "mobile" ? 0.78 : mode === "tablet" ? 0.82 : 0.76;
-          const farScale = mode === "desktop" ? 0.6 : 0.72;
-          const opacity = !isVisible
-            ? 0
-            : isActive && distance < 0.52
-              ? 1
-              : discreteDistance === 1 || (isCoverflow && distance <= 1.16)
-                ? sideOpacity
-                : mode === "desktop"
-                  ? 0.2
-                  : 0;
-          const scale =
-            isActive && distance < 0.52
-              ? 1
-              : discreteDistance === 1
-                ? sideScale
-                : farScale;
-          const clampedCoverflowOffset = Math.max(
-            -1,
-            Math.min(1, coverflowOffset),
-          );
-          const coverflowTranslate = mode === "mobile" ? 34 : 40;
-          const coverflowRotate = mode === "mobile" ? 30 : 28;
-          const coverflowDepth = mode === "mobile" ? -120 : -140;
-          const transform = isCoverflow
-            ? `translate(-50%, -50%) translateX(${clampedCoverflowOffset * coverflowTranslate}%) rotateY(${clampedCoverflowOffset * -coverflowRotate}deg) translateZ(${isActive && distance < 0.52 ? 0 : coverflowDepth}px) scale(${scale})`
-            : `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${resolvedRadius}px) scale(${scale})`;
-          const sideCard = !isActive && isCoverflow;
+          const isNeighbor = discreteDistance === 1 && distance <= 1.18;
+          const isVisible = isActive || isNeighbor;
+          const clampedOffset = Math.max(-1, Math.min(1, visualOffset));
+          const transform = `translate3d(-50%, -50%, 0) translateX(${clampedOffset * gallery.sideTranslate}%) rotateY(${clampedOffset * -gallery.sideRotate}deg) translateZ(${isActive ? 0 : gallery.sideDepth}px) scale(${isActive ? 1 : gallery.sideScale})`;
 
           return (
             <button
               key={item.id}
               type="button"
-              className="absolute left-1/2 top-1/2 block h-[min(62svh,470px)] min-h-[340px] w-[min(84vw,330px)] overflow-hidden rounded-[12px] text-left outline-none ring-offset-2 transition-[opacity,transform] duration-300 focus-visible:ring-4 focus-visible:ring-white/60 md:h-[min(66svh,500px)] md:w-[min(74vw,340px)] lg:h-[470px] lg:w-[336px]"
+              className="absolute left-1/2 top-1/2 block overflow-hidden rounded-[12px] text-left outline-none ring-offset-2 transition-[opacity,transform,visibility] duration-300 focus-visible:ring-4 focus-visible:ring-white/60"
               style={{
-                border: sideCard
-                  ? "1px solid rgba(255,255,255,0.05)"
-                  : "1px solid rgba(255,255,255,0.16)",
-                background: sideCard ? "rgba(12,12,12,0.34)" : "#101010",
-                boxShadow: sideCard
-                  ? "0 10px 22px rgba(0,0,0,0.16)"
-                  : "0 24px 58px rgba(0,0,0,0.3)",
-                opacity,
-                zIndex: isActive ? 100 : Math.max(1, 30 - distance),
+                width: gallery.cardWidth,
+                height: gallery.cardHeight,
+                minHeight: `${gallery.cardMinHeight}px`,
+                border: isActive
+                  ? "1px solid rgba(255,255,255,0.14)"
+                  : "0 solid transparent",
+                background: isActive ? "#101010" : "transparent",
+                boxShadow: isActive
+                  ? "0 24px 58px rgba(0,0,0,0.3)"
+                  : "none",
+                opacity: isVisible ? (isActive ? 1 : gallery.sideOpacity) : 0,
+                visibility: isVisible ? "visible" : "hidden",
+                zIndex: isActive ? 30 : isNeighbor ? 5 : 1,
                 transform,
                 transformStyle: "preserve-3d",
-                pointerEvents:
-                  mode === "desktop"
-                    ? isVisible
-                      ? "auto"
-                      : "none"
-                    : isActive
-                      ? "auto"
-                      : "none",
+                pointerEvents: isActive ? "auto" : "none",
+                padding: isActive ? "8px" : 0,
               }}
               aria-hidden={!isActive}
               aria-label={`Abrir zoom: ${item.title}`}
               tabIndex={isActive ? 0 : -1}
               onClick={() => handleItemClick(item, index)}
             >
-              <span
-                className="flex h-full w-full items-center justify-center rounded-[8px]"
-                style={{
-                  background: sideCard ? "rgba(12,12,12,0.12)" : "#101010",
-                  padding: sideCard ? "3px" : "8px",
-                }}
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  className="h-full w-full select-none object-contain"
-                  sizes="(max-width: 767px) 84vw, (max-width: 1023px) 74vw, 336px"
-                  loading={isActive ? "eager" : "lazy"}
-                  decoding="async"
-                  draggable={false}
-                />
-              </span>
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="h-full w-full select-none object-contain"
+                sizes="(max-width: 767px) 88vw, (max-width: 1023px) 74vw, 390px"
+                loading={isActive ? "eager" : "lazy"}
+                decoding="async"
+                draggable={false}
+              />
               <span className="sr-only">{item.title}</span>
             </button>
           );
@@ -384,3 +360,5 @@ export function CircularGallery({
     </div>
   );
 }
+
+
