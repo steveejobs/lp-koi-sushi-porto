@@ -350,7 +350,8 @@ export function InstagramMenuTakeAwaySection() {
       </div>
 
       <div
-        className="relative mx-auto mt-2 h-[342px] w-full touch-pan-y overflow-hidden"
+        className="relative mx-auto mt-2 h-[min(68svh,480px)] min-h-[360px] w-full touch-pan-y overflow-hidden"
+        style={{ perspective: "1100px" }}
         role="region"
         aria-label="Cardápio Take Away animado"
         onPointerDown={handlePointerDown}
@@ -361,28 +362,38 @@ export function InstagramMenuTakeAwaySection() {
         {koiMenuPages.map((page, index) => {
           const offset = shortestOffset(index, activeIndex, totalPages);
           const distance = Math.abs(offset);
-          const isVisible = distance <= 1;
           const isActive = distance === 0;
-          const translateX = offset * 74 + dragOffset * 0.16;
-          const scale = isActive ? 1 : 0.82;
-          const opacity = isActive ? 1 : isVisible ? 0.38 : 0;
+          const isVisible = distance <= 1;
+          const itemAngle = offset * -34;
+          const scale = isActive ? 1 : 0.76;
+          const opacity = !isVisible ? 0 : isActive ? 1 : 0.26;
+          const dragX = isActive ? dragOffset * 0.12 : 0;
+          const transform = `translate3d(calc(-50% + ${dragX}px), -50%, 0) rotateY(${itemAngle}deg) translateZ(175px) scale(${scale})`;
 
           return (
             <button
               key={page.id}
               type="button"
-              className={`absolute left-1/2 top-1/2 h-[312px] w-[220px] overflow-hidden rounded-[14px] border border-black/12 bg-neutral-100 p-2 shadow-[0_18px_42px_rgba(16,16,16,0.16)] transition-[opacity,transform] duration-500 ${
+              className={`absolute left-1/2 top-1/2 h-[min(62svh,450px)] min-h-[340px] w-[min(82vw,330px)] overflow-hidden rounded-[14px] p-2 transition-[opacity,transform] duration-500 ${
                 isDragging ? "transition-none" : ""
               }`}
               style={{
+                border: isActive
+                  ? "1px solid rgba(0,0,0,0.12)"
+                  : "1px solid rgba(0,0,0,0.04)",
+                background: isActive ? "#f5f5f5" : "rgba(20,20,20,0.12)",
+                boxShadow: isActive
+                  ? "0 18px 42px rgba(16,16,16,0.16)"
+                  : "0 8px 18px rgba(16,16,16,0.08)",
                 opacity,
-                zIndex: 20 - distance,
-                transform: `translate3d(calc(-50% + ${translateX}px), -50%, 0) scale(${scale}) rotate(${offset * -1.5}deg)`,
-                pointerEvents: isVisible ? "auto" : "none",
+                zIndex: isActive ? 20 : 1,
+                transform,
+                transformStyle: "preserve-3d",
+                pointerEvents: isActive ? "auto" : "none",
               }}
-              aria-hidden={!isVisible}
+              aria-hidden={!isActive}
               aria-label={`Ampliar ${pageLabel(index, totalPages)}`}
-              tabIndex={isVisible ? 0 : -1}
+              tabIndex={isActive ? 0 : -1}
               onClick={() => handleCardClick(index)}
             >
               {isVisible ? (
