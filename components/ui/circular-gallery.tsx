@@ -60,7 +60,7 @@ function useReducedMotion() {
 
 function useResponsiveGallery(radius?: number) {
   const [config, setConfig] = useState({
-    radius: radius ?? 560,
+    radius: radius ?? 500,
     visibleSideCount: 2,
   });
 
@@ -73,10 +73,11 @@ function useResponsiveGallery(radius?: number) {
     const update = () => {
       const width = window.innerWidth;
 
-      if (width < 480) setConfig({ radius: 225, visibleSideCount: 1 });
-      else if (width < 768) setConfig({ radius: 270, visibleSideCount: 1 });
-      else if (width < 1024) setConfig({ radius: 410, visibleSideCount: 2 });
-      else setConfig({ radius: 560, visibleSideCount: 2 });
+      if (width < 480) setConfig({ radius: 215, visibleSideCount: 1 });
+      else if (width < 768) setConfig({ radius: 250, visibleSideCount: 1 });
+      else if (width < 1024) setConfig({ radius: 380, visibleSideCount: 2 });
+      else if (width < 1280) setConfig({ radius: 460, visibleSideCount: 2 });
+      else setConfig({ radius: 520, visibleSideCount: 2 });
     };
 
     update();
@@ -223,7 +224,7 @@ export function CircularGallery({
       role="region"
       aria-label="Cardápio Take Away em galeria circular"
       className={cn(
-        "relative mx-auto flex h-[420px] w-full max-w-[1120px] touch-pan-y items-center justify-center overflow-hidden sm:h-[500px] md:h-[610px]",
+        "relative mx-auto flex h-[440px] w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-visible sm:h-[520px] md:h-[640px] lg:h-[680px]",
         className,
       )}
       style={{ perspective: "1800px", ...style }}
@@ -235,7 +236,7 @@ export function CircularGallery({
     >
       <div
         className={cn(
-          "relative h-full w-full transition-transform duration-150 ease-linear",
+          "relative h-full w-full overflow-visible transition-transform duration-150 ease-linear",
           isDragging && "transition-none",
         )}
         style={{
@@ -254,15 +255,15 @@ export function CircularGallery({
             : isActive
               ? 1
               : distance === 1
-                ? 0.62
-                : 0.24;
-          const scale = isActive ? 1 : distance === 1 ? 0.78 : 0.62;
+                ? 0.58
+                : 0.2;
+          const scale = isActive ? 1 : distance === 1 ? 0.76 : 0.6;
 
           return (
             <button
               key={item.id}
               type="button"
-              className="absolute left-1/2 top-1/2 block h-[320px] w-[228px] overflow-hidden rounded-[18px] border border-white/18 bg-[#111] p-2 text-left shadow-[0_28px_70px_rgba(0,0,0,0.3)] outline-none ring-offset-2 transition-opacity duration-300 focus-visible:ring-4 focus-visible:ring-white/60 sm:h-[390px] sm:w-[278px] md:h-[470px] md:w-[336px]"
+              className="absolute left-1/2 top-1/2 block h-[320px] w-[228px] overflow-hidden rounded-[12px] border border-white/18 bg-[#111] p-2 text-left shadow-[0_28px_70px_rgba(0,0,0,0.3)] outline-none ring-offset-2 transition-opacity duration-300 focus-visible:ring-4 focus-visible:ring-white/60 sm:h-[390px] sm:w-[278px] md:h-[470px] md:w-[336px]"
               style={{
                 opacity,
                 zIndex: Math.round(100 - distance),
@@ -275,7 +276,7 @@ export function CircularGallery({
               tabIndex={isVisible ? 0 : -1}
               onClick={() => handleItemClick(item, index)}
             >
-              <span className="flex h-full w-full items-center justify-center rounded-[12px] bg-neutral-100 p-2">
+              <span className="flex h-full w-full items-center justify-center rounded-[8px] bg-neutral-100 p-2">
                 <img
                   src={item.src}
                   alt={item.alt}

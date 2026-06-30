@@ -12,16 +12,28 @@ const instagramTestimonialNames = [
   "Teresa Sousa",
   "Ná",
 ] as const;
+
 const instagramTestimonials = instagramTestimonialNames.flatMap((name) => {
   const review = chambarReviews.find((item) => item.name === name);
 
   return review ? [review] : [];
 });
 
-function ReviewCard({ review }: { review: KoiReview }) {
+function ReviewCard({
+  review,
+  isHidden = false,
+}: {
+  review: KoiReview;
+  isHidden?: boolean;
+}) {
   return (
-    <article className="h-[136px] w-[280px] shrink-0 rounded-[22px] border border-black/10 bg-white p-4 shadow-[0_10px_24px_rgba(16,16,16,0.055)]">
-      <span className="block h-1.5 w-8 rounded-full bg-[var(--chambar-red)]" />
+    <article
+      className="h-[156px] w-[280px] shrink-0 rounded-[22px] border border-black/10 bg-white p-4 shadow-[0_10px_24px_rgba(16,16,16,0.055)]"
+      aria-hidden={isHidden || undefined}
+    >
+      <span className="block text-sm leading-none text-[#c9a45c]" aria-label="5 estrelas">
+        ★★★★★
+      </span>
       <p className="mt-3 line-clamp-3 text-sm font-bold leading-6 text-neutral-700">
         {review.text}
       </p>
@@ -35,12 +47,44 @@ function ReviewCard({ review }: { review: KoiReview }) {
   );
 }
 
-function ReviewRow({ reviews }: { reviews: KoiReview[] }) {
+function ReviewSet({
+  reviews,
+  isHidden = false,
+}: {
+  reviews: KoiReview[];
+  isHidden?: boolean;
+}) {
   return (
-    <div className="flex gap-3 overflow-x-auto pb-2">
+    <div
+      className="ig-testimonials-set flex gap-3"
+      aria-hidden={isHidden || undefined}
+    >
       {reviews.map((review) => (
-        <ReviewCard key={review.name} review={review} />
+        <ReviewCard
+          key={`${review.name}-${isHidden ? "loop" : "original"}`}
+          review={review}
+          isHidden={isHidden}
+        />
       ))}
+    </div>
+  );
+}
+
+function ReviewRow({
+  reviews,
+  direction,
+}: {
+  reviews: KoiReview[];
+  direction: "left" | "right";
+}) {
+  return (
+    <div className="ig-testimonials-row overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+      <div
+        className={`ig-testimonials-track ig-testimonials-${direction} flex w-max gap-3 will-change-transform`}
+      >
+        <ReviewSet reviews={reviews} />
+        <ReviewSet reviews={reviews} isHidden />
+      </div>
     </div>
   );
 }
@@ -62,8 +106,8 @@ export function InstagramTestimonialsMarquee() {
         </p>
       </div>
       <div className="mt-4 grid gap-3">
-        <ReviewRow reviews={firstRow} />
-        <ReviewRow reviews={secondRow} />
+        <ReviewRow reviews={firstRow} direction="left" />
+        <ReviewRow reviews={secondRow} direction="right" />
       </div>
     </section>
   );

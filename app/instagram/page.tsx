@@ -1,15 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { CSSProperties, ReactNode } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
-import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
+import { InstagramMenuTakeAwaySection } from "@/components/InstagramMenuTakeAwaySection";
 import { InstagramTestimonialsMarquee } from "@/components/InstagramTestimonialsMarquee";
-import { InstagramVideoMoment } from "@/components/InstagramVideoMoment";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
-import {
-  instagramFoodGalleryMedia,
-  logoMedia,
-  scrollExperienceMedia,
-} from "@/data/chambar-media";
+import { logoMedia } from "@/data/chambar-media";
 import {
   FULL_SITE_URL,
   GOOGLE_MAPS_URL,
@@ -95,8 +91,8 @@ function LinkButton({
   delay,
 }: {
   href: string;
-  children: React.ReactNode;
-  icon: React.ReactNode;
+  children: ReactNode;
+  icon: ReactNode;
   primary?: boolean;
   delay: number;
 }) {
@@ -110,7 +106,7 @@ function LinkButton({
           ? "border-neutral-950 bg-neutral-950 text-white shadow-[0_16px_34px_rgba(16,16,16,0.16)]"
           : "border-black/10 bg-white text-neutral-950 shadow-[0_10px_26px_rgba(16,16,16,0.05)]"
       }`}
-      style={{ "--ig-delay": `${delay}ms` } as React.CSSProperties}
+      style={{ "--ig-delay": `${delay}ms` } as CSSProperties}
     >
       <span className="flex items-center gap-3">
         <span
@@ -167,8 +163,6 @@ export default function InstagramLinksPage() {
           </div>
         </header>
 
-        <InstagramMediaMarquee media={instagramFoodGalleryMedia} />
-
         <nav className="mt-5 grid gap-3" aria-label="Links principais">
           <LinkButton
             href={getWhatsappUrl("instagram")}
@@ -192,16 +186,13 @@ export default function InstagramLinksPage() {
           </LinkButton>
         </nav>
 
-        <InstagramVideoMoment
-          videoSrc={scrollExperienceMedia.mobileVideo}
-          posterSrc={scrollExperienceMedia.background.src}
-        />
+        <InstagramMenuTakeAwaySection />
 
         <InstagramTestimonialsMarquee />
 
         <section
           className="ig-rise mt-5 rounded-[24px] bg-[var(--chambar-black)] p-4 text-white shadow-[0_14px_34px_rgba(16,16,16,0.12)]"
-          style={{ "--ig-delay": "640ms" } as React.CSSProperties}
+          style={{ "--ig-delay": "640ms" } as CSSProperties}
         >
           <h2 className="text-2xl font-black leading-tight">
             Estamos no Porto.

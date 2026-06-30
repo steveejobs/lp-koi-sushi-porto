@@ -244,6 +244,29 @@ img {
   .no-scrollbar {
     scrollbar-width: none;
   }
+  .koi-menu-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201, 164, 92, 0.75) rgba(255, 255, 255, 0.06);
+  }
+
+  .koi-menu-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .koi-menu-scroll::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .koi-menu-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: linear-gradient(180deg, #c9a45c, #8f1d22);
+  }
+
+  .koi-menu-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #e0bd72, #b31625);
+  }
 
   .in-view-reveal {
     opacity: 0;
@@ -351,11 +374,13 @@ img {
 }
 
 .ig-testimonials-left {
-  animation: igMarqueeLeft 38s linear infinite;
+  animation: igMarqueeLeft var(--ig-testimonials-duration-left, 156s) linear
+    infinite;
 }
 
 .ig-testimonials-right {
-  animation: igMarqueeRight 44s linear infinite;
+  animation: igMarqueeRight var(--ig-testimonials-duration-right, 168s) linear
+    infinite;
 }
 
 .ig-video-reveal {
@@ -437,6 +462,8 @@ img {
 .chambar-testimonials-row {
   --testimonial-gap: 20px;
   --testimonial-half-gap: 10px;
+  --testimonial-marquee-duration: 124s;
+  --testimonial-marquee-duration-right: 136s;
   overflow: hidden;
   padding-block: 4px;
   mask-image: linear-gradient(
@@ -453,7 +480,7 @@ img {
   width: max-content;
   gap: var(--testimonial-gap);
   will-change: transform;
-  animation-duration: 86s;
+  animation-duration: var(--testimonial-marquee-duration);
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -464,7 +491,7 @@ img {
 
 .chambar-testimonials-track-right {
   animation-name: marquee-right;
-  animation-duration: 94s;
+  animation-duration: var(--testimonial-marquee-duration-right);
 }
 
 .chambar-testimonials-row:hover .chambar-testimonials-track,
@@ -558,6 +585,7 @@ img {
 
   .ig-rise,
   .ig-marquee,
+  .ig-testimonials-track,
   .chambar-testimonials-track,
   .ig-video-reveal {
     animation: none !important;
@@ -592,8 +620,21 @@ img {
   .chambar-testimonials-set[aria-hidden="true"] {
     display: none;
   }
-}
+  .ig-testimonials-row {
+    overflow-x: auto;
+    mask-image: none;
+  }
 
+  .ig-testimonials-track {
+    width: 100%;
+    transform: none !important;
+  }
+
+  .ig-testimonials-set[aria-hidden="true"] {
+    display: none;
+  }
+
+}
 @media (max-width: 480px) {
   .container-page {
     width: min(100% - 24px, 1180px);
@@ -612,6 +653,8 @@ img {
   .chambar-testimonials-row {
     --testimonial-gap: 14px;
     --testimonial-half-gap: 7px;
+    --testimonial-marquee-duration: 148s;
+    --testimonial-marquee-duration-right: 162s;
     mask-image: linear-gradient(
       90deg,
       transparent,
@@ -620,19 +663,20 @@ img {
       transparent
     );
   }
-
-  .chambar-testimonials-track {
-    animation-duration: 108s;
-  }
-
-  .chambar-testimonials-track-right {
-    animation-duration: 118s;
-  }
-
   .chambar-testimonial-card {
     width: clamp(260px, 82vw, 310px);
     min-height: 218px;
     padding: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .ig-testimonials-left {
+    --ig-testimonials-duration-left: 132s;
+  }
+
+  .ig-testimonials-right {
+    --ig-testimonials-duration-right: 148s;
   }
 }
 

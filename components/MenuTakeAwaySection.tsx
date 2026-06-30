@@ -77,7 +77,7 @@ function MenuPagesLightbox({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/86 px-3 py-3 backdrop-blur-sm md:px-6 md:py-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/82 px-2 py-2 backdrop-blur-sm md:px-6 md:py-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="menu-page-title"
@@ -85,57 +85,59 @@ function MenuPagesLightbox({
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="grid max-h-[96svh] w-full max-w-6xl grid-rows-[auto_1fr_auto] overflow-hidden rounded-[22px] bg-[#0d0b0b] text-white shadow-[0_30px_90px_rgba(0,0,0,0.46)] md:rounded-[28px]">
-        <header className="flex items-start justify-between gap-3 border-b border-white/10 p-4 md:p-5">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-white/55">
-              Cardápio Take Away
+      <div className="grid h-[96svh] max-h-[94vh] w-full max-w-[min(1480px,96vw)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden rounded-[16px] border border-white/10 bg-[#100d0c] text-white shadow-[0_30px_90px_rgba(0,0,0,0.5)] md:h-[94vh] md:rounded-[18px]">
+        <header className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-5 md:py-4">
+          <div className="min-w-0">
+            <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#c9a45c]">
+              CARDÁPIO TAKE AWAY
             </p>
             <h2
               id="menu-page-title"
-              className="mt-1 text-xl font-black leading-tight md:text-2xl"
+              className="mt-1 text-base font-black leading-tight text-white md:text-xl"
             >
-              {pageLabel(activeIndex, totalPages)}
+              Menu Take Away · {pageLabel(activeIndex, totalPages)}
             </h2>
           </div>
           <button
             ref={closeButtonRef}
             type="button"
-            className="shrink-0 rounded-full border border-white/20 bg-white px-4 py-2 text-sm font-black text-neutral-950"
+            className="shrink-0 rounded-full border border-white/15 bg-white px-4 py-2 text-sm font-black text-neutral-950 transition hover:bg-[#f5e7cf]"
             onClick={onClose}
+            aria-label="Fechar cardápio"
           >
             Fechar
           </button>
         </header>
 
-        <div className="min-h-0 overflow-y-auto p-3 md:p-5">
-          <div className="flex min-h-0 items-center justify-center rounded-[18px] bg-black/35 p-2 md:p-4">
+        <div className="grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-3 overflow-hidden p-3 md:grid-cols-[minmax(0,1fr)_320px] md:grid-rows-1 md:gap-4 md:p-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="flex min-h-0 items-center justify-center overflow-hidden rounded-[12px] border border-white/8 bg-[#070606]/88 p-2 md:p-4">
             <img
               src={activePage.src}
               alt={activePage.alt}
-              className="max-h-[58svh] w-full max-w-[96vw] object-contain md:max-h-[66vh]"
+              className="max-h-[68svh] w-full max-w-full object-contain sm:max-h-[72svh] md:max-h-[calc(94vh-210px)]"
               loading="eager"
               decoding="async"
             />
           </div>
 
-          <div className="mt-4 rounded-[18px] border border-white/10 bg-white/6 p-3">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-white/55">
-              Ver as 14 páginas
+          <aside className="min-h-0 rounded-[12px] border border-white/10 bg-white/[0.045] p-2 md:flex md:flex-col md:p-3">
+            <p className="mb-2 hidden text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/50 md:block">
+              Páginas
             </p>
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-5">
+            <div className="koi-menu-scroll flex gap-2 overflow-x-auto pb-1 md:min-h-0 md:flex-1 md:flex-col md:overflow-x-hidden md:overflow-y-auto md:pr-1">
               {pages.map((page, index) => (
                 <button
                   key={page.id}
                   type="button"
-                  className={`rounded-2xl border p-2 text-left transition ${
+                  className={`flex w-[88px] shrink-0 items-center gap-2 rounded-[10px] border p-2 text-left transition md:w-full ${
                     index === activeIndex
-                      ? "border-white bg-white text-neutral-950"
-                      : "border-white/10 bg-black/20 text-white hover:border-white/35"
+                      ? "border-[#c9a45c] bg-[#c9a45c]/18 text-white"
+                      : "border-white/10 bg-black/18 text-white hover:border-white/30 hover:bg-white/8"
                   }`}
                   onClick={() => goToPage(index)}
+                  aria-label={`Abrir página ${index + 1} de ${totalPages}`}
                 >
-                  <span className="flex aspect-[0.72] w-full items-center justify-center overflow-hidden rounded-xl bg-white">
+                  <span className="flex h-[72px] w-14 shrink-0 items-center justify-center overflow-hidden rounded-[7px] bg-white md:h-20 md:w-16">
                     <img
                       src={page.src}
                       alt=""
@@ -144,34 +146,34 @@ function MenuPagesLightbox({
                       decoding="async"
                     />
                   </span>
-                  <span className="mt-2 block text-xs font-black leading-tight">
-                    {pageLabel(index, totalPages)}
+                  <span className="block min-w-0 text-xs font-black leading-tight">
+                    Página {index + 1}
                   </span>
                 </button>
               ))}
             </div>
-          </div>
+          </aside>
         </div>
 
-        <footer className="grid grid-cols-1 items-center gap-2 border-t border-white/10 p-3 sm:grid-cols-[auto_1fr_auto] md:gap-3 md:p-5">
-          <button
-            type="button"
-            className="flex min-h-12 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white"
-            onClick={() => goToPage(activeIndex - 1)}
-          >
-            Anterior
-          </button>
+        <footer className="grid grid-cols-2 items-center gap-2 border-t border-white/10 px-3 py-3 md:grid-cols-[132px_minmax(220px,520px)_132px] md:justify-center md:gap-3 md:px-5 md:py-4">
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
-            className="btn btn-primary min-h-12 w-full"
+            className="btn btn-primary col-span-2 min-h-11 w-full md:col-span-1 md:col-start-2"
           >
             Pedir pelo WhatsApp
           </a>
           <button
             type="button"
-            className="flex min-h-12 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white"
+            className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white transition hover:border-white/45 md:col-start-1 md:row-start-1"
+            onClick={() => goToPage(activeIndex - 1)}
+          >
+            Anterior
+          </button>
+          <button
+            type="button"
+            className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white transition hover:border-white/45 md:col-start-3 md:row-start-1"
             onClick={() => goToPage(activeIndex + 1)}
           >
             Seguinte
@@ -212,8 +214,11 @@ export function MenuTakeAwaySection() {
   };
 
   return (
-    <section id="menu-take-away" className="section-pad bg-[#fffdf9]">
-      <div className="container-page">
+    <section
+      id="menu-take-away"
+      className="section-pad overflow-x-clip bg-[#fffdf9]"
+    >
+      <div className="mx-auto w-full max-w-[1480px] px-[clamp(24px,5vw,88px)] max-[480px]:px-3">
         <div className="mx-auto max-w-5xl text-center">
           <p className="inline-flex rounded-full bg-[var(--chambar-red)] px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-white shadow-sm">
             1 caixa &middot; 4 tipos &agrave; escolha &middot; 8&euro;
@@ -251,7 +256,7 @@ export function MenuTakeAwaySection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-3 flex max-w-6xl justify-center md:mt-5">
+        <div className="mx-auto mt-3 flex w-full max-w-[1280px] justify-center overflow-visible md:mt-5">
           {galleryItems.length > 0 ? (
             <CircularGallery
               items={galleryItems}
