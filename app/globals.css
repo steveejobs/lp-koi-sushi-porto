@@ -1,13 +1,19 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --background: #fffdf9;
   --foreground: #141414;
-  --chambar-red: #c41e2f;
+  --chambar-red: #9f1623;
   --chambar-black: #050505;
   --chambar-graphite: #242424;
   --chambar-line: #e8e0d8;
   --chambar-warm: #b87a43;
+  --koi-lacquer: #9f1623;
+  --koi-lacquer-dark: #5d090f;
+  --koi-gold: #b88a3d;
+  --koi-ink: #080807;
+  --koi-jade: #193d35;
+  --koi-rice: #fbf5eb;
 }
 
 * {
@@ -128,6 +134,107 @@ img {
 
   .fine-border {
     border: 1px solid rgba(16, 16, 16, 0.1);
+  }
+
+  .koi-rice-paper {
+    background:
+      radial-gradient(
+        circle at 18% 18%,
+        rgba(184, 138, 61, 0.08),
+        transparent 30%
+      ),
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.72),
+        rgba(251, 245, 235, 0.92)
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(8, 8, 7, 0.024) 0,
+        rgba(8, 8, 7, 0.024) 1px,
+        transparent 1px,
+        transparent 11px
+      ),
+      var(--koi-rice);
+  }
+
+  .koi-chinese-panel {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(184, 138, 61, 0.24);
+    background:
+      linear-gradient(135deg, rgba(8, 8, 7, 0.96), rgba(25, 61, 53, 0.92)),
+      var(--koi-ink);
+    color: white;
+    box-shadow: 0 24px 70px rgba(8, 8, 7, 0.18);
+  }
+
+  .koi-chinese-panel::after {
+    position: absolute;
+    inset: auto -36px -54px auto;
+    width: 160px;
+    height: 160px;
+    border: 1px solid rgba(184, 138, 61, 0.18);
+    border-radius: 999px;
+    background: rgba(159, 22, 35, 0.16);
+    content: "";
+  }
+
+  .koi-gold-divider {
+    height: 1px;
+    width: min(100%, 180px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(184, 138, 61, 0.92),
+      transparent
+    );
+  }
+
+  .koi-lattice-bg {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .koi-lattice-bg::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.18;
+    background:
+      linear-gradient(
+          45deg,
+          transparent 47%,
+          rgba(184, 138, 61, 0.5) 48%,
+          rgba(184, 138, 61, 0.5) 52%,
+          transparent 53%
+        )
+        0 0 / 34px 34px,
+      linear-gradient(
+          -45deg,
+          transparent 47%,
+          rgba(184, 138, 61, 0.36) 48%,
+          rgba(184, 138, 61, 0.36) 52%,
+          transparent 53%
+        )
+        0 0 / 34px 34px;
+    content: "";
+  }
+
+  .koi-red-seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(184, 138, 61, 0.55);
+    border-radius: 999px;
+    background: linear-gradient(
+      135deg,
+      var(--koi-lacquer-dark),
+      var(--koi-lacquer)
+    );
+    color: #fff7e8;
+    box-shadow: 0 12px 26px rgba(95, 9, 15, 0.2);
   }
 
   .no-scrollbar::-webkit-scrollbar {

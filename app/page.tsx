@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { KoiEstablishmentSection } from "@/components/chambar/KoiEstablishmentSection";
 import { KoiTestimonialsMarquee } from "@/components/chambar/KoiTestimonialsMarquee";
 import { MenuTakeAwaySection } from "@/components/MenuTakeAwaySection";
@@ -46,6 +46,42 @@ const experiences = [
   },
 ];
 
+const introCards = [
+  {
+    title: "Menu Infinity",
+    text: "Coma à vontade no restaurante.",
+  },
+  {
+    title: "Cozinha chinesa",
+    text: "Pratos quentes, massas, arroz e entradas.",
+  },
+  {
+    title: "Take Away",
+    text: "Veja o menu completo e peça pelo WhatsApp.",
+  },
+];
+
+const chineseCuisineCards = [
+  {
+    title: "Entradas",
+    text: "Opções para começar e partilhar à mesa.",
+  },
+  {
+    title: "Massas",
+    text: "Pratos quentes para completar a refeição.",
+  },
+  {
+    title: "Arroz",
+    text: "Acompanhamentos e combinações do menu.",
+  },
+  {
+    title: "Pratos quentes",
+    text: "Opções preparadas na hora para restaurante ou Take Away.",
+  },
+];
+
+const heroChips = ["Sushi", "Cozinha chinesa", "Pratos quentes", "Take Away"];
+
 const differentials = [
   {
     title: "Menu Infinity",
@@ -92,8 +128,8 @@ export default function Home() {
                 Sushi e cozinha chinesa no Porto
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-neutral-600 md:text-xl">
-                Menu Infinity, All You Can Eat e Take Away com sushi, cozinha
-                chinesa e pratos preparados na hora.
+                Menu Infinity, All You Can Eat e Take Away com sushi, pratos
+                chineses e tudo preparado na hora.
               </p>
               <p className="mt-4 text-sm font-black uppercase tracking-[0.08em] text-neutral-700">
                 Koi Sushi Porto · {CHAMBAR_CONFIG.openingHours}
@@ -119,9 +155,18 @@ export default function Home() {
                   Ver localização
                 </a>
               </div>
-              <div className="mt-9 flex items-center gap-4 border-l-2 border-[var(--chambar-red)] pl-4 text-sm font-bold text-neutral-700">
-                <span className="h-3 w-3 rounded-full bg-[var(--chambar-red)]" />
-                <span>Menu Infinity · All You Can Eat · Take Away</span>
+              <div className="mt-8 flex flex-wrap items-center gap-2">
+                {heroChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="rounded-full border border-black/10 bg-white/82 px-4 py-2 text-xs font-black uppercase tracking-wide text-neutral-800 shadow-sm"
+                  >
+                    {chip}
+                  </span>
+                ))}
+                <span className="koi-red-seal px-4 py-2 text-xs font-black uppercase tracking-wide">
+                  Preparado na hora
+                </span>
               </div>
             </div>
 
@@ -131,47 +176,99 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section-pad bg-white">
+        <section className="section-pad koi-rice-paper">
           <div className="container-page">
             <Reveal threshold={0.42} className="max-w-3xl">
               <p className="text-sm font-black text-[var(--chambar-red)]">
                 KOI SUSHI PORTO
               </p>
               <h2 className="mt-4 text-4xl font-black leading-[1.04] text-neutral-950 md:text-6xl">
-                Sushi, cozinha chinesa e pratos preparados na hora.
+                Sushi, cozinha chinesa e momentos à mesa.
               </h2>
               <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
                 O Koi Sushi Porto é um restaurante na Estrada Exterior da
-                Circunvalação, no Porto, pensado para quem aprecia sushi,
-                cozinha chinesa, convívio e momentos à mesa.
+                Circunvalação, no Porto, pensado para quem aprecia sushi, pratos
+                chineses, convívio e comida preparada na hora.
               </p>
               <p className="mt-4 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                No Menu Infinity – All You Can Eat, pode desfrutar de diferentes
-                peças de sushi e pratos chineses preparados na hora. Para quem
-                prefere algo rápido, há também Take Away pelo WhatsApp.
+                No Menu Infinity – All You Can Eat, pode desfrutar de peças de
+                sushi, entradas, massas, arroz e pratos quentes. Para levar, há
+                Take Away pelo WhatsApp.
               </p>
             </Reveal>
+
+            <div className="mt-9 grid gap-4 md:grid-cols-3">
+              {introCards.map((card, index) => (
+                <Reveal key={card.title} delay={index * 90} threshold={0.24}>
+                  <article className="koi-chinese-panel koi-lattice-bg h-full rounded-lg p-5">
+                    <div className="koi-gold-divider mb-6" />
+                    <h3 className="relative z-10 text-xl font-black">
+                      {card.title}
+                    </h3>
+                    <p className="relative z-10 mt-3 text-sm font-bold leading-6 text-white/72">
+                      {card.text}
+                    </p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
-        <ScrollExperienceFeature />
-
         <MenuTakeAwaySection />
+
+        <section className="section-pad koi-chinese-panel koi-lattice-bg">
+          <div className="container-page relative z-10">
+            <Reveal threshold={0.42} className="max-w-3xl">
+              <span className="eyebrow text-[var(--koi-gold)]">
+                Cozinha chinesa
+              </span>
+              <h2 className="mt-5 text-4xl font-black leading-[1.04] text-white md:text-6xl">
+                Cozinha chinesa preparada na hora.
+              </h2>
+              <div className="koi-gold-divider my-6" />
+              <p className="max-w-2xl text-base font-bold leading-7 text-white/72 md:text-lg">
+                Pratos quentes, entradas, massas e arroz para completar a
+                refeição no restaurante ou no Take Away.
+              </p>
+            </Reveal>
+
+            <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {chineseCuisineCards.map((card, index) => (
+                <Reveal key={card.title} delay={index * 80} threshold={0.22}>
+                  <article className="h-full rounded-lg border border-white/12 bg-white/7 p-5 backdrop-blur">
+                    <span className="koi-red-seal h-8 px-3 text-[0.68rem] font-black uppercase tracking-wide">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-5 text-xl font-black text-white">
+                      {card.title}
+                    </h3>
+                    <p className="mt-3 text-sm font-bold leading-6 text-white/68">
+                      {card.text}
+                    </p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <FoodGallerySection
           id="galeria-generica"
           eyebrow="Galeria"
-          title="Cortes, brilho e apetite."
-          copy="Imagens para escolher antes do primeiro pedido."
+          title="Sushi, wok e pratos para partilhar."
+          copy="Veja sushi, pratos chineses e detalhes do Koi antes de pedir."
           images={genericGalleryImages}
           categories={[
             "Sushi",
             "Cozinha chinesa",
             "Pratos quentes",
-            "Peças especiais",
+            "Take Away",
           ]}
           backgroundClassName="bg-[#f7f2ec]"
         />
+
+        <ScrollExperienceFeature />
 
         <KoiEstablishmentSection />
 
@@ -219,7 +316,7 @@ export default function Home() {
           <div className="container-page">
             <div className="fine-border rounded-lg bg-[#fffdf9] p-6 md:flex md:items-center md:justify-between md:gap-8">
               <p className="max-w-2xl text-2xl font-black leading-tight text-neutral-950">
-                Sushi, peças especiais e pratos chineses preparados na hora.
+                Peças de sushi e pratos chineses preparados na hora.
               </p>
               <p className="mt-4 max-w-md text-sm font-bold leading-6 text-neutral-600 md:mt-0">
                 Escolha o que lhe apetece e faça o seu pedido de Take Away pelo
@@ -232,19 +329,19 @@ export default function Home() {
         <FoodGallerySection
           id="pratos-local"
           eyebrow="À mesa"
-          title="Sushi e pratos chineses do Koi"
-          copy="Sushi, peças especiais e pratos chineses preparados na hora."
+          title="Da cozinha para a mesa."
+          copy="Peças de sushi e pratos chineses preparados na hora."
           images={localDishGalleryImages}
           categories={[
             "Sushi",
-            "Peças especiais",
+            "Pratos chineses",
             "Pratos quentes",
             "Mesa Koi",
           ]}
           backgroundClassName="bg-white"
         />
 
-        <section className="section-pad bg-white">
+        <section className="section-pad koi-rice-paper">
           <div className="container-page">
             <Reveal threshold={0.45}>
               <SectionIntro

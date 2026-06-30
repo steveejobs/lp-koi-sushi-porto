@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { heroImage } from "@/data/chambar-media";
 import { images } from "@/lib/site";
 
@@ -58,7 +58,7 @@ export function HeroInteractiveIntro() {
               Menu Infinity · All You Can Eat · Take Away
             </p>
             <p className="mt-3 max-w-md text-2xl font-black leading-[1.05] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] md:text-4xl">
-              Sushi e cozinha chinesa no Porto.
+              Sushi, cozinha chinesa e pratos quentes no Porto.
             </p>
           </div>
         </div>

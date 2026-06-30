@@ -1,4 +1,4 @@
-export type KoiMenuItem = {
+﻿export type KoiMenuItem = {
   code: string;
   name: string;
   category: string;
@@ -26,7 +26,7 @@ export const KOI_MENU_CATEGORIES = [
   {
     id: "sashimi",
     title: "Sashimi",
-    description: "Cortes frescos para uma caixa leve e directa.",
+    description: "Opções de peixe para uma caixa leve e directa.",
     items: [
       item("31", "Sashimi Salmão", "Sashimi"),
       item("32", "Sashimi Atum", "Sashimi"),
@@ -66,7 +66,7 @@ export const KOI_MENU_CATEGORIES = [
   {
     id: "gunkan",
     title: "Gunkan",
-    description: "Peças especiais com combinações cremosas e frescas.",
+    description: "Peças especiais com combinações cremosas.",
     items: [
       item("B1", "Salmão com morangos", "Gunkan"),
       item("B2", "Salmão com abacate", "Gunkan"),
@@ -88,7 +88,7 @@ export const KOI_MENU_CATEGORIES = [
   {
     id: "sushi-frito",
     title: "Sushi Frito",
-    description: "Opções crocantes para contrastar com as peças frescas.",
+    description: "Opções crocantes para contrastar com a caixa de sushi.",
     items: [
       item("F1", "Maki Frito", "Sushi Frito"),
       item("F2", "Maki Frito com Queijo", "Sushi Frito"),

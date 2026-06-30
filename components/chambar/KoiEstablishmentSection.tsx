@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { CHAMBAR_CONFIG } from "@/data/chambar-config";
 import { establishmentImages } from "@/data/chambar-media";
 
@@ -21,7 +21,7 @@ export function KoiEstablishmentSection() {
   const mainImage = establishmentImages[0];
 
   return (
-    <section id="ambiente" className="section-pad bg-[#fffdf9]">
+    <section id="ambiente" className="section-pad koi-rice-paper">
       <div className="container-page">
         <div className="grid gap-8 md:grid-cols-[0.78fr_1.22fr] md:items-end">
           <div>
@@ -32,7 +32,7 @@ export function KoiEstablishmentSection() {
           </div>
           <p className="max-w-xl text-base font-semibold leading-7 text-neutral-600 md:justify-self-end md:text-lg">
             Restaurante preparado para Menu Infinity, All You Can Eat, sushi,
-            cozinha chinesa e Take Away.
+            pratos chineses, convívio e Take Away.
           </p>
         </div>
 

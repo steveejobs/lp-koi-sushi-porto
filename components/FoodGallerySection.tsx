@@ -1,10 +1,7 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
-import {
-  genericGalleryImages,
-  type KoiMediaAsset,
-} from "@/data/chambar-media";
+import { genericGalleryImages, type KoiMediaAsset } from "@/data/chambar-media";
 
 type FoodGallerySectionProps = {
   id?: string;
@@ -17,11 +14,11 @@ type FoodGallerySectionProps = {
 };
 
 const defaultCategories = [
-  "Sushis",
-  "Frutos do mar",
-  "Combinados",
-  "Peças especiais",
-  "Experiência",
+  "Sushi",
+  "Pratos chineses",
+  "Pratos quentes",
+  "Take Away",
+  "À mesa",
 ];
 
 function GalleryCard({
@@ -106,8 +103,8 @@ function GalleryLoop({
 export function FoodGallerySection({
   id = "galeria-generica",
   eyebrow = "Galeria",
-  title = "Cortes, brilho e desejo.",
-  copy = "Imagens para abrir o apetite antes do primeiro pedido.",
+  title = "Sushi, wok e pratos para partilhar.",
+  copy = "Veja sushi, pratos chineses e detalhes do Koi antes de pedir.",
   images = genericGalleryImages,
   categories = defaultCategories,
   backgroundClassName = "bg-[#f7f2ec]",

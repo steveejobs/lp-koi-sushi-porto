@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
 import { InstagramTestimonialsMarquee } from "@/components/InstagramTestimonialsMarquee";
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: "/instagram",
     images: [
       {
-        url: "/chambar/og-chambar.jpg",
+        url: "/koi/hero/koi-sushi-porto-hero.jpg",
         width: 1600,
         height: 900,
         alt: "Koi Sushi Porto",
@@ -148,7 +148,7 @@ export default function InstagramLinksPage() {
             Sushi, cozinha chinesa e Take Away no Porto.
           </p>
           <p className="mx-auto mt-3 max-w-[20rem] text-sm font-bold leading-6 text-neutral-600">
-            Menu Infinity, All You Can Eat e pratos preparados na hora.
+            Menu Infinity, pratos chineses, sushi e Take Away preparado na hora.
           </p>
           <p className="mt-4 inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-3.5 py-2 text-xs font-black text-neutral-900 shadow-[0_10px_22px_rgba(16,16,16,0.04)]">
             <span className="mr-2 text-[var(--chambar-red)]">★★★★★</span>

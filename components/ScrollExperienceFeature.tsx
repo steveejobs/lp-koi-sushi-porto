@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { scrollExperienceMedia } from "@/data/chambar-media";
@@ -13,7 +13,7 @@ export function ScrollExperienceFeature() {
       bgImageSrc={scrollExperienceMedia.background.src}
       title="O Koi servido à mesa."
       date="À MESA"
-      scrollToExpand="Sushi, pratos quentes e detalhes preparados na hora."
+      scrollToExpand="Sushi, cozinha chinesa e pratos preparados na hora."
     />
   );
 }
