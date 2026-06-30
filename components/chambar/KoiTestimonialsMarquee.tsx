@@ -1,3 +1,5 @@
+"use client";
+
 import {
   type KoiTestimonial,
   chambarTestimonials,
@@ -27,15 +29,9 @@ function RatingStars({ rating }: { rating: KoiTestimonial["rating"] }) {
   );
 }
 
-function TestimonialCard({
-  testimonial,
-  hidden = false,
-}: {
-  testimonial: KoiTestimonial;
-  hidden?: boolean;
-}) {
+function TestimonialCard({ testimonial }: { testimonial: KoiTestimonial }) {
   return (
-    <article aria-hidden={hidden || undefined} className="chambar-testimonial-card">
+    <article className="chambar-testimonial-card">
       <span className="chambar-testimonial-accent" aria-hidden="true" />
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
@@ -68,18 +64,15 @@ function TestimonialCard({
 
 function TestimonialsSet({
   testimonials,
-  hidden,
 }: {
   testimonials: KoiTestimonial[];
-  hidden?: boolean;
 }) {
   return (
-    <div className="chambar-testimonials-set" aria-hidden={hidden}>
+    <div className="chambar-testimonials-set">
       {testimonials.map((testimonial) => (
         <TestimonialCard
           key={`${testimonial.quote}-${testimonial.context}`}
           testimonial={testimonial}
-          hidden={hidden}
         />
       ))}
     </div>
@@ -88,18 +81,15 @@ function TestimonialsSet({
 
 function TestimonialsRow({
   testimonials,
-  direction,
 }: {
   testimonials: KoiTestimonial[];
-  direction: "left" | "right";
 }) {
   return (
     <div className="chambar-testimonials-row">
       <div
-        className={`chambar-testimonials-track chambar-testimonials-track-${direction}`}
+        className="chambar-testimonials-track"
       >
         <TestimonialsSet testimonials={testimonials} />
-        <TestimonialsSet testimonials={testimonials} hidden />
       </div>
     </div>
   );
@@ -131,8 +121,8 @@ export function KoiTestimonialsMarquee() {
       </div>
 
       <div className="mt-10 space-y-4 overflow-hidden md:mt-12 md:space-y-5">
-        <TestimonialsRow testimonials={rowOne} direction="left" />
-        <TestimonialsRow testimonials={rowTwo} direction="right" />
+        <TestimonialsRow testimonials={rowOne} />
+        <TestimonialsRow testimonials={rowTwo} />
       </div>
     </section>
   );

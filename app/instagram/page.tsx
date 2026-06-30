@@ -5,7 +5,6 @@ import { InstagramTestimonialsMarquee } from "@/components/InstagramTestimonials
 import { InstagramVideoMoment } from "@/components/InstagramVideoMoment";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
-import { chambarReviews } from "@/data/chambar-reviews";
 import {
   instagramFoodGalleryMedia,
   logoMedia,
@@ -46,21 +45,6 @@ const nightOptions = [
   "Take Away",
   "12h–15h | 19h–23h",
 ];
-const instagramTestimonialNames = [
-  "Anny",
-  "Carolina Castanho",
-  "Giovana Naiff",
-  "Eduardo",
-  "Sheila Freire",
-  "Leticia Pi",
-  "Teresa Sousa",
-  "Ná",
-] as const;
-const instagramTestimonials = instagramTestimonialNames.flatMap((name) => {
-  const review = chambarReviews.find((item) => item.name === name);
-
-  return review ? [review] : [];
-});
 
 function IconArrow() {
   return (
@@ -213,7 +197,7 @@ export default function InstagramLinksPage() {
           posterSrc={scrollExperienceMedia.background.src}
         />
 
-        <InstagramTestimonialsMarquee reviews={instagramTestimonials} />
+        <InstagramTestimonialsMarquee />
 
         <section
           className="ig-rise mt-5 rounded-[24px] bg-[var(--chambar-black)] p-4 text-white shadow-[0_14px_34px_rgba(16,16,16,0.12)]"
