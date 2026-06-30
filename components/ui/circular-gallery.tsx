@@ -20,19 +20,26 @@ type CircularGalleryProps = Omit<HTMLAttributes<HTMLDivElement>, "onClick"> & {
   radius?: number;
   autoRotateSpeed?: number;
   onItemClick?: (item: CircularGalleryItem, index: number) => void;
+  onActiveIndexChange?: (index: number) => void;
 };
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-function normalizeAngle(angle: number) {
-  return ((angle % 360) + 360) % 360;
+function wrapIndex(index: number, length: number) {
+  if (length <= 0) return 0;
+  return ((index % length) + length) % length;
 }
 
-function frontDistance(angle: number) {
-  const normalized = normalizeAngle(angle);
-  return Math.abs(normalized > 180 ? 360 - normalized : normalized);
+function shortestOffset(index: number, activeIndex: number, length: number) {
+  let offset = index - activeIndex;
+  const half = length / 2;
+
+  if (offset > half) offset -= length;
+  if (offset < -half) offset += length;
+
+  return offset;
 }
 
 function useReducedMotion() {
@@ -51,22 +58,25 @@ function useReducedMotion() {
   return reducedMotion;
 }
 
-function useResponsiveRadius(radius?: number) {
-  const [resolvedRadius, setResolvedRadius] = useState(radius ?? 560);
+function useResponsiveGallery(radius?: number) {
+  const [config, setConfig] = useState({
+    radius: radius ?? 560,
+    visibleSideCount: 2,
+  });
 
   useEffect(() => {
     if (typeof radius === "number") {
-      setResolvedRadius(radius);
+      setConfig({ radius, visibleSideCount: 2 });
       return;
     }
 
     const update = () => {
       const width = window.innerWidth;
 
-      if (width < 480) setResolvedRadius(240);
-      else if (width < 768) setResolvedRadius(280);
-      else if (width < 1024) setResolvedRadius(410);
-      else setResolvedRadius(560);
+      if (width < 480) setConfig({ radius: 225, visibleSideCount: 1 });
+      else if (width < 768) setConfig({ radius: 270, visibleSideCount: 1 });
+      else if (width < 1024) setConfig({ radius: 410, visibleSideCount: 2 });
+      else setConfig({ radius: 560, visibleSideCount: 2 });
     };
 
     update();
@@ -75,15 +85,16 @@ function useResponsiveRadius(radius?: number) {
     return () => window.removeEventListener("resize", update);
   }, [radius]);
 
-  return resolvedRadius;
+  return config;
 }
 
 export function CircularGallery({
   items,
   className,
   radius,
-  autoRotateSpeed = 0.025,
+  autoRotateSpeed = 0.035,
   onItemClick,
+  onActiveIndexChange,
   style,
   ...props
 }: CircularGalleryProps) {
@@ -91,7 +102,8 @@ export function CircularGallery({
   const [isDragging, setIsDragging] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const reducedMotion = useReducedMotion();
-  const resolvedRadius = useResponsiveRadius(radius);
+  const { radius: resolvedRadius, visibleSideCount } =
+    useResponsiveGallery(radius);
   const frameRef = useRef<number | null>(null);
   const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerIdRef = useRef<number | null>(null);
@@ -100,8 +112,12 @@ export function CircularGallery({
   const startRotationRef = useRef(0);
   const maxMoveXRef = useRef(0);
   const suppressClickRef = useRef(false);
+  const lastActiveIndexRef = useRef<number | null>(null);
   const itemCount = items.length;
   const anglePerItem = itemCount > 0 ? 360 / itemCount : 0;
+  const activeIndex = itemCount
+    ? wrapIndex(Math.round(-rotation / anglePerItem), itemCount)
+    : 0;
 
   const pauseAutoplay = () => {
     setIsPaused(true);
@@ -122,10 +138,19 @@ export function CircularGallery({
   };
 
   useEffect(() => {
+    if (!onActiveIndexChange || lastActiveIndexRef.current === activeIndex) {
+      return;
+    }
+
+    lastActiveIndexRef.current = activeIndex;
+    onActiveIndexChange(activeIndex);
+  }, [activeIndex, onActiveIndexChange]);
+
+  useEffect(() => {
     if (reducedMotion || isPaused || isDragging || itemCount < 2) return;
 
     const rotate = () => {
-      setRotation((current) => current + autoRotateSpeed);
+      setRotation((current) => current - autoRotateSpeed);
       frameRef.current = requestAnimationFrame(rotate);
     };
 
@@ -198,7 +223,7 @@ export function CircularGallery({
       role="region"
       aria-label="Cardápio Take Away em galeria circular"
       className={cn(
-        "relative mx-auto flex h-[430px] w-full max-w-[1120px] touch-pan-y items-center justify-center overflow-hidden sm:h-[500px] md:h-[610px]",
+        "relative mx-auto flex h-[420px] w-full max-w-[1120px] touch-pan-y items-center justify-center overflow-hidden sm:h-[500px] md:h-[610px]",
         className,
       )}
       style={{ perspective: "1800px", ...style }}
@@ -220,22 +245,34 @@ export function CircularGallery({
       >
         {items.map((item, index) => {
           const itemAngle = index * anglePerItem;
-          const distance = frontDistance(itemAngle + rotation);
-          const opacity = Math.max(0.18, 1 - distance / 150);
-          const scale = Math.max(0.78, 1 - distance / 900);
+          const offset = shortestOffset(index, activeIndex, itemCount);
+          const distance = Math.abs(offset);
+          const isVisible = distance <= visibleSideCount;
+          const isActive = distance === 0;
+          const opacity = !isVisible
+            ? 0
+            : isActive
+              ? 1
+              : distance === 1
+                ? 0.62
+                : 0.24;
+          const scale = isActive ? 1 : distance === 1 ? 0.78 : 0.62;
 
           return (
             <button
               key={item.id}
               type="button"
-              className="absolute left-1/2 top-1/2 block h-[330px] w-[236px] overflow-hidden rounded-[18px] border border-white/18 bg-[#111] p-2 text-left shadow-[0_28px_70px_rgba(0,0,0,0.3)] outline-none ring-offset-2 transition-opacity duration-300 focus-visible:ring-4 focus-visible:ring-white/60 sm:h-[390px] sm:w-[278px] md:h-[470px] md:w-[336px]"
+              className="absolute left-1/2 top-1/2 block h-[320px] w-[228px] overflow-hidden rounded-[18px] border border-white/18 bg-[#111] p-2 text-left shadow-[0_28px_70px_rgba(0,0,0,0.3)] outline-none ring-offset-2 transition-opacity duration-300 focus-visible:ring-4 focus-visible:ring-white/60 sm:h-[390px] sm:w-[278px] md:h-[470px] md:w-[336px]"
               style={{
                 opacity,
-                zIndex: Math.round(1000 - distance),
+                zIndex: Math.round(100 - distance),
                 transform: `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${resolvedRadius}px) scale(${scale})`,
                 transformStyle: "preserve-3d",
+                pointerEvents: isVisible ? "auto" : "none",
               }}
+              aria-hidden={!isVisible}
               aria-label={`Abrir zoom: ${item.title}`}
+              tabIndex={isVisible ? 0 : -1}
               onClick={() => handleItemClick(item, index)}
             >
               <span className="flex h-full w-full items-center justify-center rounded-[12px] bg-neutral-100 p-2">
@@ -243,7 +280,8 @@ export function CircularGallery({
                   src={item.src}
                   alt={item.alt}
                   className="h-full w-full select-none object-contain"
-                  loading={distance < 90 ? "eager" : "lazy"}
+                  sizes="(max-width: 640px) 228px, (max-width: 768px) 278px, 336px"
+                  loading={isActive ? "eager" : "lazy"}
                   decoding="async"
                   draggable={false}
                 />

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -29,6 +29,10 @@ function wrapPageIndex(index: number, length: number) {
   return ((index % length) + length) % length;
 }
 
+function pageLabel(index: number, total: number) {
+  return `Página ${index + 1} de ${total}`;
+}
+
 function MenuPagesLightbox({
   open,
   pages,
@@ -39,6 +43,7 @@ function MenuPagesLightbox({
 }: MenuPagesLightboxProps) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const activePage = pages[activeIndex] ?? pages[0];
+  const totalPages = pages.length;
 
   useEffect(() => {
     if (!open) return;
@@ -48,10 +53,10 @@ function MenuPagesLightbox({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowLeft") {
-        onActiveIndexChange(wrapPageIndex(activeIndex - 1, pages.length));
+        onActiveIndexChange(wrapPageIndex(activeIndex - 1, totalPages));
       }
       if (event.key === "ArrowRight") {
-        onActiveIndexChange(wrapPageIndex(activeIndex + 1, pages.length));
+        onActiveIndexChange(wrapPageIndex(activeIndex + 1, totalPages));
       }
     };
 
@@ -62,12 +67,12 @@ function MenuPagesLightbox({
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [activeIndex, onActiveIndexChange, onClose, open, pages.length]);
+  }, [activeIndex, onActiveIndexChange, onClose, open, totalPages]);
 
   if (!open || !activePage) return null;
 
   const goToPage = (index: number) => {
-    onActiveIndexChange(wrapPageIndex(index, pages.length));
+    onActiveIndexChange(wrapPageIndex(index, totalPages));
   };
 
   return (
@@ -90,7 +95,7 @@ function MenuPagesLightbox({
               id="menu-page-title"
               className="mt-1 text-xl font-black leading-tight md:text-2xl"
             >
-              {activePage.title}
+              {pageLabel(activeIndex, totalPages)}
             </h2>
           </div>
           <button
@@ -103,34 +108,34 @@ function MenuPagesLightbox({
           </button>
         </header>
 
-        <div className="grid min-h-0 gap-4 overflow-y-auto p-3 md:grid-cols-[minmax(0,1fr)_230px] md:p-5">
+        <div className="min-h-0 overflow-y-auto p-3 md:p-5">
           <div className="flex min-h-0 items-center justify-center rounded-[18px] bg-black/35 p-2 md:p-4">
             <img
               src={activePage.src}
               alt={activePage.alt}
-              className="max-h-[72svh] w-full max-w-[95vw] object-contain md:max-h-[72vh]"
+              className="max-h-[58svh] w-full max-w-[96vw] object-contain md:max-h-[66vh]"
               loading="eager"
               decoding="async"
             />
           </div>
 
-          <aside className="min-h-0 rounded-[18px] border border-white/10 bg-white/6 p-3 md:overflow-y-auto">
+          <div className="mt-4 rounded-[18px] border border-white/10 bg-white/6 p-3">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-white/55">
-              Páginas
+              Ver as 14 páginas
             </p>
-            <div className="mt-3 grid grid-cols-4 gap-2 md:grid-cols-1">
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-5">
               {pages.map((page, index) => (
                 <button
                   key={page.id}
                   type="button"
-                  className={`grid items-center gap-2 rounded-2xl border p-2 text-left transition md:grid-cols-[48px_1fr] ${
+                  className={`rounded-2xl border p-2 text-left transition ${
                     index === activeIndex
                       ? "border-white bg-white text-neutral-950"
                       : "border-white/10 bg-black/20 text-white hover:border-white/35"
                   }`}
                   onClick={() => goToPage(index)}
                 >
-                  <span className="flex aspect-[0.72] w-full items-center justify-center overflow-hidden rounded-xl bg-white md:w-12">
+                  <span className="flex aspect-[0.72] w-full items-center justify-center overflow-hidden rounded-xl bg-white">
                     <img
                       src={page.src}
                       alt=""
@@ -139,13 +144,13 @@ function MenuPagesLightbox({
                       decoding="async"
                     />
                   </span>
-                  <span className="hidden text-xs font-black leading-tight md:block">
-                    Página {index + 1}
+                  <span className="mt-2 block text-xs font-black leading-tight">
+                    {pageLabel(index, totalPages)}
                   </span>
                 </button>
               ))}
             </div>
-          </aside>
+          </div>
         </div>
 
         <footer className="grid grid-cols-1 items-center gap-2 border-t border-white/10 p-3 sm:grid-cols-[auto_1fr_auto] md:gap-3 md:p-5">
@@ -180,6 +185,7 @@ function MenuPagesLightbox({
 export function MenuTakeAwaySection() {
   const [pagesModalOpen, setPagesModalOpen] = useState(false);
   const [activePageIndex, setActivePageIndex] = useState(0);
+  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
   const galleryItems = useMemo<CircularGalleryItem[]>(
     () =>
@@ -193,6 +199,7 @@ export function MenuTakeAwaySection() {
   );
 
   const whatsappUrl = buildWhatsappUrl();
+  const totalPages = koiMenuPages.length;
 
   const openMenuPage = (_item: CircularGalleryItem, index: number) => {
     setActivePageIndex(index);
@@ -238,9 +245,19 @@ export function MenuTakeAwaySection() {
           </a>
         </div>
 
-        <div className="mx-auto mt-6 flex max-w-6xl justify-center md:mt-9">
+        <div className="mx-auto mt-5 text-center" aria-live="polite">
+          <p className="text-sm font-black uppercase tracking-[0.12em] text-[var(--chambar-red)]">
+            {pageLabel(activeGalleryIndex, totalPages)}
+          </p>
+        </div>
+
+        <div className="mx-auto mt-3 flex max-w-6xl justify-center md:mt-5">
           {galleryItems.length > 0 ? (
-            <CircularGallery items={galleryItems} onItemClick={openMenuPage} />
+            <CircularGallery
+              items={galleryItems}
+              onItemClick={openMenuPage}
+              onActiveIndexChange={setActiveGalleryIndex}
+            />
           ) : (
             <p className="rounded-lg border border-black/10 bg-white p-6 text-center text-sm font-bold text-neutral-600">
               As imagens do cardápio Take Away ainda não foram encontradas.
