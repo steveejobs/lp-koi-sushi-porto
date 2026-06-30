@@ -37,6 +37,8 @@ type GalleryConfig = {
   sideDepth: number;
   sideScale: number;
   sideOpacity: number;
+  farScale: number;
+  farOpacity: number;
   radius: number;
   visibleSideCount: number;
 };
@@ -55,6 +57,8 @@ const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
     sideDepth: -120,
     sideScale: 0.76,
     sideOpacity: 0.16,
+    farScale: 0.68,
+    farOpacity: 0,
     radius: 0,
     visibleSideCount: 1,
   },
@@ -71,6 +75,8 @@ const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
     sideDepth: -150,
     sideScale: 0.78,
     sideOpacity: 0.2,
+    farScale: 0.68,
+    farOpacity: 0,
     radius: 0,
     visibleSideCount: 1,
   },
@@ -86,7 +92,9 @@ const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
     sideRotate: 0,
     sideDepth: 0,
     sideScale: 0.78,
-    sideOpacity: 0.24,
+    sideOpacity: 0.2,
+    farScale: 0.62,
+    farOpacity: 0.06,
     radius: 520,
     visibleSideCount: 2,
   },
@@ -324,17 +332,17 @@ export function CircularGallery({
           const discreteDistance = Math.abs(offset);
           const coverflowDistance = Math.abs(visualOffset);
           const isActive = discreteDistance === 0;
-          const isNeighbor = discreteDistance === 1 && coverflowDistance <= 1.18;
+          const isNeighbor =
+            discreteDistance === 1 && coverflowDistance <= 1.18;
           const isVisible = isDesktop
             ? discreteDistance <= gallery.visibleSideCount
             : isActive || isNeighbor;
           const clampedOffset = Math.max(-1, Math.min(1, visualOffset));
-          const desktopSideOpacity = discreteDistance === 1 ? 0.22 : 0.08;
           const desktopScale = isActive
             ? 1
             : discreteDistance === 1
               ? gallery.sideScale
-              : 0.62;
+              : gallery.farScale;
           const transform = isDesktop
             ? `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${gallery.radius}px) scale(${desktopScale})`
             : `translate3d(-50%, -50%, 0) translateX(${clampedOffset * gallery.sideTranslate}%) rotateY(${clampedOffset * -gallery.sideRotate}deg) translateZ(${isActive ? 0 : gallery.sideDepth}px) scale(${isActive ? 1 : gallery.sideScale})`;
@@ -342,9 +350,10 @@ export function CircularGallery({
             ? 0
             : isActive
               ? 1
-              : isDesktop
-                ? desktopSideOpacity
-                : gallery.sideOpacity;
+              : discreteDistance === 1
+                ? gallery.sideOpacity
+                : gallery.farOpacity;
+          const zIndex = isActive ? 50 : discreteDistance === 1 ? 5 : 1;
 
           return (
             <button
@@ -355,20 +364,16 @@ export function CircularGallery({
                 width: gallery.cardWidth,
                 height: gallery.cardHeight,
                 minHeight: `${gallery.cardMinHeight}px`,
-                border: isActive
-                  ? "1px solid rgba(255,255,255,0.14)"
-                  : "0 solid transparent",
+                border: isActive ? "1px solid rgba(255,255,255,0.1)" : "none",
                 background: isActive ? "#101010" : "transparent",
-                boxShadow: isActive
-                  ? "0 24px 58px rgba(0,0,0,0.3)"
-                  : "none",
+                boxShadow: isActive ? "0 20px 48px rgba(0,0,0,0.24)" : "none",
                 opacity,
                 visibility: isVisible ? "visible" : "hidden",
-                zIndex: isActive ? 30 : Math.max(1, 10 - discreteDistance),
+                zIndex,
                 transform,
                 transformStyle: "preserve-3d",
                 pointerEvents: isActive ? "auto" : "none",
-                padding: isActive ? "8px" : 0,
+                padding: isActive ? "6px" : 0,
               }}
               aria-hidden={!isActive}
               aria-label={`Abrir zoom: ${item.title}`}
