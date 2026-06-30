@@ -1,17 +1,17 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { KoiEstablishmentSection } from "@/components/chambar/KoiEstablishmentSection";
 import { KoiTestimonialsMarquee } from "@/components/chambar/KoiTestimonialsMarquee";
 import { MenuTakeAwaySection } from "@/components/MenuTakeAwaySection";
 import { FoodGallerySection } from "@/components/FoodGallerySection";
 import { Header } from "@/components/Header";
+import { HeroInteractiveIntro } from "@/components/HeroInteractiveIntro";
 import { Reveal } from "@/components/Reveal";
 import { ScrollExperienceFeature } from "@/components/ScrollExperienceFeature";
 import { SectionIntro } from "@/components/SectionIntro";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
-import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
+import { CHAMBAR_CONFIG } from "@/data/chambar-config";
 import {
   genericGalleryImages,
-  heroImage,
   localDishGalleryImages,
   locationImage,
 } from "@/data/chambar-media";
@@ -27,7 +27,7 @@ import {
 const experiences = [
   {
     title: "Take Away",
-    text: "Envie o pedido pelo WhatsApp e confirme as opções disponíveis.",
+    text: "Envie o pedido pelo WhatsApp e confirme as opÃ§Ãµes disponÃ­veis.",
     cta: "Pedir Take Away",
     href: TAKE_AWAY_URL,
   },
@@ -39,8 +39,8 @@ const experiences = [
   },
   {
     title: "No restaurante",
-    text: "Estamos na Estrada Exterior da Circunvalação, no Porto.",
-    cta: "Ver localização",
+    text: "Estamos na Estrada Exterior da CircunvalaÃ§Ã£o, no Porto.",
+    cta: "Ver localizaÃ§Ã£o",
     href: GOOGLE_MAPS_URL,
   },
 ];
@@ -48,7 +48,7 @@ const experiences = [
 const introCards = [
   {
     title: "Menu Infinity",
-    text: "Coma à vontade no restaurante.",
+    text: "Coma Ã  vontade no restaurante.",
   },
   {
     title: "Cozinha chinesa",
@@ -56,14 +56,14 @@ const introCards = [
   },
   {
     title: "Take Away",
-    text: "Veja o menu completo e peça pelo WhatsApp.",
+    text: "Veja o menu completo e peÃ§a pelo WhatsApp.",
   },
 ];
 
 const chineseCuisineCards = [
   {
     title: "Entradas",
-    text: "Opções para começar a refeição e partilhar à mesa.",
+    text: "OpÃ§Ãµes para comeÃ§ar a refeiÃ§Ã£o e partilhar Ã  mesa.",
   },
   {
     title: "Massas",
@@ -71,7 +71,7 @@ const chineseCuisineCards = [
   },
   {
     title: "Arroz",
-    text: "Acompanhamentos e combinações para completar o pedido.",
+    text: "Acompanhamentos e combinaÃ§Ãµes para completar o pedido.",
   },
   {
     title: "Pratos quentes",
@@ -79,24 +79,24 @@ const chineseCuisineCards = [
   },
 ];
 
-const heroChips = ["Menu Infinity", "Cozinha chinesa", "Take Away"];
+
 
 const differentials = [
   {
     title: "Menu Infinity",
-    text: "Coma à vontade no restaurante com sushi, pratos quentes e opções para partilhar.",
+    text: "Coma Ã  vontade no restaurante com sushi, pratos quentes e opÃ§Ãµes para partilhar.",
   },
   {
     title: "Cozinha chinesa",
-    text: "Pratos quentes, entradas, massas e arroz para completar a refeição.",
+    text: "Pratos quentes, entradas, massas e arroz para completar a refeiÃ§Ã£o.",
   },
   {
     title: "Take Away",
-    text: "Escolha as opções do menu e envie o pedido directamente pelo WhatsApp.",
+    text: "Escolha as opÃ§Ãµes do menu e envie o pedido directamente pelo WhatsApp.",
   },
   {
-    title: "Almoço e jantar",
-    text: "Estamos abertos das 12h às 15h e das 19h às 23h.",
+    title: "AlmoÃ§o e jantar",
+    text: "Estamos abertos das 12h Ã s 15h e das 19h Ã s 23h.",
   },
 ];
 
@@ -105,77 +105,7 @@ export default function Home() {
     <>
       <Header />
       <main id="topo" className="overflow-hidden pt-16 md:pt-20">
-        <section className="relative isolate border-b border-black/10 bg-[#fffdf9] py-8 md:py-12">
-          <div className="absolute inset-y-0 right-0 hidden w-[46%] overflow-hidden md:block">
-            <Image
-              src={heroImage.src}
-              alt={heroImage.alt}
-              fill
-              priority
-              quality={82}
-              fetchPriority="high"
-              sizes="46vw"
-              className="object-cover object-[58%_50%]"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,#fffdf9_0%,rgba(255,253,249,0.82)_25%,rgba(255,253,249,0.22)_58%,rgba(255,253,249,0.02)_100%)]" />
-          </div>
-
-          <div className="container-page grid items-center gap-8 md:min-h-[calc(78svh-80px)] md:grid-cols-[0.72fr_0.28fr]">
-            <div className="relative z-10 animate-[riseIn_700ms_ease_both]">
-              <Image
-                src={images.logo}
-                alt="Logo Koi Sushi Porto"
-                width={168}
-                height={72}
-                loading="eager"
-                decoding="async"
-                className="mb-6 h-auto w-[132px] object-contain md:w-[160px]"
-              />
-              <span className="eyebrow">Koi Sushi Porto</span>
-              <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.98] text-neutral-950 md:text-7xl">
-                Sushi e cozinha chinesa no Porto
-              </h1>
-              <p className="mt-5 max-w-xl text-lg leading-8 text-neutral-600 md:text-xl">
-                Menu Infinity, All You Can Eat e Take Away com sushi, pratos
-                chineses e tudo preparado na hora.
-              </p>
-              <p className="mt-4 text-sm font-black uppercase tracking-[0.08em] text-neutral-700">
-                Koi Sushi Porto · {CHAMBAR_CONFIG.openingHours}
-              </p>
-              <p className="mt-4 text-sm font-black text-[var(--chambar-red)]">
-                {chambarGoogleProof}
-              </p>
-              <div className="mt-8 grid gap-3 sm:flex">
-                <a
-                  href={TAKE_AWAY_URL}
-                  className="btn btn-primary"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Pedir Take Away
-                </a>
-                <a
-                  href={GOOGLE_MAPS_URL}
-                  className="btn btn-outline"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Ver localização
-                </a>
-              </div>
-              <div className="mt-7 flex flex-wrap items-center gap-2">
-                {heroChips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-full border border-black/10 bg-white/82 px-4 py-2 text-xs font-black uppercase tracking-wide text-neutral-800 shadow-sm"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <HeroInteractiveIntro />
 
         <section className="koi-rice-paper border-b border-black/8 py-8 md:py-10">
           <div className="container-page">
@@ -184,10 +114,10 @@ export default function Home() {
                 KOI SUSHI PORTO
               </p>
               <h2 className="mt-3 text-3xl font-black leading-[1.04] text-neutral-950 md:text-5xl">
-                Sushi, cozinha chinesa e momentos à mesa.
+                Sushi, cozinha chinesa e momentos Ã  mesa.
               </h2>
               <p className="mt-4 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                No Koi Sushi Porto, pode comer à vontade com Menu Infinity,
+                No Koi Sushi Porto, pode comer Ã  vontade com Menu Infinity,
                 escolher pratos chineses preparados na hora ou pedir Take Away
                 pelo WhatsApp.
               </p>
@@ -225,7 +155,7 @@ export default function Home() {
               <div className="koi-gold-divider my-6" />
               <p className="max-w-2xl text-base font-bold leading-7 text-white/72 md:text-lg">
                 Pratos quentes, entradas, massas e arroz para completar a
-                refeição no restaurante ou no Take Away.
+                refeiÃ§Ã£o no restaurante ou no Take Away.
               </p>
             </Reveal>
 
@@ -273,7 +203,7 @@ export default function Home() {
             <Reveal threshold={0.45}>
               <SectionIntro
                 eyebrow="Pedidos"
-                title="O seu pedido começa aqui."
+                title="O seu pedido comeÃ§a aqui."
                 copy="Menu Infinity no restaurante, Take Away pelo WhatsApp ou uma visita ao Koi Sushi Porto."
               />
             </Reveal>
@@ -312,10 +242,10 @@ export default function Home() {
           <div className="container-page">
             <div className="fine-border rounded-lg bg-[#fffdf9] p-6 md:flex md:items-center md:justify-between md:gap-8">
               <p className="max-w-2xl text-2xl font-black leading-tight text-neutral-950">
-                Peças de sushi e pratos chineses preparados na hora.
+                PeÃ§as de sushi e pratos chineses preparados na hora.
               </p>
               <p className="mt-4 max-w-md text-sm font-bold leading-6 text-neutral-600 md:mt-0">
-                Escolha o que lhe apetece e faça o seu pedido de Take Away pelo
+                Escolha o que lhe apetece e faÃ§a o seu pedido de Take Away pelo
                 WhatsApp.
               </p>
             </div>
@@ -324,9 +254,9 @@ export default function Home() {
 
         <FoodGallerySection
           id="pratos-local"
-          eyebrow="À mesa"
+          eyebrow="Ã€ mesa"
           title="Da cozinha para a mesa."
-          copy="Peças de sushi e pratos chineses preparados na hora."
+          copy="PeÃ§as de sushi e pratos chineses preparados na hora."
           images={localDishGalleryImages}
           categories={[
             "Sushi",
@@ -342,8 +272,8 @@ export default function Home() {
             <Reveal threshold={0.45}>
               <SectionIntro
                 eyebrow="Diferenciais"
-                title="Porquê escolher o Koi."
-                copy="Sushi, cozinha chinesa, pratos quentes e Take Away com variedade, sabor e preço justo."
+                title="PorquÃª escolher o Koi."
+                copy="Sushi, cozinha chinesa, pratos quentes e Take Away com variedade, sabor e preÃ§o justo."
               />
             </Reveal>
             <div className="mt-9 grid gap-4 md:grid-cols-4">
@@ -373,17 +303,17 @@ export default function Home() {
           >
             <div>
               <SectionIntro
-                eyebrow="Localização"
+                eyebrow="LocalizaÃ§Ã£o"
                 title="Estamos no Porto."
-                copy="Peça Take Away, fale pelo WhatsApp ou acompanhe o Koi Sushi Porto no Instagram."
+                copy="PeÃ§a Take Away, fale pelo WhatsApp ou acompanhe o Koi Sushi Porto no Instagram."
               />
               <div className="mt-7 space-y-4 text-base leading-7 text-neutral-700">
                 <p>
-                  <strong className="text-neutral-950">Endereço:</strong>{" "}
+                  <strong className="text-neutral-950">EndereÃ§o:</strong>{" "}
                   {CHAMBAR_CONFIG.address}
                 </p>
                 <p>
-                  <strong className="text-neutral-950">Horário:</strong>{" "}
+                  <strong className="text-neutral-950">HorÃ¡rio:</strong>{" "}
                   {CHAMBAR_CONFIG.openingHours}
                 </p>
                 <p>
@@ -432,7 +362,7 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Ver localização
+                  Ver localizaÃ§Ã£o
                 </a>
               </div>
             </div>
@@ -454,7 +384,7 @@ export default function Home() {
                   Koi Sushi Porto
                 </p>
                 <p className="mt-1 text-xs font-bold text-neutral-600">
-                  Porto · {CHAMBAR_CONFIG.openingHours}
+                  Porto Â· {CHAMBAR_CONFIG.openingHours}
                 </p>
               </div>
             </div>
@@ -478,9 +408,9 @@ export default function Home() {
               className="h-auto w-[142px] object-contain md:w-[156px]"
             />
             <p className="text-sm font-black text-white/88">
-              Koi Sushi Porto · Sushi, cozinha chinesa, Menu Infinity e Take
-              Away no Porto. · Estrada Exterior da Circunvalação, 7824-F, Porto
-              · 12h–15h | 19h–23h · @koisushi_porto
+              Koi Sushi Porto Â· Sushi, cozinha chinesa, Menu Infinity e Take
+              Away no Porto. Â· Estrada Exterior da CircunvalaÃ§Ã£o, 7824-F, Porto
+              Â· 12hâ€“15h | 19hâ€“23h Â· @koisushi_porto
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm font-bold text-white/72">
@@ -508,3 +438,5 @@ export default function Home() {
     </>
   );
 }
+
+

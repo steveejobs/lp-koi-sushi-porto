@@ -37,6 +37,8 @@ type GalleryConfig = {
   sideDepth: number;
   sideScale: number;
   sideOpacity: number;
+  radius: number;
+  visibleSideCount: number;
 };
 
 const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
@@ -53,6 +55,8 @@ const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
     sideDepth: -120,
     sideScale: 0.76,
     sideOpacity: 0.16,
+    radius: 0,
+    visibleSideCount: 1,
   },
   tablet: {
     breakpoint: "tablet",
@@ -67,20 +71,24 @@ const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
     sideDepth: -150,
     sideScale: 0.78,
     sideOpacity: 0.2,
+    radius: 0,
+    visibleSideCount: 1,
   },
   desktop: {
     breakpoint: "desktop",
-    perspective: 1850,
+    perspective: 1900,
     stageHeight: "680px",
     stageMinHeight: 520,
     cardWidth: "390px",
     cardHeight: "585px",
     cardMinHeight: 520,
-    sideTranslate: 60,
-    sideRotate: 36,
-    sideDepth: -190,
-    sideScale: 0.8,
-    sideOpacity: 0.22,
+    sideTranslate: 0,
+    sideRotate: 0,
+    sideDepth: 0,
+    sideScale: 0.78,
+    sideOpacity: 0.24,
+    radius: 520,
+    visibleSideCount: 2,
   },
 };
 
@@ -175,6 +183,7 @@ export function CircularGallery({
     ? wrapIndex(Math.round(rawActivePosition), itemCount)
     : 0;
   const activePositionDelta = rawActivePosition - Math.round(rawActivePosition);
+  const isDesktop = gallery.breakpoint === "desktop";
 
   const pauseAutoplay = () => {
     setIsPaused(true);
@@ -248,7 +257,7 @@ export function CircularGallery({
     maxMoveXRef.current = Math.max(maxMoveXRef.current, Math.abs(deltaX));
 
     if (Math.abs(deltaX) > Math.abs(deltaY) * 0.75) {
-      setRotation(startRotationRef.current + deltaX * 0.2);
+      setRotation(startRotationRef.current + deltaX * (isDesktop ? 0.24 : 0.2));
     }
   };
 
@@ -280,7 +289,7 @@ export function CircularGallery({
       role="region"
       aria-label={"Card\u00e1pio Take Away em galeria 3D"}
       className={cn(
-        "relative mx-auto flex w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-hidden",
+        "relative mx-auto flex w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-hidden lg:overflow-visible",
         className,
       )}
       style={{
@@ -298,21 +307,44 @@ export function CircularGallery({
     >
       <div
         className={cn(
-          "relative h-full w-full overflow-hidden transition-transform duration-150 ease-linear",
+          "relative h-full w-full overflow-hidden transition-transform duration-150 ease-linear lg:overflow-visible",
           isDragging && "transition-none",
         )}
-        style={{ transformStyle: "preserve-3d" }}
+        style={{
+          transform: isDesktop
+            ? `rotateY(${rotation}deg) translateZ(0)`
+            : "translateZ(0)",
+          transformStyle: "preserve-3d",
+        }}
       >
         {items.map((item, index) => {
+          const itemAngle = index * anglePerItem;
           const offset = shortestOffset(index, activeIndex, itemCount);
           const visualOffset = offset - activePositionDelta;
-          const distance = Math.abs(visualOffset);
           const discreteDistance = Math.abs(offset);
+          const coverflowDistance = Math.abs(visualOffset);
           const isActive = discreteDistance === 0;
-          const isNeighbor = discreteDistance === 1 && distance <= 1.18;
-          const isVisible = isActive || isNeighbor;
+          const isNeighbor = discreteDistance === 1 && coverflowDistance <= 1.18;
+          const isVisible = isDesktop
+            ? discreteDistance <= gallery.visibleSideCount
+            : isActive || isNeighbor;
           const clampedOffset = Math.max(-1, Math.min(1, visualOffset));
-          const transform = `translate3d(-50%, -50%, 0) translateX(${clampedOffset * gallery.sideTranslate}%) rotateY(${clampedOffset * -gallery.sideRotate}deg) translateZ(${isActive ? 0 : gallery.sideDepth}px) scale(${isActive ? 1 : gallery.sideScale})`;
+          const desktopSideOpacity = discreteDistance === 1 ? 0.22 : 0.08;
+          const desktopScale = isActive
+            ? 1
+            : discreteDistance === 1
+              ? gallery.sideScale
+              : 0.62;
+          const transform = isDesktop
+            ? `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${gallery.radius}px) scale(${desktopScale})`
+            : `translate3d(-50%, -50%, 0) translateX(${clampedOffset * gallery.sideTranslate}%) rotateY(${clampedOffset * -gallery.sideRotate}deg) translateZ(${isActive ? 0 : gallery.sideDepth}px) scale(${isActive ? 1 : gallery.sideScale})`;
+          const opacity = !isVisible
+            ? 0
+            : isActive
+              ? 1
+              : isDesktop
+                ? desktopSideOpacity
+                : gallery.sideOpacity;
 
           return (
             <button
@@ -330,9 +362,9 @@ export function CircularGallery({
                 boxShadow: isActive
                   ? "0 24px 58px rgba(0,0,0,0.3)"
                   : "none",
-                opacity: isVisible ? (isActive ? 1 : gallery.sideOpacity) : 0,
+                opacity,
                 visibility: isVisible ? "visible" : "hidden",
-                zIndex: isActive ? 30 : isNeighbor ? 5 : 1,
+                zIndex: isActive ? 30 : Math.max(1, 10 - discreteDistance),
                 transform,
                 transformStyle: "preserve-3d",
                 pointerEvents: isActive ? "auto" : "none",
@@ -360,5 +392,3 @@ export function CircularGallery({
     </div>
   );
 }
-
-
