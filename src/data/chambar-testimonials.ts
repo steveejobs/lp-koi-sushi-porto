@@ -87,7 +87,7 @@ export const chambarTestimonials = [
       "Facilmente um dos melhores sushis que já comi. Claramente se nota a qualidade e frescura dos ingredientes.",
     name: "Kevin Corrales",
     rating: 5,
-    context: "Frescura",
+    context: "Ingredientes",
   },
   {
     quote:
@@ -135,5 +135,77 @@ export const chambarTestimonials = [
     name: "Ane",
     rating: 5,
     context: "Preço honesto",
+  },
+  {
+    quote:
+      "Maravilhoso! Recomendo muito esse restaurante, o trabalho é excelente.",
+    name: "Gustavo Durães",
+    rating: 5,
+    context: "Recomendo",
+  },
+  {
+    quote:
+      "Almoço a preço acessível, com um excelente serviço e atenção ao detalhe.",
+    name: "Pedro Ribeiro",
+    rating: 5,
+    context: "Preço acessível",
+  },
+  {
+    quote: "A atendente é muito simpática e o rodízio vale a pena.",
+    name: "Guilherme Sena",
+    rating: 5,
+    context: "Vale a pena",
+  },
+  {
+    quote: "Ótimo atendimento e apresentação espetacular!",
+    name: "Helder Nunes",
+    rating: 5,
+    context: "Apresentação",
+  },
+  {
+    quote: "Excelente atendimento e uma comida excelente.",
+    name: "Matilde Gaspar",
+    rating: 5,
+    context: "Excelente",
+  },
+  {
+    quote: "Tudo impecável, experiência a repetir!",
+    name: "Marina Correa",
+    rating: 5,
+    context: "A repetir",
+  },
+  {
+    quote:
+      "O Koi Sushi tem um lugar especial no meu coração. São incríveis na qualidade da comida, na apresentação delicada e no serviço.",
+    name: "Naiara Nascimento",
+    rating: 5,
+    context: "Apresentação cuidada",
+  },
+  {
+    quote:
+      "A comida era de ótima qualidade, a apresentação estava impecável e o restaurante também é muito bonito.",
+    name: "Matilde Martins",
+    rating: 5,
+    context: "Espaço bonito",
+  },
+  {
+    quote:
+      "Espaço limpo e bem organizado. Comida ótima, saborosa e com muitas opções.",
+    name: "Susana Guimarães",
+    rating: 5,
+    context: "Espaço limpo",
+  },
+  {
+    quote:
+      "Funcionários simpáticos e prestativos, comida de boa qualidade e bem preparada num ambiente acolhedor.",
+    name: "Eddy Shillong",
+    rating: 5,
+    context: "Ambiente acolhedor",
+  },
+  {
+    quote: "Comida e lugar excelentes.",
+    name: "Sthefan Berwanger",
+    rating: 5,
+    context: "Excelente",
   },
 ] satisfies KoiTestimonial[];

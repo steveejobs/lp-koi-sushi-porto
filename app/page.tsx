@@ -92,8 +92,8 @@ export default function Home() {
                 Sushi e cozinha chinesa no Porto
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-neutral-600 md:text-xl">
-                Menu Infinity, All You Can Eat e Take Away com peças frescas,
-                pratos quentes e combinações para partilhar.
+                Menu Infinity, All You Can Eat e Take Away com sushi, cozinha
+                chinesa e pratos preparados na hora.
               </p>
               <p className="mt-4 text-sm font-black uppercase tracking-[0.08em] text-neutral-700">
                 Koi Sushi Porto · {CHAMBAR_CONFIG.openingHours}
@@ -138,12 +138,17 @@ export default function Home() {
                 KOI SUSHI PORTO
               </p>
               <h2 className="mt-4 text-4xl font-black leading-[1.04] text-neutral-950 md:text-6xl">
-                Sushi japonês e cozinha chinesa à mesa.
+                Sushi, cozinha chinesa e pratos preparados na hora.
               </h2>
               <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-                No Koi Sushi Porto, encontra sushi fresco, pratos quentes e
-                opções para partilhar. Escolha o Menu Infinity para comer à
-                vontade no restaurante ou peça Take Away pelo WhatsApp.
+                O Koi Sushi Porto é um restaurante na Estrada Exterior da
+                Circunvalação, no Porto, pensado para quem aprecia sushi,
+                cozinha chinesa, convívio e momentos à mesa.
+              </p>
+              <p className="mt-4 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
+                No Menu Infinity – All You Can Eat, pode desfrutar de diferentes
+                peças de sushi e pratos chineses preparados na hora. Para quem
+                prefere algo rápido, há também Take Away pelo WhatsApp.
               </p>
             </Reveal>
           </div>
@@ -214,8 +219,7 @@ export default function Home() {
           <div className="container-page">
             <div className="fine-border rounded-lg bg-[#fffdf9] p-6 md:flex md:items-center md:justify-between md:gap-8">
               <p className="max-w-2xl text-2xl font-black leading-tight text-neutral-950">
-                Sushi fresco, peças especiais e pratos quentes preparados na
-                hora.
+                Sushi, peças especiais e pratos chineses preparados na hora.
               </p>
               <p className="mt-4 max-w-md text-sm font-bold leading-6 text-neutral-600 md:mt-0">
                 Escolha o que lhe apetece e faça o seu pedido de Take Away pelo
@@ -228,8 +232,8 @@ export default function Home() {
         <FoodGallerySection
           id="pratos-local"
           eyebrow="À mesa"
-          title="Pratos do Koi"
-          copy="Sushi fresco, peças especiais e pratos quentes preparados na hora."
+          title="Sushi e pratos chineses do Koi"
+          copy="Sushi, peças especiais e pratos chineses preparados na hora."
           images={localDishGalleryImages}
           categories={[
             "Sushi",
@@ -246,7 +250,7 @@ export default function Home() {
               <SectionIntro
                 eyebrow="Diferenciais"
                 title="Porquê escolher o Koi."
-                copy="Sushi, cozinha chinesa e Take Away com variedade, frescura e preço justo."
+                copy="Sushi, cozinha chinesa, pratos quentes e Take Away com variedade, sabor e preço justo."
               />
             </Reveal>
             <div className="mt-9 grid gap-4 md:grid-cols-4">

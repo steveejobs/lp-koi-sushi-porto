@@ -57,7 +57,7 @@ export function InstagramTestimonialsMarquee() {
           Quem já veio, recomenda.
         </h2>
         <p className="mt-1 text-sm font-bold leading-6 text-neutral-600">
-          Avaliações reais sobre frescura, atendimento, preço justo e
+          Avaliações reais sobre qualidade, atendimento, preço justo e
           apresentação.
         </p>
       </div>

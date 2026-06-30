@@ -133,7 +133,7 @@ export function KoiTestimonialsMarquee() {
             Quem já veio, recomenda.
           </h2>
           <p className="mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-            Avaliações reais sobre frescura, atendimento, preço justo e
+            Avaliações reais sobre qualidade, atendimento, preço justo e
             apresentação.
           </p>
         </div>
