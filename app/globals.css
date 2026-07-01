@@ -20,6 +20,14 @@
   box-sizing: border-box;
 }
 
+.isFullscreen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 9999;
+}
+
 html {
   scroll-behavior: smooth;
   background: var(--background);

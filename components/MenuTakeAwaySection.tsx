@@ -1,11 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import { HomeMenuOrbit3D } from "@/components/HomeMenuOrbit3D";
 import { MenuFullViewer } from "@/components/MenuFullViewer";
-import {
-  CircularGallery,
-  type CircularGalleryItem,
-} from "@/components/ui/circular-gallery";
 import { koiMenuPages } from "@/data/koi-menu-pages";
 import { getWhatsappUrl } from "@/lib/site";
 
@@ -18,21 +15,10 @@ export function MenuTakeAwaySection() {
   const [initialViewerPage, setInitialViewerPage] = useState(0);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
-  const galleryItems = useMemo<CircularGalleryItem[]>(
-    () =>
-      koiMenuPages.map((page) => ({
-        id: page.id,
-        title: page.title,
-        src: page.src,
-        alt: page.alt,
-      })),
-    [],
-  );
-
   const whatsappUrl = getWhatsappUrl("site");
   const totalPages = koiMenuPages.length;
 
-  const openMenuPage = (_item: CircularGalleryItem, index: number) => {
+  const openMenuPage = (index: number) => {
     setInitialViewerPage(index);
     setPagesModalOpen(true);
   };
@@ -89,19 +75,10 @@ export function MenuTakeAwaySection() {
         </div>
 
         <div className="relative z-10 mx-auto mt-3 flex w-full max-w-[1280px] justify-center overflow-visible md:mt-5 lg:mt-[clamp(48px,5vw,88px)]">
-          {galleryItems.length > 0 ? (
-            <CircularGallery
-              items={galleryItems}
-              autoRotateSpeed={0.025}
-              desktopConfig={{
-                autoRotateSpeed: 0.03,
-                radius: 460,
-                visibleSideCount: 1,
-                sideOpacity: 0.12,
-                sideScale: 0.76,
-                farOpacity: 0,
-              }}
-              onItemClick={openMenuPage}
+          {koiMenuPages.length > 0 ? (
+            <HomeMenuOrbit3D
+              pages={koiMenuPages}
+              onPageClick={openMenuPage}
               onActiveIndexChange={setActiveGalleryIndex}
             />
           ) : (

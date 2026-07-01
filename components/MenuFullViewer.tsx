@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { KoiMenuPage } from "@/data/koi-menu-pages";
 
-type MenuFullViewerProps = {
+type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   pages: KoiMenuPage[];
@@ -12,260 +12,286 @@ type MenuFullViewerProps = {
   whatsappUrl: string;
   source: "site" | "instagram";
 };
+type Point = { x: number; y: number };
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 4;
+const ZOOM_STEP = 0.25;
+const wrap = (index: number, length: number) => length ? ((index % length) + length) % length : 0;
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
-function wrapPageIndex(index: number, length: number) {
-  if (length <= 0) return 0;
-  return ((index % length) + length) % length;
-}
-
-function pageLabel(index: number, total: number) {
-  return `Página ${index + 1} de ${total}`;
-}
-
-function pageTitle(index: number, total: number) {
-  return `Menu Take Away · Página ${index + 1} de ${total}`;
-}
-
-export function MenuFullViewer({
-  open,
-  onOpenChange,
-  pages,
-  initialPage = 0,
-  whatsappUrl,
-  source,
-}: MenuFullViewerProps) {
-  const [currentIndex, setCurrentIndex] = useState(initialPage ?? 0);
+export function MenuFullViewer({ open, onOpenChange, pages, initialPage = 0, whatsappUrl, source }: Props) {
   const [mounted, setMounted] = useState(false);
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
-  const totalPages = pages.length;
+  const [currentIndex, setCurrentIndex] = useState(initialPage);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [zoom, setZoom] = useState(MIN_ZOOM);
+  const [pan, setPan] = useState<Point>({ x: 0, y: 0 });
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const pointers = useRef(new Map<number, Point>());
+  const dragStart = useRef<Point | null>(null);
+  const panStart = useRef<Point>({ x: 0, y: 0 });
+  const swipeStart = useRef<Point | null>(null);
+  const pinchStart = useRef<number | null>(null);
+  const pinchZoom = useRef(MIN_ZOOM);
+  const total = pages.length;
   const currentPage = pages[currentIndex] ?? pages[0];
 
-  const closeViewer = useCallback(() => {
-    onOpenChange(false);
-  }, [onOpenChange]);
+  const resetTransform = useCallback(() => {
+    setZoom(MIN_ZOOM);
+    setPan({ x: 0, y: 0 });
+    pointers.current.clear();
+  }, []);
 
-  const goToPage = useCallback(
-    (index: number) => {
-      setCurrentIndex(wrapPageIndex(index, totalPages));
-    },
-    [totalPages],
-  );
+  const constrainPan = useCallback((point: Point, scale: number) => {
+    const bounds = stageRef.current?.getBoundingClientRect();
+    if (!bounds || scale <= MIN_ZOOM) return { x: 0, y: 0 };
+    const maxX = (bounds.width * (scale - 1)) / 2;
+    const maxY = (bounds.height * (scale - 1)) / 2;
+    return { x: clamp(point.x, -maxX, maxX), y: clamp(point.y, -maxY, maxY) };
+  }, []);
+
+  const changeZoom = useCallback((next: number) => {
+    const scale = clamp(next, MIN_ZOOM, MAX_ZOOM);
+    setZoom(scale);
+    setPan((point) => constrainPan(point, scale));
+  }, [constrainPan]);
+
+  const goToPage = useCallback((index: number) => {
+    setCurrentIndex(wrap(index, total));
+    resetTransform();
+  }, [resetTransform, total]);
+
+  const leaveFullscreen = useCallback(async () => {
+    setIsFullscreen(false);
+    if (document.fullscreenElement) {
+      try { await document.exitFullscreen(); } catch { /* CSS fallback is active. */ }
+    }
+  }, []);
+
+  const closeViewer = useCallback(async () => {
+    if (document.fullscreenElement) {
+      try { await document.exitFullscreen(); } catch { /* Portal close is enough. */ }
+    }
+    setIsFullscreen(false);
+    resetTransform();
+    onOpenChange(false);
+  }, [onOpenChange, resetTransform]);
+
+  const toggleFullscreen = useCallback(async () => {
+    if (isFullscreen) return leaveFullscreen();
+    setIsFullscreen(true);
+    try { await dialogRef.current?.requestFullscreen?.(); } catch {
+      // Keep the fixed-position CSS fallback active.
+    }
+  }, [isFullscreen, leaveFullscreen]);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!open) return;
-    setCurrentIndex(wrapPageIndex(initialPage, totalPages));
-  }, [initialPage, open, totalPages]);
+    setCurrentIndex(wrap(initialPage, total));
+    resetTransform();
+  }, [initialPage, open, resetTransform, total]);
 
   useEffect(() => {
-    setMounted(true);
+    const sync = () => { if (!document.fullscreenElement) setIsFullscreen(false); };
+    document.addEventListener("fullscreenchange", sync);
+    return () => document.removeEventListener("fullscreenchange", sync);
   }, []);
 
   useEffect(() => {
     if (!open) return;
-
-    const previousOverflow = document.body.style.overflow;
-    const previousPosition = document.body.style.position;
-    const previousTop = document.body.style.top;
-    const previousWidth = document.body.style.width;
+    const previousActive = document.activeElement as HTMLElement | null;
+    const previous = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      top: document.body.style.top,
+      width: document.body.style.width,
+    };
     const scrollY = window.scrollY;
+    Object.assign(document.body.style, {
+      overflow: "hidden", position: "fixed", top: `-${scrollY}px`, width: "100%",
+    });
+    requestAnimationFrame(() => closeRef.current?.focus());
 
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeViewer();
-      if (event.key === "ArrowLeft") goToPage(currentIndex - 1);
-      if (event.key === "ArrowRight") goToPage(currentIndex + 1);
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        if (isFullscreen || document.fullscreenElement) void leaveFullscreen();
+        else void closeViewer();
+        return;
+      }
+      if (event.key === "ArrowLeft" && zoom === 1) goToPage(currentIndex - 1);
+      if (event.key === "ArrowRight" && zoom === 1) goToPage(currentIndex + 1);
+      if (event.key !== "Tab") return;
+      const items = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])',
+      );
+      if (!items?.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault(); last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); first.focus();
+      }
     };
-
-    document.addEventListener("keydown", handleKeyDown);
-
+    document.addEventListener("keydown", keydown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.position = previousPosition;
-      document.body.style.top = previousTop;
-      document.body.style.width = previousWidth;
-      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", keydown);
+      Object.assign(document.body.style, previous);
       window.scrollTo(0, scrollY);
+      previousActive?.focus();
     };
-  }, [closeViewer, currentIndex, goToPage, open]);
+  }, [closeViewer, currentIndex, goToPage, isFullscreen, leaveFullscreen, open, zoom]);
 
-  if (process.env.NODE_ENV !== "production" && open) {
-    if (pages.length !== 14) {
-      console.error("[MenuFullViewer] Expected 14 pages", { pages });
-    }
+  const distance = () => {
+    const points = [...pointers.current.values()];
+    return points.length < 2 ? 0 : Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+  };
 
-    if (!currentPage?.src) {
-      console.error("[MenuFullViewer] Missing currentPage.src", currentPage);
+  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const point = { x: event.clientX, y: event.clientY };
+    pointers.current.set(event.pointerId, point);
+    if (pointers.current.size === 2) {
+      pinchStart.current = distance();
+      pinchZoom.current = zoom;
+      dragStart.current = null;
     } else {
-      console.log("[MenuFullViewer]", currentPage);
+      dragStart.current = point;
+      swipeStart.current = point;
+      panStart.current = pan;
     }
-  }
+  };
 
-  if (!mounted || !open || !currentPage?.src || totalPages === 0) return null;
+  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!pointers.current.has(event.pointerId)) return;
+    const point = { x: event.clientX, y: event.clientY };
+    pointers.current.set(event.pointerId, point);
+    if (pointers.current.size === 2 && pinchStart.current) {
+      const scale = clamp(pinchZoom.current * distance() / pinchStart.current, MIN_ZOOM, MAX_ZOOM);
+      setZoom(scale);
+      setPan((current) => constrainPan(current, scale));
+    } else if (zoom > 1 && dragStart.current) {
+      setPan(constrainPan({
+        x: panStart.current.x + point.x - dragStart.current.x,
+        y: panStart.current.y + point.y - dragStart.current.y,
+      }, zoom));
+    }
+  };
+
+  const onPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const end = pointers.current.get(event.pointerId);
+    pointers.current.delete(event.pointerId);
+    if (zoom === 1 && end && swipeStart.current) {
+      const dx = end.x - swipeStart.current.x;
+      const dy = end.y - swipeStart.current.y;
+      if (Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.2)
+        goToPage(currentIndex + (dx < 0 ? 1 : -1));
+    }
+    if (pointers.current.size < 2) pinchStart.current = null;
+    dragStart.current = null;
+    swipeStart.current = null;
+  };
+
+  const onWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    changeZoom(zoom + (event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
+  };
+
+  if (!mounted || !open || !currentPage?.src || !total) return null;
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex h-[100dvh] w-screen items-stretch justify-center bg-[#080707] text-white md:items-center md:bg-black/78 md:px-6 md:py-6"
+      ref={dialogRef}
+      className={`${isFullscreen ? "isFullscreen " : ""}fixed inset-0 z-[100] flex h-[100dvh] w-screen items-stretch justify-center bg-[#080707] text-white md:items-center md:bg-black/80 md:px-5 md:py-5`}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="menu-full-viewer-title"
+      aria-label="Menu Take Away"
       data-menu-source={source}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) closeViewer();
-      }}
     >
-      <div className="grid h-[100dvh] w-screen grid-rows-[auto_minmax(0,1fr)_auto_auto] overflow-hidden bg-[#100d0c] shadow-[0_24px_70px_rgba(0,0,0,0.42)] md:h-[90vh] md:max-h-[90vh] md:w-full md:max-w-[1120px] md:grid-rows-[auto_minmax(0,1fr)_auto] md:rounded-[18px]">
-        <header className="z-10 flex shrink-0 items-start justify-between gap-3 border-b border-white/10 px-4 pb-3 pt-[calc(12px+env(safe-area-inset-top))] md:px-5 md:py-4">
+      <div className={`grid h-[100dvh] w-screen grid-rows-[auto_minmax(0,1fr)_auto_auto] overflow-hidden bg-[#100d0c] ${isFullscreen ? "" : "md:h-[92vh] md:max-w-[1180px] md:rounded-lg"}`}>
+        <header className="z-10 flex items-center justify-between gap-3 border-b border-white/10 px-3 pb-3 pt-[calc(10px+env(safe-area-inset-top))] md:px-5 md:py-3">
           <div className="min-w-0">
-            <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#c9a45c]">
-              Menu Take Away
-            </p>
-            <h2
-              id="menu-full-viewer-title"
-              className="mt-1 text-base font-black leading-tight text-white md:text-xl"
-            >
-              {pageLabel(currentIndex, totalPages)}
-            </h2>
+            <h2 className="text-sm font-black md:text-lg">Menu Take Away</h2>
+            <p className="mt-0.5 text-xs font-bold text-[#d8b66e] md:text-sm">Página {currentIndex + 1} de {total}</p>
           </div>
-          <button
-            ref={closeButtonRef}
-            type="button"
-            className="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-black text-neutral-950 transition hover:bg-[#f5e7cf]"
-            onClick={closeViewer}
-            aria-label="Fechar menu completo"
-          >
-            Fechar
-          </button>
+          <div className="flex shrink-0 items-center gap-2">
+            <button type="button" className="hidden min-h-10 rounded-full border border-white/20 px-4 text-sm font-black hover:border-white/50 md:block" onClick={() => void toggleFullscreen()} aria-label={isFullscreen ? "Sair do ecrã inteiro" : "Ativar ecrã inteiro"}>{isFullscreen ? "Sair do ecrã inteiro" : "Ecrã inteiro"}</button>
+            <button ref={closeRef} type="button" className="min-h-10 rounded-full bg-white px-4 text-sm font-black text-neutral-950" onClick={() => void closeViewer()} aria-label="Fechar menu completo">Fechar</button>
+          </div>
         </header>
 
-        <div className="grid min-h-0 grid-rows-[minmax(0,1fr)] overflow-hidden px-3 py-3 md:grid-cols-[minmax(0,1fr)_188px] md:grid-rows-1 md:gap-4 md:p-4 lg:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="grid min-h-0 overflow-hidden md:grid-cols-[minmax(0,1fr)_176px] md:gap-3 md:p-3 lg:grid-cols-[minmax(0,1fr)_204px]">
           <div
-            className="flex min-h-0 touch-pan-y items-center justify-center overflow-hidden bg-[#070606] px-1 py-2 md:rounded-[12px] md:p-4"
-            onTouchStart={(event) => {
-              const touch = event.touches[0];
-              touchStartXRef.current = touch.clientX;
-              touchStartYRef.current = touch.clientY;
-            }}
-            onTouchEnd={(event) => {
-              if (
-                touchStartXRef.current === null ||
-                touchStartYRef.current === null
-              ) {
-                return;
-              }
-
-              const touch = event.changedTouches[0];
-              const deltaX = touch.clientX - touchStartXRef.current;
-              const deltaY = touch.clientY - touchStartYRef.current;
-              touchStartXRef.current = null;
-              touchStartYRef.current = null;
-
-              if (
-                Math.abs(deltaX) < 44 ||
-                Math.abs(deltaX) < Math.abs(deltaY) * 1.2
-              ) {
-                return;
-              }
-
-              goToPage(deltaX < 0 ? currentIndex + 1 : currentIndex - 1);
-            }}
+            ref={stageRef}
+            className={`relative flex min-h-0 select-none items-center justify-center overflow-hidden bg-[#070606] md:rounded-lg ${zoom > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"}`}
+            style={{ touchAction: "none" }}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerEnd}
+            onPointerCancel={onPointerEnd}
+            onWheel={onWheel}
+            onDoubleClick={() => changeZoom(zoom > 1 ? 1 : 2)}
+            aria-label="Imagem do menu com zoom e deslocamento"
           >
             <img
               key={currentPage.id}
               src={currentPage.src}
               alt={currentPage.alt}
               title={currentPage.title}
-              className="h-auto max-h-full w-auto max-w-full object-contain md:max-w-[1055px]"
+              draggable={false}
+              className="pointer-events-none h-full w-full select-none object-contain"
+              style={{ transform: `translate3d(${pan.x}px,${pan.y}px,0) scale(${zoom})`, transformOrigin: "center" }}
             />
           </div>
 
-          <aside className="hidden min-h-0 md:flex md:flex-col">
-            <p className="mb-2 hidden text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/48 md:block">
-              Páginas
-            </p>
-            <div className="koi-menu-scroll flex gap-2 overflow-x-auto pb-1 md:min-h-0 md:flex-1 md:grid md:grid-cols-2 md:content-start md:overflow-x-hidden md:overflow-y-auto md:pr-1">
-              {pages.map((page, index) => (
-                <button
-                  key={page.id}
-                  type="button"
-                  className={`grid h-[82px] w-[58px] shrink-0 place-items-center overflow-hidden rounded-[9px] bg-white p-1 transition md:h-[98px] md:w-full ${
-                    index === currentIndex
-                      ? "opacity-100 ring-2 ring-[#c9a45c] ring-offset-2 ring-offset-[#100d0c]"
-                      : "opacity-58 hover:opacity-88"
-                  }`}
-                  onClick={() => goToPage(index)}
-                  aria-label={`Abrir ${pageTitle(index, totalPages)}`}
-                  aria-current={index === currentIndex ? "page" : undefined}
-                >
-                  <img
-                    src={page.src}
-                    alt=""
-                    aria-hidden="true"
-                    title={page.title}
-                    className="h-full w-full object-contain"
-                  />
-                </button>
-              ))}
-            </div>
+          <aside className="koi-menu-scroll hidden min-h-0 grid-cols-2 content-start gap-2 overflow-y-auto pr-1 md:grid">
+            {pages.map((page, index) => (
+              <button
+                key={page.id}
+                type="button"
+                className={`h-[96px] overflow-hidden rounded bg-white p-1 ${index === currentIndex ? "ring-2 ring-[#c9a45c]" : "opacity-55 hover:opacity-90"}`}
+                onClick={() => goToPage(index)}
+                aria-label={`Abrir ${page.title}`}
+                aria-current={index === currentIndex ? "page" : undefined}
+              >
+                <img src={page.src} alt="" aria-hidden="true" title={page.title} className="h-full w-full object-contain" />
+              </button>
+            ))}
           </aside>
         </div>
 
-        <div className="koi-menu-scroll flex shrink-0 gap-2 overflow-x-auto border-t border-white/10 bg-white/[0.04] px-3 py-2 md:hidden">
+        <div className="koi-menu-scroll flex shrink-0 gap-2 overflow-x-auto border-t border-white/10 px-3 py-2 md:hidden">
           {pages.map((page, index) => (
             <button
               key={page.id}
               type="button"
-              className={`grid h-[68px] w-[48px] shrink-0 place-items-center overflow-hidden rounded-[8px] bg-white p-1 transition ${
-                index === currentIndex
-                  ? "opacity-100 ring-2 ring-[#c9a45c] ring-offset-2 ring-offset-[#100d0c]"
-                  : "opacity-58"
-              }`}
+              className={`h-[54px] w-[40px] shrink-0 overflow-hidden rounded bg-white p-0.5 ${index === currentIndex ? "ring-2 ring-[#c9a45c]" : "opacity-55"}`}
               onClick={() => goToPage(index)}
-              aria-label={`Abrir ${pageTitle(index, totalPages)}`}
+              aria-label={`Abrir ${page.title}`}
               aria-current={index === currentIndex ? "page" : undefined}
             >
-              <img
-                src={page.src}
-                alt=""
-                aria-hidden="true"
-                title={page.title}
-                className="h-full w-full object-contain"
-              />
+              <img src={page.src} alt="" aria-hidden="true" title={page.title} className="h-full w-full object-contain" />
             </button>
           ))}
         </div>
 
-        <footer className="grid shrink-0 grid-cols-2 items-center gap-2 border-t border-white/10 px-3 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 md:grid-cols-[140px_minmax(220px,420px)_140px] md:justify-center md:gap-3 md:px-5 md:py-4">
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-primary col-span-2 min-h-11 w-full md:col-span-1 md:col-start-2"
-          >
-            Pedir pelo WhatsApp
-          </a>
-          <button
-            type="button"
-            className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white transition hover:border-white/45 md:col-start-1 md:row-start-1"
-            onClick={() => goToPage(currentIndex - 1)}
-            aria-label="Ver página anterior do menu"
-          >
-            Anterior
-          </button>
-          <button
-            type="button"
-            className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white transition hover:border-white/45 md:col-start-3 md:row-start-1"
-            onClick={() => goToPage(currentIndex + 1)}
-            aria-label="Ver página seguinte do menu"
-          >
-            Seguinte
-          </button>
+        <footer className="shrink-0 border-t border-white/10 px-3 pb-[calc(10px+env(safe-area-inset-bottom))] pt-2 md:px-5 md:py-3">
+          <div className="grid grid-cols-[1fr_1.45fr_1fr] gap-2">
+            <button type="button" className="min-h-10 rounded-full border border-white/20 px-2 text-xs font-black md:text-sm" onClick={() => goToPage(currentIndex - 1)} aria-label="Ver página anterior do menu">Anterior</button>
+            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="flex min-h-10 items-center justify-center rounded-full bg-[var(--chambar-red)] px-2 text-center text-xs font-black md:text-sm">Pedir pelo WhatsApp</a>
+            <button type="button" className="min-h-10 rounded-full border border-white/20 px-2 text-xs font-black md:text-sm" onClick={() => goToPage(currentIndex + 1)} aria-label="Ver página seguinte do menu">Seguinte</button>
+          </div>
+          <div className="mt-2 flex items-center justify-center gap-2" aria-label="Controlos de zoom">
+            <button type="button" className="h-9 min-w-11 rounded-full border border-white/20 text-lg font-black disabled:opacity-35" onClick={() => changeZoom(zoom - ZOOM_STEP)} disabled={zoom <= MIN_ZOOM} aria-label="Diminuir zoom">−</button>
+            <span className="w-14 text-center text-xs font-black tabular-nums" aria-live="polite">{Math.round(zoom * 100)}%</span>
+            <button type="button" className="h-9 min-w-11 rounded-full border border-white/20 text-lg font-black disabled:opacity-35" onClick={() => changeZoom(zoom + ZOOM_STEP)} disabled={zoom >= MAX_ZOOM} aria-label="Aumentar zoom">+</button>
+            <button type="button" className="h-9 rounded-full border border-white/20 px-4 text-xs font-black disabled:opacity-35" onClick={resetTransform} disabled={zoom === 1 && pan.x === 0 && pan.y === 0} aria-label="Repor zoom e posição">Repor</button>
+          </div>
         </footer>
       </div>
     </div>,
