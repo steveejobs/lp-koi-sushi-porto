@@ -11,7 +11,15 @@ function wrapPageIndex(index: number, length: number) {
 }
 
 function pageLabel(index: number, total: number) {
-  return `P\u00e1gina ${index + 1} de ${total}`;
+  return `Pagina ${index + 1} de ${total}`;
+}
+
+function pageAlt(index: number, total: number) {
+  return `Pagina ${index + 1} de ${total} do menu Take Away do Koi Sushi Porto`;
+}
+
+function pageTitle(index: number, total: number) {
+  return `Menu Take Away - Pagina ${index + 1} de ${total}`;
 }
 
 type InstagramMenuLightboxProps = {
@@ -100,7 +108,7 @@ function InstagramMenuLightbox({
         <div className="flex min-h-0 items-center justify-center overflow-hidden bg-[#070606] p-2">
           <img
             src={activePage.src}
-            alt={activePage.alt}
+            alt={pageAlt(activeIndex, totalPages)}
             className="max-h-[68svh] w-full max-w-full object-contain"
             loading="eager"
             decoding="async"
@@ -118,7 +126,7 @@ function InstagramMenuLightbox({
                   : "border-white/12 opacity-72"
               }`}
               onClick={() => goToPage(index)}
-              aria-label={`Abrir ${pageLabel(index, totalPages)}`}
+              aria-label={`Abrir ${pageTitle(index, totalPages)}`}
             >
               <img
                 src={page.src}
@@ -186,7 +194,8 @@ export function InstagramMenuTakeAwaySection() {
           Menu Take Away
         </h2>
         <p className="mx-auto mt-2 max-w-[22rem] text-sm font-bold leading-6 text-neutral-600">
-          Arraste para ver o menu, toque para ampliar e pe\u00e7a pelo WhatsApp.
+          Arraste para ver o menu, toque para ampliar e fale connosco pelo
+          WhatsApp.
         </p>
       </div>
 

@@ -31,31 +31,31 @@ const TAP_THRESHOLD_PX = 6;
 
 const MOBILE_CONFIG: CircularMenuConfig = {
   perspective: 1100,
-  radius: 150,
-  cardWidth: "clamp(150px, 52vw, 210px)",
-  cardHeight: "clamp(220px, 72vw, 315px)",
-  stageHeight: "clamp(300px, 48svh, 390px)",
-  stageMinHeight: 300,
+  radius: 128,
+  cardWidth: "clamp(132px, 46vw, 178px)",
+  cardHeight: "clamp(194px, 65vw, 268px)",
+  stageHeight: "clamp(270px, 42svh, 340px)",
+  stageMinHeight: 270,
   autoRotateSpeed: 0.018,
 };
 
 const TABLET_CONFIG: CircularMenuConfig = {
   perspective: 1100,
-  radius: 250,
-  cardWidth: "240px",
-  cardHeight: "360px",
-  stageHeight: "460px",
-  stageMinHeight: 420,
+  radius: 218,
+  cardWidth: "218px",
+  cardHeight: "328px",
+  stageHeight: "420px",
+  stageMinHeight: 390,
   autoRotateSpeed: 0.016,
 };
 
 const DESKTOP_CONFIG: CircularMenuConfig = {
   perspective: 1250,
-  radius: 340,
-  cardWidth: "270px",
-  cardHeight: "405px",
-  stageHeight: "520px",
-  stageMinHeight: 460,
+  radius: 310,
+  cardWidth: "248px",
+  cardHeight: "372px",
+  stageHeight: "470px",
+  stageMinHeight: 430,
   autoRotateSpeed: 0.016,
 };
 
@@ -71,8 +71,8 @@ function normalizeAngle(angle: number) {
 
 function getOpacity(normalizedAngle: number) {
   if (normalizedAngle <= 10) return 1;
-  if (normalizedAngle <= 32) return 0.12;
-  if (normalizedAngle <= 52) return 0.04;
+  if (normalizedAngle <= 24) return 0.08;
+  if (normalizedAngle <= 34) return 0.03;
   return 0;
 }
 
@@ -238,7 +238,8 @@ export function InstagramCircularMenuGallery({
           const itemAngle = index * anglePerItem;
           const relativeAngle = normalizeAngle(rotation + itemAngle);
           const normalizedAngle = Math.abs(relativeAngle);
-          const isFront = index === computedActiveIndex && normalizedAngle < 18;
+          const isFront =
+            index === computedActiveIndex && normalizedAngle <= 10;
           const opacity = getOpacity(normalizedAngle);
           const visible = opacity > 0;
 
@@ -260,11 +261,11 @@ export function InstagramCircularMenuGallery({
                 transform: `translate3d(-50%, -50%, 0) rotateY(${itemAngle}deg) translateZ(${config.radius}px)`,
                 transformStyle: "preserve-3d",
                 visibility:
-                  normalizedAngle > 52 || !visible ? "hidden" : "visible",
-                zIndex: isFront ? 40 : visible ? 5 : 0,
+                  normalizedAngle > 34 || !visible ? "hidden" : "visible",
+                zIndex: isFront ? 60 : visible ? 1 : 0,
               }}
               aria-hidden={!isFront}
-              aria-label={`Abrir ${page.title}`}
+              aria-label={`Abrir Menu Take Away - Pagina ${index + 1} de ${pageCount}`}
               tabIndex={isFront ? 0 : -1}
               onClick={() => {
                 if (suppressClickRef.current) {
@@ -279,8 +280,12 @@ export function InstagramCircularMenuGallery({
             >
               <img
                 src={page.src}
-                alt={isFront ? page.alt : ""}
-                className="h-full w-full select-none rounded-[8px] object-contain"
+                alt={
+                  isFront
+                    ? `Pagina ${index + 1} de ${pageCount} do menu Take Away do Koi Sushi Porto`
+                    : ""
+                }
+                className="h-full w-full select-none rounded-[6px] object-contain"
                 loading={isFront ? "eager" : "lazy"}
                 decoding="async"
                 draggable={false}

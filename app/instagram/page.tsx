@@ -1,4 +1,4 @@
-﻿import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
@@ -22,13 +22,13 @@ import {
 
 export const metadata: Metadata = {
   metadataBase: new URL(FULL_SITE_URL),
-  title: "Koi Sushi Porto | Menu, Take Away e localização",
+  title: "Koi Sushi Porto | Menu, Take Away e localiza\u00e7\u00e3o",
   description:
-    "Veja o menu, peça Take Away, consulte a localização e acompanhe o Koi Sushi Porto no Instagram.",
+    "Veja o menu, pe\u00e7a Take Away, consulte a localiza\u00e7\u00e3o e acompanhe o Koi Sushi Porto no Instagram.",
   openGraph: {
     title: "Koi Sushi Porto",
     description:
-      "Veja o menu, peça Take Away, consulte a localização e acompanhe o Koi Sushi Porto no Instagram.",
+      "Veja o menu, pe\u00e7a Take Away, consulte a localiza\u00e7\u00e3o e acompanhe o Koi Sushi Porto no Instagram.",
     url: "/instagram",
     images: [
       {
@@ -45,7 +45,7 @@ const nightOptions = [
   "Sushi",
   "Cozinha chinesa",
   "Take Away",
-  "12h–15h | 19h–23h",
+  "12h\u201315h | 19h\u201323h",
 ];
 
 function IconArrow() {
@@ -150,12 +150,16 @@ export default function InstagramLinksPage() {
             Sushi, cozinha chinesa e Take Away no Porto.
           </p>
           <p className="mx-auto mt-3 max-w-[20rem] text-sm font-bold leading-6 text-neutral-600">
-            Menu Infinity, pratos chineses, sushi e Take Away preparado na hora.
+            {
+              "Veja sushi, pratos chineses, op\u00e7\u00f5es quentes e fale connosco pelo WhatsApp."
+            }
           </p>
           <p className="mt-4 inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-3.5 py-2 text-xs font-black text-neutral-900 shadow-[0_10px_22px_rgba(16,16,16,0.04)]">
-            <span className="mr-2 text-[var(--chambar-red)]">★★★★★</span>
-            {CHAMBAR_CONFIG.googleRating} no Google ·{" "}
-            {CHAMBAR_CONFIG.googleReviews} avaliações
+            <span className="mr-2 text-[var(--chambar-red)]">
+              {"\u2605\u2605\u2605\u2605\u2605"}
+            </span>
+            {CHAMBAR_CONFIG.googleRating} no Google -{" "}
+            {CHAMBAR_CONFIG.googleReviews} {"avalia\u00e7\u00f5es"}
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2">
             {nightOptions.map((option) => (
@@ -184,7 +188,7 @@ export default function InstagramLinksPage() {
             Ver menu
           </LinkButton>
           <LinkButton href={GOOGLE_MAPS_URL} icon={<IconArrow />} delay={290}>
-            Ver localização
+            {"Ver localiza\u00e7\u00e3o"}
           </LinkButton>
           <LinkButton href={INSTAGRAM_URL} icon={<IconInstagram />} delay={360}>
             Instagram
@@ -241,15 +245,16 @@ export default function InstagramLinksPage() {
               className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--chambar-red)] text-sm font-black text-white active:scale-[0.985]"
             >
               <IconArrow />
-              Localização
+              {"Localiza\u00e7\u00e3o"}
             </a>
           </div>
         </section>
 
         <footer className="ig-rise mt-5 pb-1 text-center text-xs font-black text-neutral-500">
           <p>
-            Koi Sushi Porto · Estrada Exterior da Circunvalação, 7824-F, Porto ·
-            12h–15h | 19h–23h · @koisushi_porto
+            {
+              "Koi Sushi Porto \u00b7 Estrada Exterior da Circunvala\u00e7\u00e3o, 7824-F, Porto \u00b7 12h\u201315h | 19h\u201323h \u00b7 @koisushi_porto"
+            }
           </p>
         </footer>
       </div>

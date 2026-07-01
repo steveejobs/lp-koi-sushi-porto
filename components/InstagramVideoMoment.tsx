@@ -75,8 +75,9 @@ export function InstagramVideoMoment({
             Antes do primeiro pedido.
           </h2>
           <p className="mt-2 text-sm font-bold leading-5 text-neutral-600">
-            Veja sushi, pratos chineses, opções quentes e fale connosco pelo
-            WhatsApp.
+            {
+              "Veja sushi, pratos chineses, op\u00e7\u00f5es quentes e fale connosco pelo WhatsApp."
+            }
           </p>
           <div className="mt-4 h-px w-14 bg-[var(--chambar-red)]" />
         </div>
