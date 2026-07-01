@@ -13,6 +13,7 @@ type InstagramCircularMenuGalleryProps = {
   pages: KoiMenuPage[];
   onActiveIndexChange: (index: number) => void;
   onPageClick: (index: number) => void;
+  paused?: boolean;
 };
 
 type CircularMenuConfig = {
@@ -30,32 +31,32 @@ const TAP_THRESHOLD_PX = 6;
 
 const MOBILE_CONFIG: CircularMenuConfig = {
   perspective: 1100,
-  radius: 260,
-  cardWidth: "min(74vw, 280px)",
-  cardHeight: "min(54svh, 410px)",
-  stageHeight: "min(62svh, 480px)",
-  stageMinHeight: 390,
-  autoRotateSpeed: 0.014,
+  radius: 150,
+  cardWidth: "clamp(150px, 52vw, 210px)",
+  cardHeight: "clamp(220px, 72vw, 315px)",
+  stageHeight: "clamp(300px, 48svh, 390px)",
+  stageMinHeight: 300,
+  autoRotateSpeed: 0.018,
 };
 
 const TABLET_CONFIG: CircularMenuConfig = {
-  perspective: 1300,
-  radius: 370,
-  cardWidth: "320px",
-  cardHeight: "470px",
-  stageHeight: "560px",
-  stageMinHeight: 500,
-  autoRotateSpeed: 0.012,
+  perspective: 1100,
+  radius: 250,
+  cardWidth: "240px",
+  cardHeight: "360px",
+  stageHeight: "460px",
+  stageMinHeight: 420,
+  autoRotateSpeed: 0.016,
 };
 
 const DESKTOP_CONFIG: CircularMenuConfig = {
-  perspective: 1500,
-  radius: 470,
-  cardWidth: "340px",
-  cardHeight: "530px",
-  stageHeight: "640px",
-  stageMinHeight: 560,
-  autoRotateSpeed: 0.011,
+  perspective: 1250,
+  radius: 340,
+  cardWidth: "270px",
+  cardHeight: "405px",
+  stageHeight: "520px",
+  stageMinHeight: 460,
+  autoRotateSpeed: 0.016,
 };
 
 function wrapIndex(index: number, length: number) {
@@ -69,15 +70,9 @@ function normalizeAngle(angle: number) {
 }
 
 function getOpacity(normalizedAngle: number) {
-  if (normalizedAngle < 18) return 1;
-  if (normalizedAngle < 55) {
-    const progress = (normalizedAngle - 18) / 37;
-    return 0.38 - progress * 0.16;
-  }
-  if (normalizedAngle < 90) {
-    const progress = (normalizedAngle - 55) / 35;
-    return 0.16 - progress * 0.08;
-  }
+  if (normalizedAngle <= 10) return 1;
+  if (normalizedAngle <= 32) return 0.12;
+  if (normalizedAngle <= 52) return 0.04;
   return 0;
 }
 
@@ -108,6 +103,7 @@ export function InstagramCircularMenuGallery({
   pages,
   onActiveIndexChange,
   onPageClick,
+  paused = false,
 }: InstagramCircularMenuGalleryProps) {
   const config = useCircularMenuConfig();
   const [rotation, setRotation] = useState(0);
@@ -153,7 +149,7 @@ export function InstagramCircularMenuGallery({
   }, [computedActiveIndex, onActiveIndexChange]);
 
   useEffect(() => {
-    if (isPaused || isDragging || pageCount < 2) return;
+    if (paused || isPaused || isDragging || pageCount < 2) return;
 
     const rotate = () => {
       setRotation(
@@ -168,7 +164,7 @@ export function InstagramCircularMenuGallery({
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       frameRef.current = null;
     };
-  }, [config.autoRotateSpeed, isDragging, isPaused, pageCount]);
+  }, [config.autoRotateSpeed, isDragging, isPaused, pageCount, paused]);
 
   useEffect(() => {
     return () => {
@@ -255,13 +251,17 @@ export function InstagramCircularMenuGallery({
                 width: "var(--instagram-menu-card-width)",
                 height: "var(--instagram-menu-card-height)",
                 border: "none",
-                boxShadow: isFront ? "0 18px 42px rgba(0, 0, 0, 0.16)" : "none",
+                boxShadow: "none",
+                filter: isFront
+                  ? "drop-shadow(0 18px 36px rgba(0, 0, 0, 0.22))"
+                  : "none",
                 opacity,
                 pointerEvents: isFront ? "auto" : "none",
                 transform: `translate3d(-50%, -50%, 0) rotateY(${itemAngle}deg) translateZ(${config.radius}px)`,
                 transformStyle: "preserve-3d",
-                visibility: visible ? "visible" : "hidden",
-                zIndex: Math.max(0, 1000 - Math.round(normalizedAngle * 10)),
+                visibility:
+                  normalizedAngle > 52 || !visible ? "hidden" : "visible",
+                zIndex: isFront ? 40 : visible ? 5 : 0,
               }}
               aria-hidden={!isFront}
               aria-label={`Abrir ${page.title}`}

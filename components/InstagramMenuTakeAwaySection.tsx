@@ -11,7 +11,7 @@ function wrapPageIndex(index: number, length: number) {
 }
 
 function pageLabel(index: number, total: number) {
-  return `PÃƒÂ¡gina ${index + 1} de ${total}`;
+  return `P\u00e1gina ${index + 1} de ${total}`;
 }
 
 type InstagramMenuLightboxProps = {
@@ -174,7 +174,7 @@ export function InstagramMenuTakeAwaySection() {
 
   return (
     <section
-      className="ig-rise mt-5 overflow-x-clip px-0 py-4"
+      className="ig-rise mx-auto mt-5 max-w-[720px] overflow-x-clip px-5 py-4"
       style={{ "--ig-delay": "500ms" } as CSSProperties}
       aria-labelledby="instagram-menu-title"
     >
@@ -186,11 +186,11 @@ export function InstagramMenuTakeAwaySection() {
           Menu Take Away
         </h2>
         <p className="mx-auto mt-2 max-w-[22rem] text-sm font-bold leading-6 text-neutral-600">
-          Arraste para ver o menu, toque para ampliar e peÃƒÂ§a pelo WhatsApp.
+          Arraste para ver o menu, toque para ampliar e pe\u00e7a pelo WhatsApp.
         </p>
       </div>
 
-      <div className="mt-4 flex gap-2">
+      <div className="mt-5 flex flex-col gap-2 min-[380px]:flex-row">
         <button
           type="button"
           className="btn btn-primary min-h-11 flex-1 px-4 text-sm"
@@ -208,16 +208,17 @@ export function InstagramMenuTakeAwaySection() {
         </a>
       </div>
 
-      <div className="mt-3 text-center" aria-live="polite">
+      <div className="mt-5 text-center" aria-live="polite">
         <p className="text-[0.68rem] font-black uppercase tracking-[0.12em] text-[var(--chambar-red)]">
           {pageLabel(activeGalleryIndex, totalPages)}
         </p>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-4">
         <InstagramCircularMenuGallery
           pages={koiMenuPages}
           onActiveIndexChange={setActiveGalleryIndex}
+          paused={modalOpen}
           onPageClick={(index) => {
             setActivePageIndex(index);
             setModalOpen(true);
