@@ -194,8 +194,7 @@ export function InstagramMenuTakeAwaySection() {
           Menu Take Away
         </h2>
         <p className="mx-auto mt-2 max-w-[22rem] text-sm font-bold leading-6 text-neutral-600">
-          Arraste para ver o menu, toque para ampliar e fale connosco pelo
-          WhatsApp.
+          Arraste para ver o menu, toque para ampliar e peca pelo WhatsApp.
         </p>
       </div>
 

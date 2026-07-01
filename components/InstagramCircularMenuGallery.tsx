@@ -4,6 +4,7 @@ import {
   type CSSProperties,
   type PointerEvent,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -23,11 +24,12 @@ type CircularMenuConfig = {
   cardHeight: string;
   stageHeight: string;
   stageMinHeight: number;
-  autoRotateSpeed: number;
 };
 
 const RESUME_AUTOPLAY_MS = 1000;
 const TAP_THRESHOLD_PX = 6;
+const STEP_PAUSE_MS = 2800;
+const STEP_DURATION_MS = 860;
 
 const MOBILE_CONFIG: CircularMenuConfig = {
   perspective: 1100,
@@ -36,7 +38,6 @@ const MOBILE_CONFIG: CircularMenuConfig = {
   cardHeight: "clamp(194px, 65vw, 268px)",
   stageHeight: "clamp(270px, 42svh, 340px)",
   stageMinHeight: 270,
-  autoRotateSpeed: 0.018,
 };
 
 const TABLET_CONFIG: CircularMenuConfig = {
@@ -46,7 +47,6 @@ const TABLET_CONFIG: CircularMenuConfig = {
   cardHeight: "328px",
   stageHeight: "420px",
   stageMinHeight: 390,
-  autoRotateSpeed: 0.016,
 };
 
 const DESKTOP_CONFIG: CircularMenuConfig = {
@@ -56,21 +56,44 @@ const DESKTOP_CONFIG: CircularMenuConfig = {
   cardHeight: "372px",
   stageHeight: "470px",
   stageMinHeight: 430,
-  autoRotateSpeed: 0.016,
 };
-
-function wrapIndex(index: number, length: number) {
-  if (length <= 0) return 0;
-  return ((index % length) + length) % length;
-}
 
 function normalizeAngle(angle: number) {
   const wrapped = ((angle % 360) + 360) % 360;
   return wrapped > 180 ? wrapped - 360 : wrapped;
 }
 
+function easeInOutCubic(progress: number) {
+  return progress < 0.5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+}
+
 function isLateralVisible(normalizedAngle: number) {
-  return normalizedAngle >= 28 && normalizedAngle <= 42;
+  return normalizedAngle >= 30 && normalizedAngle <= 52;
+}
+
+function getFrontIndex(
+  rotation: number,
+  itemCount: number,
+  anglePerItem: number,
+) {
+  if (!itemCount) return 0;
+
+  let frontIndex = 0;
+  let smallestAngle = Number.POSITIVE_INFINITY;
+
+  for (let index = 0; index < itemCount; index += 1) {
+    const relativeAngle = normalizeAngle(rotation + index * anglePerItem);
+    const absAngle = Math.abs(relativeAngle);
+
+    if (absAngle < smallestAngle) {
+      smallestAngle = absAngle;
+      frontIndex = index;
+    }
+  }
+
+  return frontIndex;
 }
 
 function useCircularMenuConfig() {
@@ -107,6 +130,7 @@ export function InstagramCircularMenuGallery({
   const [isDragging, setIsDragging] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const frameRef = useRef<number | null>(null);
+  const stepTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerIdRef = useRef<number | null>(null);
   const startXRef = useRef(0);
@@ -114,13 +138,33 @@ export function InstagramCircularMenuGallery({
   const maxMoveXRef = useRef(0);
   const suppressClickRef = useRef(false);
   const lastActiveIndexRef = useRef(0);
+  const rotationRef = useRef(0);
   const pageCount = pages.length;
   const anglePerItem = pageCount > 0 ? 360 / pageCount : 0;
-  const computedActiveIndex = pageCount
-    ? wrapIndex(Math.round(-rotation / anglePerItem), pageCount)
-    : 0;
+  const frontIndex = useMemo(
+    () => getFrontIndex(rotation, pageCount, anglePerItem),
+    [anglePerItem, pageCount, rotation],
+  );
+
+  const setGalleryRotation = (nextRotation: number) => {
+    rotationRef.current = nextRotation;
+    setRotation(nextRotation);
+  };
+
+  const clearStepAutoplay = () => {
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
+
+    if (stepTimeoutRef.current) {
+      clearTimeout(stepTimeoutRef.current);
+      stepTimeoutRef.current = null;
+    }
+  };
 
   const pauseAutoplay = () => {
+    clearStepAutoplay();
     setIsPaused(true);
 
     if (resumeTimeoutRef.current) {
@@ -139,33 +183,55 @@ export function InstagramCircularMenuGallery({
   };
 
   useEffect(() => {
-    if (lastActiveIndexRef.current === computedActiveIndex) return;
+    if (lastActiveIndexRef.current === frontIndex) return;
 
-    lastActiveIndexRef.current = computedActiveIndex;
-    onActiveIndexChange(computedActiveIndex);
-  }, [computedActiveIndex, onActiveIndexChange]);
-
-  useEffect(() => {
-    if (paused || isPaused || isDragging || pageCount < 2) return;
-
-    const rotate = () => {
-      setRotation(
-        (currentRotation) => currentRotation - config.autoRotateSpeed,
-      );
-      frameRef.current = requestAnimationFrame(rotate);
-    };
-
-    frameRef.current = requestAnimationFrame(rotate);
-
-    return () => {
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-      frameRef.current = null;
-    };
-  }, [config.autoRotateSpeed, isDragging, isPaused, pageCount, paused]);
+    lastActiveIndexRef.current = frontIndex;
+    onActiveIndexChange(frontIndex);
+  }, [frontIndex, onActiveIndexChange]);
 
   useEffect(() => {
+    if (paused || isPaused || isDragging || pageCount < 2 || !anglePerItem) {
+      clearStepAutoplay();
+      return undefined;
+    }
+
+    const animateToNextPage = () => {
+      const startRotation = rotationRef.current;
+      const targetRotation = startRotation - anglePerItem;
+      const startedAt = performance.now();
+
+      const animate = (timestamp: number) => {
+        const progress = Math.min(
+          1,
+          (timestamp - startedAt) / STEP_DURATION_MS,
+        );
+        const easedProgress = easeInOutCubic(progress);
+        setGalleryRotation(
+          startRotation + (targetRotation - startRotation) * easedProgress,
+        );
+
+        if (progress < 1) {
+          frameRef.current = requestAnimationFrame(animate);
+          return;
+        }
+
+        setGalleryRotation(targetRotation);
+        frameRef.current = null;
+        stepTimeoutRef.current = setTimeout(animateToNextPage, STEP_PAUSE_MS);
+      };
+
+      frameRef.current = requestAnimationFrame(animate);
+    };
+
+    stepTimeoutRef.current = setTimeout(animateToNextPage, STEP_PAUSE_MS);
+
+    return clearStepAutoplay;
+  }, [anglePerItem, isDragging, isPaused, pageCount, paused]);
+
+  useEffect(() => clearStepAutoplay, []);
+
+  useEffect(() => {
     return () => {
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
       if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     };
   }, []);
@@ -175,7 +241,7 @@ export function InstagramCircularMenuGallery({
 
     pointerIdRef.current = event.pointerId;
     startXRef.current = event.clientX;
-    startRotationRef.current = rotation;
+    startRotationRef.current = rotationRef.current;
     maxMoveXRef.current = 0;
     suppressClickRef.current = false;
     setIsDragging(true);
@@ -188,7 +254,7 @@ export function InstagramCircularMenuGallery({
 
     const deltaX = event.clientX - startXRef.current;
     maxMoveXRef.current = Math.max(maxMoveXRef.current, Math.abs(deltaX));
-    setRotation(startRotationRef.current + deltaX * 0.2);
+    setGalleryRotation(startRotationRef.current + deltaX * 0.2);
   };
 
   const finishPointerGesture = (event: PointerEvent<HTMLDivElement>) => {
@@ -197,6 +263,16 @@ export function InstagramCircularMenuGallery({
     suppressClickRef.current = maxMoveXRef.current >= TAP_THRESHOLD_PX;
     pointerIdRef.current = null;
     setIsDragging(false);
+
+    if (anglePerItem) {
+      const nearestIndex = getFrontIndex(
+        rotationRef.current,
+        pageCount,
+        anglePerItem,
+      );
+      setGalleryRotation(-nearestIndex * anglePerItem);
+    }
+
     resumeAutoplaySoon();
   };
 
@@ -227,7 +303,6 @@ export function InstagramCircularMenuGallery({
         style={{
           transform: `rotateY(${rotation}deg)`,
           transformStyle: "preserve-3d",
-          transition: isDragging ? "none" : "transform 80ms linear",
           willChange: "transform",
         }}
       >
@@ -235,9 +310,9 @@ export function InstagramCircularMenuGallery({
           const itemAngle = index * anglePerItem;
           const relativeAngle = normalizeAngle(rotation + itemAngle);
           const normalizedAngle = Math.abs(relativeAngle);
-          const isFront = index === computedActiveIndex;
+          const isFront = index === frontIndex;
           const isLateral = !isFront && isLateralVisible(normalizedAngle);
-          const opacity = isFront ? 1 : isLateral ? 0.14 : 0;
+          const opacity = isFront ? 1 : isLateral ? 0.12 : 0;
           const visible = isFront || isLateral;
 
           return (
