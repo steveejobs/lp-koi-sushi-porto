@@ -69,11 +69,8 @@ function normalizeAngle(angle: number) {
   return wrapped > 180 ? wrapped - 360 : wrapped;
 }
 
-function getOpacity(normalizedAngle: number) {
-  if (normalizedAngle <= 10) return 1;
-  if (normalizedAngle <= 24) return 0.08;
-  if (normalizedAngle <= 34) return 0.03;
-  return 0;
+function isLateralVisible(normalizedAngle: number) {
+  return normalizedAngle >= 28 && normalizedAngle <= 42;
 }
 
 function useCircularMenuConfig() {
@@ -238,10 +235,10 @@ export function InstagramCircularMenuGallery({
           const itemAngle = index * anglePerItem;
           const relativeAngle = normalizeAngle(rotation + itemAngle);
           const normalizedAngle = Math.abs(relativeAngle);
-          const isFront =
-            index === computedActiveIndex && normalizedAngle <= 10;
-          const opacity = getOpacity(normalizedAngle);
-          const visible = opacity > 0;
+          const isFront = index === computedActiveIndex;
+          const isLateral = !isFront && isLateralVisible(normalizedAngle);
+          const opacity = isFront ? 1 : isLateral ? 0.14 : 0;
+          const visible = isFront || isLateral;
 
           return (
             <button
@@ -253,16 +250,13 @@ export function InstagramCircularMenuGallery({
                 height: "var(--instagram-menu-card-height)",
                 border: "none",
                 boxShadow: "none",
-                filter: isFront
-                  ? "drop-shadow(0 18px 36px rgba(0, 0, 0, 0.22))"
-                  : "none",
+                filter: "none",
                 opacity,
                 pointerEvents: isFront ? "auto" : "none",
                 transform: `translate3d(-50%, -50%, 0) rotateY(${itemAngle}deg) translateZ(${config.radius}px)`,
                 transformStyle: "preserve-3d",
-                visibility:
-                  normalizedAngle > 34 || !visible ? "hidden" : "visible",
-                zIndex: isFront ? 60 : visible ? 1 : 0,
+                visibility: visible ? "visible" : "hidden",
+                zIndex: isFront ? 60 : isLateral ? 5 : 0,
               }}
               aria-hidden={!isFront}
               aria-label={`Abrir Menu Take Away - Pagina ${index + 1} de ${pageCount}`}
@@ -288,6 +282,7 @@ export function InstagramCircularMenuGallery({
                 className="h-full w-full select-none rounded-[6px] object-contain"
                 loading={isFront ? "eager" : "lazy"}
                 decoding="async"
+                style={{ opacity: 1, filter: "none", mixBlendMode: "normal" }}
                 draggable={false}
               />
             </button>
