@@ -35,14 +35,14 @@ export const chambarTestimonials = [
   },
   {
     quote:
-      "Super valeu! Simples, com atendimento muito bom e opções do menu boas. Surpreendeu pelo custo-benefício.",
+      "Super valeu! Simples, com atendimento muito bom e opções do cardápio boas. Surpreendeu pelo custo-benefício.",
     name: "Sheila Freire",
     rating: 5,
     context: "Custo-benefício",
   },
   {
     quote:
-      "O melhor sushi, rodízio e poke da região. A equipa é excelente e a comida muito saborosa.",
+      "O melhor sushi, rodízio e poke da região. A equipe é excelente e a comida muito saborosa.",
     name: "Leticia Pi",
     rating: 5,
     context: "Variedade",
@@ -56,7 +56,7 @@ export const chambarTestimonials = [
   },
   {
     quote:
-      "Qualidade muito boa! Preço justo. Fomos por acaso, eu e meu namorado amámos.",
+      "Qualidade muito boa! Preço justo. Fomos por acaso, eu e meu namorado AMAMOS.",
     name: "Ná",
     rating: 5,
     context: "Preço justo",
