@@ -1,171 +1,13 @@
-"use client";
+﻿"use client";
 
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { type CSSProperties, useState } from "react";
 import { InstagramCircularMenuGallery } from "@/components/InstagramCircularMenuGallery";
+import { MenuFullViewer } from "@/components/MenuFullViewer";
 import { koiMenuPages } from "@/data/koi-menu-pages";
 import { getWhatsappUrl } from "@/lib/site";
 
-function wrapPageIndex(index: number, length: number) {
-  if (length <= 0) return 0;
-  return ((index % length) + length) % length;
-}
-
 function pageLabel(index: number, total: number) {
-  return `Pagina ${index + 1} de ${total}`;
-}
-
-function pageAlt(index: number, total: number) {
-  return `Pagina ${index + 1} de ${total} do menu Take Away do Koi Sushi Porto`;
-}
-
-function pageTitle(index: number, total: number) {
-  return `Menu Take Away - Pagina ${index + 1} de ${total}`;
-}
-
-type InstagramMenuLightboxProps = {
-  open: boolean;
-  activeIndex: number;
-  whatsappUrl: string;
-  onActiveIndexChange: (index: number) => void;
-  onClose: () => void;
-};
-
-function InstagramMenuLightbox({
-  open,
-  activeIndex,
-  whatsappUrl,
-  onActiveIndexChange,
-  onClose,
-}: InstagramMenuLightboxProps) {
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const totalPages = koiMenuPages.length;
-  const activePage = koiMenuPages[activeIndex] ?? koiMenuPages[0];
-
-  useEffect(() => {
-    if (!open) return;
-
-    closeButtonRef.current?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft") {
-        onActiveIndexChange(wrapPageIndex(activeIndex - 1, totalPages));
-      }
-      if (event.key === "ArrowRight") {
-        onActiveIndexChange(wrapPageIndex(activeIndex + 1, totalPages));
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [activeIndex, onActiveIndexChange, onClose, open, totalPages]);
-
-  if (!open || !activePage) return null;
-
-  const goToPage = (index: number) => {
-    onActiveIndexChange(wrapPageIndex(index, totalPages));
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/84 px-2 py-2 text-white backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="instagram-menu-page-title"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
-    >
-      <div className="grid h-[96svh] max-h-[96svh] w-full max-w-[96vw] grid-rows-[auto_minmax(0,1fr)_auto_auto] overflow-hidden rounded-[16px] border border-white/10 bg-[#100d0c] shadow-[0_28px_80px_rgba(0,0,0,0.52)] sm:max-w-[620px]">
-        <header className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
-          <div className="min-w-0">
-            <p className="text-[0.66rem] font-black uppercase tracking-[0.14em] text-[#c9a45c]">
-              MENU TAKE AWAY
-            </p>
-            <h2
-              id="instagram-menu-page-title"
-              className="mt-1 text-base font-black leading-tight text-white"
-            >
-              {pageLabel(activeIndex, totalPages)}
-            </h2>
-          </div>
-          <button
-            ref={closeButtonRef}
-            type="button"
-            className="shrink-0 rounded-full border border-white/15 bg-white px-4 py-2 text-sm font-black text-neutral-950"
-            onClick={onClose}
-            aria-label={"Fechar menu"}
-          >
-            Fechar
-          </button>
-        </header>
-
-        <div className="flex min-h-0 items-center justify-center overflow-hidden bg-[#070606] p-2">
-          <img
-            src={activePage.src}
-            alt={pageAlt(activeIndex, totalPages)}
-            className="max-h-[68svh] w-full max-w-full object-contain"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-
-        <div className="flex gap-2 overflow-x-auto border-t border-white/10 bg-white/[0.04] px-3 py-2">
-          {koiMenuPages.map((page, index) => (
-            <button
-              key={page.id}
-              type="button"
-              className={`h-[76px] w-[54px] shrink-0 overflow-hidden rounded-[8px] border bg-white p-1 transition ${
-                index === activeIndex
-                  ? "border-[#c9a45c] ring-2 ring-[#c9a45c]/35"
-                  : "border-white/12 opacity-72"
-              }`}
-              onClick={() => goToPage(index)}
-              aria-label={`Abrir ${pageTitle(index, totalPages)}`}
-            >
-              <img
-                src={page.src}
-                alt=""
-                className="h-full w-full object-contain"
-                loading="lazy"
-                decoding="async"
-              />
-            </button>
-          ))}
-        </div>
-
-        <footer className="grid grid-cols-2 gap-2 border-t border-white/10 px-3 py-3">
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-primary col-span-2 min-h-11 w-full"
-          >
-            Pedir pelo WhatsApp
-          </a>
-          <button
-            type="button"
-            className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white"
-            onClick={() => goToPage(activeIndex - 1)}
-          >
-            Anterior
-          </button>
-          <button
-            type="button"
-            className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white"
-            onClick={() => goToPage(activeIndex + 1)}
-          >
-            Seguinte
-          </button>
-        </footer>
-      </div>
-    </div>
-  );
+  return `Página ${index + 1} de ${total}`;
 }
 
 export function InstagramMenuTakeAwaySection() {
@@ -194,7 +36,7 @@ export function InstagramMenuTakeAwaySection() {
           Menu Take Away
         </h2>
         <p className="mx-auto mt-2 max-w-[22rem] text-sm font-bold leading-6 text-neutral-600">
-          Arraste para ver o menu, toque para ampliar e peca pelo WhatsApp.
+          Arraste para ver o menu, toque para ampliar e peça pelo WhatsApp.
         </p>
       </div>
 
@@ -234,7 +76,7 @@ export function InstagramMenuTakeAwaySection() {
         />
       </div>
 
-      <InstagramMenuLightbox
+      <MenuFullViewer
         open={modalOpen}
         activeIndex={activePageIndex}
         whatsappUrl={whatsappUrl}

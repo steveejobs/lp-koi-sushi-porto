@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   type CSSProperties,
@@ -334,7 +334,7 @@ export function InstagramCircularMenuGallery({
                 zIndex: isFront ? 60 : isLateral ? 5 : 0,
               }}
               aria-hidden={!isFront}
-              aria-label={`Abrir Menu Take Away - Pagina ${index + 1} de ${pageCount}`}
+              aria-label={`Abrir Menu Take Away · Página ${index + 1} de ${pageCount}`}
               tabIndex={isFront ? 0 : -1}
               onClick={() => {
                 if (suppressClickRef.current) {
@@ -351,7 +351,7 @@ export function InstagramCircularMenuGallery({
                 src={page.src}
                 alt={
                   isFront
-                    ? `Pagina ${index + 1} de ${pageCount} do menu Take Away do Koi Sushi Porto`
+                    ? `Página ${index + 1} de ${pageCount} do menu Take Away do Koi Sushi Porto`
                     : ""
                 }
                 className="h-full w-full select-none rounded-[6px] object-contain"
@@ -367,3 +367,4 @@ export function InstagramCircularMenuGallery({
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+﻿import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
@@ -155,11 +155,7 @@ export default function InstagramLinksPage() {
             }
           </p>
           <p className="mt-4 inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-3.5 py-2 text-xs font-black text-neutral-900 shadow-[0_10px_22px_rgba(16,16,16,0.04)]">
-            <span className="mr-2 text-[var(--chambar-red)]">
-              {"\u2605\u2605\u2605\u2605\u2605"}
-            </span>
-            {CHAMBAR_CONFIG.googleRating} no Google -{" "}
-            {CHAMBAR_CONFIG.googleReviews} {"avalia\u00e7\u00f5es"}
+            {chambarGoogleProof}
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-2">
             {nightOptions.map((option) => (
@@ -261,3 +257,4 @@ export default function InstagramLinksPage() {
     </main>
   );
 }
+

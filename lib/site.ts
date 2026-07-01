@@ -14,7 +14,7 @@ export const FULL_SITE_URL = "https://lp-koi-sushi-porto.vercel.app";
 export const ADDRESS = CHAMBAR_CONFIG.address;
 export const GOOGLE_MAPS_URL = CHAMBAR_CONFIG.googleMapsUrl;
 export const INSTAGRAM_URL = CHAMBAR_CONFIG.instagramUrl;
-export const TAKE_AWAY_URL = getWhatsappUrl();
+export const TAKE_AWAY_URL = getWhatsappUrl("site");
 export const OPENING_HOURS = CHAMBAR_CONFIG.openingHours;
 
 export { getWhatsappUrl };
