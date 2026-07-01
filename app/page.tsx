@@ -27,7 +27,7 @@ import {
 const experiences = [
   {
     title: "Take Away",
-    text: "Envie o pedido pelo WhatsApp e confirme as opÃ§Ãµes disponÃ­veis.",
+    text: "Veja o menu, escolha e peça pelo WhatsApp.",
     cta: "Pedir Take Away",
     href: TAKE_AWAY_URL,
   },
@@ -242,7 +242,7 @@ export default function Home() {
           <div className="container-page">
             <div className="fine-border rounded-lg bg-[#fffdf9] p-6 md:flex md:items-center md:justify-between md:gap-8">
               <p className="max-w-2xl text-2xl font-black leading-tight text-neutral-950">
-                PeÃ§as de sushi e pratos chineses preparados na hora.
+                Sushi e pratos chineses preparados na hora.
               </p>
               <p className="mt-4 max-w-md text-sm font-bold leading-6 text-neutral-600 md:mt-0">
                 Escolha o que lhe apetece e faÃ§a o seu pedido de Take Away pelo
@@ -256,7 +256,7 @@ export default function Home() {
           id="pratos-local"
           eyebrow="Ã€ mesa"
           title="Da cozinha para a mesa."
-          copy="PeÃ§as de sushi e pratos chineses preparados na hora."
+          copy="Sushi e pratos chineses preparados na hora."
           images={localDishGalleryImages}
           categories={[
             "Sushi",
@@ -305,11 +305,11 @@ export default function Home() {
               <SectionIntro
                 eyebrow="LocalizaÃ§Ã£o"
                 title="Estamos no Porto."
-                copy="PeÃ§a Take Away, fale pelo WhatsApp ou acompanhe o Koi Sushi Porto no Instagram."
+                copy="Peça Take Away, fale connosco pelo WhatsApp ou acompanhe o Koi Sushi Porto no Instagram."
               />
               <div className="mt-7 space-y-4 text-base leading-7 text-neutral-700">
                 <p>
-                  <strong className="text-neutral-950">EndereÃ§o:</strong>{" "}
+                  <strong className="text-neutral-950">Morada:</strong>{" "}
                   {CHAMBAR_CONFIG.address}
                 </p>
                 <p>
@@ -400,7 +400,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <Image
               src={images.logo}
-              alt="Logo Koi Sushi Porto"
+              alt="Logo do Koi Sushi Porto"
               width={190}
               height={82}
               loading="lazy"

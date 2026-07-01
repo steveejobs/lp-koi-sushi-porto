@@ -4,7 +4,7 @@ import { CHAMBAR_CONFIG, chambarGoogleProof } from "@/data/chambar-config";
 import { heroImage } from "@/data/chambar-media";
 import { GOOGLE_MAPS_URL, TAKE_AWAY_URL, images } from "@/lib/site";
 
-const heroChips = ["Menu Infinity", "Cozinha chinesa", "Take Away"];
+const heroChips = ["Sushi", "Cozinha chinesa", "Pratos quentes", "Take Away"];
 
 export function HeroInteractiveIntro() {
   return (
@@ -51,7 +51,7 @@ export function HeroInteractiveIntro() {
           <div className="hero-intro-copy pointer-events-none relative z-40 flex h-full max-w-[720px] flex-col justify-end p-6 md:p-10 lg:p-12">
             <Image
               src={images.logo}
-              alt="Logo Koi Sushi Porto"
+              alt="Logo do Koi Sushi Porto"
               width={170}
               height={170}
               className="mb-5 h-[78px] w-[128px] object-contain object-left p-1 drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:h-[104px] md:w-[170px]"

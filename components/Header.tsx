@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { getWhatsappUrl, images, navLinks } from "@/lib/site";
@@ -14,7 +14,7 @@ export function Header() {
         >
           <Image
             src={images.logo}
-            alt="Logo Koi Sushi Porto"
+            alt="Logo do Koi Sushi Porto"
             width={190}
             height={64}
             className="h-auto max-h-11 w-[128px] max-w-[38vw] object-contain md:max-h-14 md:w-[164px] lg:w-[172px]"

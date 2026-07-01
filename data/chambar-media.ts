@@ -15,7 +15,7 @@ function uniqueBySrc<T extends KoiMediaAsset>(items: T[]) {
 
 export const logoMedia = {
   src: "/koi/logo/koi-sushi-porto-logo.png",
-  alt: "Logo Koi Sushi Porto",
+  alt: "Logo do Koi Sushi Porto",
 } satisfies KoiMediaAsset;
 
 export const heroImage = {

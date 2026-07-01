@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+﻿import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { InstagramMediaMarquee } from "@/components/InstagramMediaMarquee";
@@ -22,20 +22,20 @@ import {
 
 export const metadata: Metadata = {
   metadataBase: new URL(FULL_SITE_URL),
-  title: "Koi Sushi Porto | Links",
+  title: "Koi Sushi Porto | Menu, Take Away e localização",
   description:
-    "Peça Take Away, veja o menu, localização e Instagram do Koi Sushi Porto.",
+    "Veja o menu, peça Take Away, consulte a localização e acompanhe o Koi Sushi Porto no Instagram.",
   openGraph: {
-    title: "Koi Sushi Porto | Links",
+    title: "Koi Sushi Porto",
     description:
-      "Peça Take Away, veja o menu, localização e Instagram do Koi Sushi Porto.",
+      "Veja o menu, peça Take Away, consulte a localização e acompanhe o Koi Sushi Porto no Instagram.",
     url: "/instagram",
     images: [
       {
         url: "/koi/hero/koi-sushi-porto-hero.jpg",
         width: 1600,
         height: 900,
-        alt: "Koi Sushi Porto",
+        alt: "Logo do Koi Sushi Porto",
       },
     ],
   },
@@ -181,7 +181,7 @@ export default function InstagramLinksPage() {
             Pedir Take Away
           </LinkButton>
           <LinkButton href="/#menu-take-away" icon={<IconBag />} delay={220}>
-            Ver Menu
+            Ver menu
           </LinkButton>
           <LinkButton href={GOOGLE_MAPS_URL} icon={<IconArrow />} delay={290}>
             Ver localização

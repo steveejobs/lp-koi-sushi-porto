@@ -75,7 +75,7 @@ export function KoiEstablishmentSection() {
 
             <article className="rounded-lg bg-[var(--chambar-black)] p-5 text-white shadow-[0_20px_42px_rgba(16,16,16,0.16)] sm:col-span-3 lg:col-span-1">
               <p className="text-xs font-black uppercase tracking-[0.08em] text-white/58">
-                Endereço
+                Morada
               </p>
               <p className="mt-3 text-base font-black leading-6">
                 {CHAMBAR_CONFIG.address}

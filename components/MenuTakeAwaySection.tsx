@@ -6,14 +6,8 @@ import {
   type CircularGalleryItem,
 } from "@/components/ui/circular-gallery";
 import { koiMenuPages, type KoiMenuPage } from "@/data/koi-menu-pages";
+import { getWhatsappUrl } from "@/lib/site";
 
-const WHATSAPP_PHONE = "351961176188";
-const WHATSAPP_BASE_MESSAGE =
-  "OlÃ¡! Vim pelo site e quero fazer um pedido de take-away. O meu pedido Ã©:";
-
-function buildWhatsappUrl() {
-  return `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(WHATSAPP_BASE_MESSAGE)}`;
-}
 
 type MenuPagesLightboxProps = {
   open: boolean;
@@ -89,7 +83,7 @@ function MenuPagesLightbox({
         <header className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-5 md:py-4">
           <div className="min-w-0">
             <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#c9a45c]">
-              CARDÃPIO TAKE AWAY
+              MENU TAKE AWAY
             </p>
             <h2
               id="menu-page-title"
@@ -103,7 +97,7 @@ function MenuPagesLightbox({
             type="button"
             className="shrink-0 rounded-full border border-white/15 bg-white px-4 py-2 text-sm font-black text-neutral-950 transition hover:bg-[#f5e7cf]"
             onClick={onClose}
-            aria-label="Fechar cardÃ¡pio"
+            aria-label="Fechar menu"
           >
             Fechar
           </button>
@@ -200,7 +194,7 @@ export function MenuTakeAwaySection() {
     [],
   );
 
-  const whatsappUrl = buildWhatsappUrl();
+  const whatsappUrl = getWhatsappUrl();
   const totalPages = koiMenuPages.length;
 
   const openMenuPage = (_item: CircularGalleryItem, index: number) => {
@@ -227,7 +221,7 @@ export function MenuTakeAwaySection() {
             Monte o seu Take Away
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base font-bold leading-7 text-neutral-600 md:text-lg">
-            Veja o cardÃ¡pio completo, escolha a sua caixa de sushi ou peÃ§a
+            Veja o menu completo, escolha a sua caixa de sushi ou peÃ§a
             pratos chineses e Take Away pelo WhatsApp.
           </p>
         </div>
@@ -238,7 +232,7 @@ export function MenuTakeAwaySection() {
             className="btn btn-primary"
             onClick={openFirstPage}
           >
-            Ver cardÃ¡pio completo
+            Ver menu completo
           </button>
           <a
             href={whatsappUrl}
@@ -276,7 +270,7 @@ export function MenuTakeAwaySection() {
             />
           ) : (
             <p className="rounded-lg border border-black/10 bg-white p-6 text-center text-sm font-bold text-neutral-600">
-              As imagens do cardÃ¡pio Take Away ainda nÃ£o foram encontradas.
+              As imagens do menu Take Away ainda não foram encontradas.
             </p>
           )}
         </div>

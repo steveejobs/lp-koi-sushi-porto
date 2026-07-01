@@ -1,12 +1,20 @@
-﻿"use client";
+"use client";
 
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import {
-  CircularGallery,
-  type CircularGalleryItem,
-} from "@/components/ui/circular-gallery";
+  type CSSProperties,
+  type PointerEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { koiMenuPages } from "@/data/koi-menu-pages";
 import { getWhatsappUrl } from "@/lib/site";
+
+const AUTO_ADVANCE_MS = 2800;
+const TRANSITION_MS = 720;
+const AUTOPLAY_RESUME_MS = 1000;
+const SWIPE_THRESHOLD_PX = 40;
+const TAP_THRESHOLD_PX = 6;
 
 function wrapPageIndex(index: number, length: number) {
   if (length <= 0) return 0;
@@ -14,7 +22,7 @@ function wrapPageIndex(index: number, length: number) {
 }
 
 function pageLabel(index: number, total: number) {
-  return `P\u00e1gina ${index + 1} de ${total}`;
+  return `Página ${index + 1} de ${total}`;
 }
 
 type InstagramMenuLightboxProps = {
@@ -80,7 +88,7 @@ function InstagramMenuLightbox({
         <header className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
           <div className="min-w-0">
             <p className="text-[0.66rem] font-black uppercase tracking-[0.14em] text-[#c9a45c]">
-              CARD&Aacute;PIO TAKE AWAY
+              MENU TAKE AWAY
             </p>
             <h2
               id="instagram-menu-page-title"
@@ -94,7 +102,7 @@ function InstagramMenuLightbox({
             type="button"
             className="shrink-0 rounded-full border border-white/15 bg-white px-4 py-2 text-sm font-black text-neutral-950"
             onClick={onClose}
-            aria-label={"Fechar card\u00e1pio"}
+            aria-label={"Fechar menu"}
           >
             Fechar
           </button>
@@ -167,33 +175,152 @@ export function InstagramMenuTakeAwaySection() {
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const [activePageIndex, setActivePageIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const dragStartXRef = useRef<number | null>(null);
+  const dragDeltaXRef = useRef(0);
+  const suppressClickRef = useRef(false);
+  const resumeAutoplayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const autoplayPausedRef = useRef(false);
   const whatsappUrl = getWhatsappUrl("instagram");
   const totalPages = koiMenuPages.length;
-
-  const galleryItems = useMemo<CircularGalleryItem[]>(
-    () =>
-      koiMenuPages.map((page) => ({
-        id: page.id,
-        title: page.title,
-        src: page.src,
-        alt: page.alt,
-      })),
-    [],
-  );
-
-  const openPage = (_item: CircularGalleryItem, index: number) => {
-    setActivePageIndex(index);
-    setModalOpen(true);
-  };
 
   const openFirstPage = () => {
     setActivePageIndex(0);
     setModalOpen(true);
   };
 
+  const openActivePage = () => {
+    setActivePageIndex(activeGalleryIndex);
+    setModalOpen(true);
+  };
+
+  const pauseAutoplayBriefly = () => {
+    autoplayPausedRef.current = true;
+
+    if (resumeAutoplayTimeoutRef.current) {
+      clearTimeout(resumeAutoplayTimeoutRef.current);
+    }
+
+    resumeAutoplayTimeoutRef.current = setTimeout(() => {
+      autoplayPausedRef.current = false;
+      resumeAutoplayTimeoutRef.current = null;
+    }, AUTOPLAY_RESUME_MS);
+  };
+
+  const goToGalleryPage = (index: number) => {
+    setActiveGalleryIndex(wrapPageIndex(index, totalPages));
+  };
+
+  const previousIndex = wrapPageIndex(activeGalleryIndex - 1, totalPages);
+  const nextIndex = wrapPageIndex(activeGalleryIndex + 1, totalPages);
+
+  useEffect(() => {
+    if (modalOpen || totalPages <= 1) return undefined;
+
+    const interval = setInterval(() => {
+      if (!autoplayPausedRef.current) {
+        setActiveGalleryIndex((currentIndex) =>
+          wrapPageIndex(currentIndex + 1, totalPages),
+        );
+      }
+    }, AUTO_ADVANCE_MS);
+
+    return () => clearInterval(interval);
+  }, [modalOpen, totalPages]);
+
+  useEffect(() => {
+    return () => {
+      if (resumeAutoplayTimeoutRef.current) {
+        clearTimeout(resumeAutoplayTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    dragStartXRef.current = event.clientX;
+    dragDeltaXRef.current = 0;
+    suppressClickRef.current = false;
+    autoplayPausedRef.current = true;
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (dragStartXRef.current === null) return;
+    dragDeltaXRef.current = event.clientX - dragStartXRef.current;
+  };
+
+  const finishDrag = () => {
+    if (dragStartXRef.current === null) return;
+
+    const deltaX = dragDeltaXRef.current;
+    const absDeltaX = Math.abs(deltaX);
+
+    suppressClickRef.current = absDeltaX >= TAP_THRESHOLD_PX;
+
+    if (deltaX <= -SWIPE_THRESHOLD_PX) {
+      goToGalleryPage(activeGalleryIndex + 1);
+    } else if (deltaX >= SWIPE_THRESHOLD_PX) {
+      goToGalleryPage(activeGalleryIndex - 1);
+    }
+
+    dragStartXRef.current = null;
+    dragDeltaXRef.current = 0;
+    pauseAutoplayBriefly();
+  };
+
+  const getCardStyle = (index: number): CSSProperties => {
+    const shared: CSSProperties = {
+      transition: `transform ${TRANSITION_MS}ms cubic-bezier(.22,.61,.36,1), opacity ${TRANSITION_MS}ms ease`,
+      transformStyle: "preserve-3d",
+      willChange: "transform, opacity",
+    };
+
+    if (index === activeGalleryIndex) {
+      return {
+        ...shared,
+        opacity: 1,
+        visibility: "visible",
+        pointerEvents: "auto",
+        transform: "translateX(0) rotateY(0deg) scale(1)",
+        zIndex: 30,
+      };
+    }
+
+    if (index === previousIndex) {
+      return {
+        ...shared,
+        opacity: 0.18,
+        visibility: "visible",
+        pointerEvents: "none",
+        transform: "translateX(-34%) rotateY(28deg) scale(0.78)",
+        zIndex: 5,
+      };
+    }
+
+    if (index === nextIndex) {
+      return {
+        ...shared,
+        opacity: 0.18,
+        visibility: "visible",
+        pointerEvents: "none",
+        transform: "translateX(34%) rotateY(-28deg) scale(0.78)",
+        zIndex: 5,
+      };
+    }
+
+    return {
+      ...shared,
+      opacity: 0,
+      visibility: "hidden",
+      pointerEvents: "none",
+      transform: "translateX(0) rotateY(0deg) scale(0.72)",
+      zIndex: 0,
+    };
+  };
+
   return (
     <section
-      className="ig-rise mt-5 rounded-[22px] border border-black/10 bg-white/86 p-4 shadow-[0_14px_34px_rgba(16,16,16,0.07)]"
+      className="ig-rise mt-5 overflow-x-clip rounded-[22px] border border-black/10 bg-white/86 p-4 shadow-[0_14px_34px_rgba(16,16,16,0.07)]"
       style={{ "--ig-delay": "500ms" } as CSSProperties}
       aria-labelledby="instagram-menu-title"
     >
@@ -202,10 +329,10 @@ export function InstagramMenuTakeAwaySection() {
           id="instagram-menu-title"
           className="text-2xl font-black leading-tight text-neutral-950"
         >
-          Card&aacute;pio Take Away
+          Menu Take Away
         </h2>
         <p className="mx-auto mt-2 max-w-[22rem] text-sm font-bold leading-6 text-neutral-600">
-          Arraste para ver as p&aacute;ginas, toque para ampliar e pe&ccedil;a pelo WhatsApp.
+          Arraste para ver o menu, toque para ampliar e peça pelo WhatsApp.
         </p>
       </div>
 
@@ -215,7 +342,7 @@ export function InstagramMenuTakeAwaySection() {
           className="btn btn-primary min-h-11 flex-1 px-4 text-sm"
           onClick={openFirstPage}
         >
-          Ver card&aacute;pio completo
+          Ver menu completo
         </button>
         <a
           href={whatsappUrl}
@@ -233,16 +360,59 @@ export function InstagramMenuTakeAwaySection() {
         </p>
       </div>
 
-      <div className="mx-auto mt-2 w-full overflow-visible">
-        {galleryItems.length > 0 ? (
-          <CircularGallery
-            items={galleryItems}
-            autoRotateSpeed={0.012}
-            variant="instagram-lite"
-            onItemClick={openPage}
-            onActiveIndexChange={setActiveGalleryIndex}
-          />
-        ) : null}
+      <div
+        className="mx-auto mt-3 flex w-full justify-center overflow-visible py-2"
+        style={{ perspective: "1100px" }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={finishDrag}
+        onPointerCancel={finishDrag}
+      >
+        <div
+          className="relative touch-pan-y overflow-visible"
+          style={{
+            width: "min(86vw, 330px)",
+            height: "min(58vh, 470px)",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {koiMenuPages.map((page, index) => {
+            const isActive = index === activeGalleryIndex;
+
+            return (
+              <button
+                key={page.id}
+                type="button"
+                className={`absolute inset-0 overflow-hidden rounded-[12px] bg-[#070606] ${
+                  isActive
+                    ? "border border-[#c9a45c]/45 shadow-[0_22px_52px_rgba(0,0,0,0.24)]"
+                    : "border-0 shadow-none"
+                }`}
+                style={getCardStyle(index)}
+                onClick={() => {
+                  if (suppressClickRef.current) {
+                    suppressClickRef.current = false;
+                    return;
+                  }
+
+                  if (isActive) openActivePage();
+                }}
+                aria-label={`Abrir ${pageLabel(index, totalPages)}`}
+                aria-hidden={!isActive}
+                tabIndex={isActive ? 0 : -1}
+              >
+                <img
+                  src={page.src}
+                  alt={isActive ? page.alt : ""}
+                  className="h-full w-full object-contain"
+                  loading={isActive ? "eager" : "lazy"}
+                  decoding="async"
+                  draggable={false}
+                />
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <InstagramMenuLightbox
@@ -255,5 +425,3 @@ export function InstagramMenuTakeAwaySection() {
     </section>
   );
 }
-
-

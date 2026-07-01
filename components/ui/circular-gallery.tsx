@@ -349,7 +349,7 @@ export function CircularGallery({
   return (
     <div
       role="region"
-      aria-label={"Card\u00e1pio Take Away em galeria 3D"}
+      aria-label={"Menu Take Away em galeria 3D"}
       className={cn(
         "relative mx-auto flex w-full max-w-[1280px] touch-pan-y items-center justify-center overflow-hidden lg:overflow-visible",
         className,
@@ -373,14 +373,11 @@ export function CircularGallery({
           isDragging && "transition-none",
         )}
         style={{
-          transform: isDesktop
-            ? `rotateY(${rotation}deg) translateZ(0)`
-            : "translateZ(0)",
+          transform: "translateZ(0)",
           transformStyle: "preserve-3d",
         }}
       >
         {items.map((item, index) => {
-          const itemAngle = index * anglePerItem;
           const offset = shortestOffset(index, activeIndex, itemCount);
           const visualOffset = offset - activePositionDelta;
           const discreteDistance = Math.abs(offset);
@@ -388,8 +385,14 @@ export function CircularGallery({
           const isActive = discreteDistance === 0;
           const isNeighbor =
             discreteDistance === 1 && coverflowDistance <= 1.18;
+          const desktopSafeZoneThreshold = 0.68;
+          const desktopVisible =
+            isActive ||
+            (discreteDistance === 1 &&
+              Math.abs(visualOffset) >= desktopSafeZoneThreshold &&
+              Math.abs(visualOffset) <= 1.25);
           const isVisible = isDesktop
-            ? discreteDistance <= gallery.visibleSideCount
+            ? desktopVisible
             : isActive || isNeighbor;
           const clampedOffset = Math.max(-1, Math.min(1, visualOffset));
           const desktopScale = isActive
@@ -398,7 +401,9 @@ export function CircularGallery({
               ? gallery.sideScale
               : gallery.farScale;
           const transform = isDesktop
-            ? `translate(-50%, -50%) rotateY(${itemAngle}deg) translateZ(${gallery.radius}px) scale(${desktopScale})`
+            ? isActive
+              ? "translate3d(-50%, -50%, 0) translateZ(40px) scale(1)"
+              : `translate3d(-50%, -50%, 0) translateX(${clampedOffset * 84}%) rotateY(${clampedOffset * -34}deg) translateZ(-180px) scale(${desktopScale})`
             : `translate3d(-50%, -50%, 0) translateX(${clampedOffset * gallery.sideTranslate}%) rotateY(${clampedOffset * -gallery.sideRotate}deg) translateZ(${isActive ? 0 : gallery.sideDepth}px) scale(${isActive ? 1 : gallery.sideScale})`;
           const opacity = !isVisible
             ? 0
@@ -407,7 +412,7 @@ export function CircularGallery({
               : discreteDistance === 1
                 ? gallery.sideOpacity
                 : gallery.farOpacity;
-          const zIndex = isActive ? 50 : discreteDistance === 1 ? 5 : 1;
+          const zIndex = isActive ? 100 : 1;
           const cleanCard = isInstagramLite;
 
           return (

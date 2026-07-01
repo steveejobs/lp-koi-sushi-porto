@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://lp-koi-sushi-porto.vercel.app"),
   title: "Koi Sushi Porto | Sushi, cozinha chinesa e Take Away no Porto",
   description:
-    "Koi Sushi Porto: sushi, cozinha chinesa, pratos quentes, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalação.",
+    "Koi Sushi Porto: sushi, cozinha chinesa, Menu Infinity, All You Can Eat e Take Away na Estrada Exterior da Circunvalação, no Porto.",
   icons: {
     icon: [
       {
@@ -25,13 +25,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Koi Sushi Porto",
     description:
-      "Sushi, cozinha chinesa, pratos quentes, Menu Infinity, All You Can Eat e Take Away no Porto.",
+      "Sushi, pratos chineses, Menu Infinity, All You Can Eat e Take Away no Porto.",
     images: [
       {
         url: "/koi/hero/koi-sushi-porto-hero.jpg",
         width: 1600,
         height: 900,
-        alt: "Koi Sushi Porto",
+        alt: "Sushi e pratos chineses do Koi Sushi Porto",
       },
     ],
   },

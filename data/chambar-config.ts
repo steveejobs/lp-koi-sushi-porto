@@ -1,4 +1,4 @@
-export const CHAMBAR_CONFIG = {
+﻿export const CHAMBAR_CONFIG = {
   name: "Koi Sushi Porto",
   shortName: "Koi",
   instagramHandle: "@koisushi_porto",
@@ -10,7 +10,7 @@ export const CHAMBAR_CONFIG = {
   city: "Porto",
   openingHours: "12h–15h | 19h–23h",
   address:
-    "Estrada Exterior da Circunvalação, 7824-F, Porto, Portugal 4200-162",
+    "Estrada Exterior da Circunvalação, 7824-F, Porto",
   googleMapsUrl: "https://maps.app.goo.gl/BWotay8Vg5dZYrJ36",
 } as const;
 
