@@ -264,7 +264,7 @@ export function MenuTakeAwaySection() {
             <CircularGallery
               items={galleryItems}
               desktopConfig={{
-                autoRotateSpeed: 0.008,
+                autoRotateSpeed: 0.011,
                 radius: 460,
                 visibleSideCount: 1,
                 sideOpacity: 0.12,

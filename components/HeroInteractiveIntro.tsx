@@ -53,8 +53,8 @@ export function HeroInteractiveIntro() {
               src={images.logo}
               alt="Logo Koi Sushi Porto"
               width={170}
-              height={74}
-              className="mb-5 h-auto w-[128px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:w-[170px]"
+              height={170}
+              className="mb-5 h-[78px] w-[128px] object-contain object-left p-1 drop-shadow-[0_8px_20px_rgba(0,0,0,0.2)] md:h-[104px] md:w-[170px]"
             />
             <span className="eyebrow text-[#c9a45c]">Koi Sushi Porto</span>
             <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.98] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.28)] md:text-7xl">
