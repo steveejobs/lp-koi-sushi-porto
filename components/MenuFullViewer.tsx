@@ -1,15 +1,17 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef } from "react";
-import { koiMenuPages } from "@/data/koi-menu-pages";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import type { KoiMenuPage } from "@/data/koi-menu-pages";
 
 type MenuFullViewerProps = {
   open: boolean;
-  activeIndex: number;
+  onOpenChange: (open: boolean) => void;
+  pages: KoiMenuPage[];
+  initialPage?: number;
   whatsappUrl: string;
-  onActiveIndexChange: (index: number) => void;
-  onClose: () => void;
+  source: "site" | "instagram";
 };
 
 function wrapPageIndex(index: number, length: number) {
@@ -31,23 +33,39 @@ function pageTitle(index: number, total: number) {
 
 export function MenuFullViewer({
   open,
-  activeIndex,
+  onOpenChange,
+  pages,
+  initialPage = 0,
   whatsappUrl,
-  onActiveIndexChange,
-  onClose,
+  source,
 }: MenuFullViewerProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
-  const totalPages = koiMenuPages.length;
-  const activePage = koiMenuPages[activeIndex] ?? koiMenuPages[0];
+  const totalPages = pages.length;
+  const activePage = pages[currentIndex] ?? pages[0];
+
+  const closeViewer = useCallback(() => {
+    onOpenChange(false);
+  }, [onOpenChange]);
 
   const goToPage = useCallback(
     (index: number) => {
-      onActiveIndexChange(wrapPageIndex(index, totalPages));
+      setCurrentIndex(wrapPageIndex(index, totalPages));
     },
-    [onActiveIndexChange, totalPages],
+    [totalPages],
   );
+
+  useEffect(() => {
+    if (!open) return;
+    setCurrentIndex(wrapPageIndex(initialPage, totalPages));
+  }, [initialPage, open, totalPages]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -65,9 +83,9 @@ export function MenuFullViewer({
     closeButtonRef.current?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft") goToPage(activeIndex - 1);
-      if (event.key === "ArrowRight") goToPage(activeIndex + 1);
+      if (event.key === "Escape") closeViewer();
+      if (event.key === "ArrowLeft") goToPage(currentIndex - 1);
+      if (event.key === "ArrowRight") goToPage(currentIndex + 1);
     };
 
     document.addEventListener("keydown", handleKeyDown);
@@ -80,18 +98,19 @@ export function MenuFullViewer({
       document.body.style.overflow = previousOverflow;
       window.scrollTo(0, scrollY);
     };
-  }, [activeIndex, goToPage, onClose, open]);
+  }, [closeViewer, currentIndex, goToPage, open]);
 
-  if (!open || !activePage) return null;
+  if (!mounted || !open || !activePage || totalPages === 0) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[100] flex h-[100dvh] w-screen items-stretch justify-center bg-[#080707] text-white md:items-center md:bg-black/78 md:px-6 md:py-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="menu-full-viewer-title"
+      data-menu-source={source}
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
+        if (event.target === event.currentTarget) closeViewer();
       }}
     >
       <div className="grid h-[100dvh] w-screen grid-rows-[auto_minmax(0,1fr)_auto_auto] overflow-hidden bg-[#100d0c] shadow-[0_24px_70px_rgba(0,0,0,0.42)] md:h-[90vh] md:max-h-[90vh] md:w-full md:max-w-[1120px] md:grid-rows-[auto_minmax(0,1fr)_auto] md:rounded-[18px]">
@@ -104,14 +123,14 @@ export function MenuFullViewer({
               id="menu-full-viewer-title"
               className="mt-1 text-base font-black leading-tight text-white md:text-xl"
             >
-              {pageLabel(activeIndex, totalPages)}
+              {pageLabel(currentIndex, totalPages)}
             </h2>
           </div>
           <button
             ref={closeButtonRef}
             type="button"
             className="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-black text-neutral-950 transition hover:bg-[#f5e7cf]"
-            onClick={onClose}
+            onClick={closeViewer}
             aria-label="Fechar menu completo"
           >
             Fechar
@@ -127,7 +146,10 @@ export function MenuFullViewer({
               touchStartYRef.current = touch.clientY;
             }}
             onTouchEnd={(event) => {
-              if (touchStartXRef.current === null || touchStartYRef.current === null) {
+              if (
+                touchStartXRef.current === null ||
+                touchStartYRef.current === null
+              ) {
                 return;
               }
 
@@ -137,23 +159,27 @@ export function MenuFullViewer({
               touchStartXRef.current = null;
               touchStartYRef.current = null;
 
-              if (Math.abs(deltaX) < 44 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) {
+              if (
+                Math.abs(deltaX) < 44 ||
+                Math.abs(deltaX) < Math.abs(deltaY) * 1.2
+              ) {
                 return;
               }
 
-              goToPage(deltaX < 0 ? activeIndex + 1 : activeIndex - 1);
+              goToPage(deltaX < 0 ? currentIndex + 1 : currentIndex - 1);
             }}
           >
             <Image
+              key={activePage.id}
               src={activePage.src}
-              alt={pageAlt(activeIndex, totalPages)}
-              title={pageTitle(activeIndex, totalPages)}
+              alt={pageAlt(currentIndex, totalPages)}
+              title={pageTitle(currentIndex, totalPages)}
               width={1055}
               height={1491}
               quality={100}
               sizes="(max-width: 768px) 100vw, 900px"
               className="h-auto max-h-full w-auto max-w-full object-contain md:max-w-[1055px]"
-              loading="eager"
+              priority
             />
           </div>
 
@@ -162,18 +188,18 @@ export function MenuFullViewer({
               Páginas
             </p>
             <div className="koi-menu-scroll flex gap-2 overflow-x-auto pb-1 md:min-h-0 md:flex-1 md:grid md:grid-cols-2 md:content-start md:overflow-x-hidden md:overflow-y-auto md:pr-1">
-              {koiMenuPages.map((page, index) => (
+              {pages.map((page, index) => (
                 <button
                   key={page.id}
                   type="button"
                   className={`grid h-[82px] w-[58px] shrink-0 place-items-center overflow-hidden rounded-[9px] bg-white p-1 transition md:h-[98px] md:w-full ${
-                    index === activeIndex
+                    index === currentIndex
                       ? "opacity-100 ring-2 ring-[#c9a45c] ring-offset-2 ring-offset-[#100d0c]"
                       : "opacity-58 hover:opacity-88"
                   }`}
                   onClick={() => goToPage(index)}
                   aria-label={`Abrir ${pageTitle(index, totalPages)}`}
-                  aria-current={index === activeIndex ? "page" : undefined}
+                  aria-current={index === currentIndex ? "page" : undefined}
                 >
                   <Image
                     src={page.src}
@@ -184,7 +210,6 @@ export function MenuFullViewer({
                     quality={85}
                     sizes="110px"
                     className="h-full w-full object-contain"
-                    loading="lazy"
                   />
                 </button>
               ))}
@@ -193,18 +218,18 @@ export function MenuFullViewer({
         </div>
 
         <div className="koi-menu-scroll flex shrink-0 gap-2 overflow-x-auto border-t border-white/10 bg-white/[0.04] px-3 py-2 md:hidden">
-          {koiMenuPages.map((page, index) => (
+          {pages.map((page, index) => (
             <button
               key={page.id}
               type="button"
               className={`grid h-[68px] w-[48px] shrink-0 place-items-center overflow-hidden rounded-[8px] bg-white p-1 transition ${
-                index === activeIndex
+                index === currentIndex
                   ? "opacity-100 ring-2 ring-[#c9a45c] ring-offset-2 ring-offset-[#100d0c]"
                   : "opacity-58"
               }`}
               onClick={() => goToPage(index)}
               aria-label={`Abrir ${pageTitle(index, totalPages)}`}
-              aria-current={index === activeIndex ? "page" : undefined}
+              aria-current={index === currentIndex ? "page" : undefined}
             >
               <Image
                 src={page.src}
@@ -215,7 +240,6 @@ export function MenuFullViewer({
                 quality={85}
                 sizes="48px"
                 className="h-full w-full object-contain"
-                loading="lazy"
               />
             </button>
           ))}
@@ -233,7 +257,7 @@ export function MenuFullViewer({
           <button
             type="button"
             className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white transition hover:border-white/45 md:col-start-1 md:row-start-1"
-            onClick={() => goToPage(activeIndex - 1)}
+            onClick={() => goToPage(currentIndex - 1)}
             aria-label="Ver página anterior do menu"
           >
             Anterior
@@ -241,14 +265,14 @@ export function MenuFullViewer({
           <button
             type="button"
             className="flex min-h-11 items-center justify-center rounded-full border border-white/20 px-4 text-sm font-black text-white transition hover:border-white/45 md:col-start-3 md:row-start-1"
-            onClick={() => goToPage(activeIndex + 1)}
+            onClick={() => goToPage(currentIndex + 1)}
             aria-label="Ver página seguinte do menu"
           >
             Seguinte
           </button>
         </footer>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
-

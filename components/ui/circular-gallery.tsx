@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   type HTMLAttributes,
@@ -391,9 +391,7 @@ export function CircularGallery({
             (discreteDistance === 1 &&
               Math.abs(visualOffset) >= desktopSafeZoneThreshold &&
               Math.abs(visualOffset) <= 1.25);
-          const isVisible = isDesktop
-            ? desktopVisible
-            : isActive || isNeighbor;
+          const isVisible = isDesktop ? desktopVisible : isActive || isNeighbor;
           const clampedOffset = Math.max(-1, Math.min(1, visualOffset));
           const desktopScale = isActive
             ? 1
@@ -401,9 +399,7 @@ export function CircularGallery({
               ? gallery.sideScale
               : gallery.farScale;
           const transform = isDesktop
-            ? isActive
-              ? "translate3d(-50%, -50%, 0) translateZ(40px) scale(1)"
-              : `translate3d(-50%, -50%, 0) translateX(${clampedOffset * 84}%) rotateY(${clampedOffset * -34}deg) translateZ(-180px) scale(${desktopScale})`
+            ? `translate3d(-50%, -50%, 0) translateX(${clampedOffset * 84}%) rotateY(${clampedOffset * -34}deg) translateZ(${isActive ? 40 : -180}px) scale(${desktopScale})`
             : `translate3d(-50%, -50%, 0) translateX(${clampedOffset * gallery.sideTranslate}%) rotateY(${clampedOffset * -gallery.sideRotate}deg) translateZ(${isActive ? 0 : gallery.sideDepth}px) scale(${isActive ? 1 : gallery.sideScale})`;
           const opacity = !isVisible
             ? 0

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { type CSSProperties, useState } from "react";
 import { InstagramCircularMenuGallery } from "@/components/InstagramCircularMenuGallery";
@@ -12,13 +12,13 @@ function pageLabel(index: number, total: number) {
 
 export function InstagramMenuTakeAwaySection() {
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
-  const [activePageIndex, setActivePageIndex] = useState(0);
+  const [initialViewerPage, setInitialViewerPage] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const whatsappUrl = getWhatsappUrl("instagram");
   const totalPages = koiMenuPages.length;
 
   const openFirstPage = () => {
-    setActivePageIndex(0);
+    setInitialViewerPage(0);
     setModalOpen(true);
   };
 
@@ -70,7 +70,7 @@ export function InstagramMenuTakeAwaySection() {
           onActiveIndexChange={setActiveGalleryIndex}
           paused={modalOpen}
           onPageClick={(index) => {
-            setActivePageIndex(index);
+            setInitialViewerPage(index);
             setModalOpen(true);
           }}
         />
@@ -78,10 +78,11 @@ export function InstagramMenuTakeAwaySection() {
 
       <MenuFullViewer
         open={modalOpen}
-        activeIndex={activePageIndex}
+        onOpenChange={setModalOpen}
+        pages={koiMenuPages}
+        initialPage={initialViewerPage}
         whatsappUrl={whatsappUrl}
-        onActiveIndexChange={setActivePageIndex}
-        onClose={() => setModalOpen(false)}
+        source="instagram"
       />
     </section>
   );

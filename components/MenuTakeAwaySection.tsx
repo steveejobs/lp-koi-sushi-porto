@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { MenuFullViewer } from "@/components/MenuFullViewer";
@@ -15,7 +15,7 @@ function pageLabel(index: number, total: number) {
 
 export function MenuTakeAwaySection() {
   const [pagesModalOpen, setPagesModalOpen] = useState(false);
-  const [activePageIndex, setActivePageIndex] = useState(0);
+  const [initialViewerPage, setInitialViewerPage] = useState(0);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
   const galleryItems = useMemo<CircularGalleryItem[]>(
@@ -33,12 +33,12 @@ export function MenuTakeAwaySection() {
   const totalPages = koiMenuPages.length;
 
   const openMenuPage = (_item: CircularGalleryItem, index: number) => {
-    setActivePageIndex(index);
+    setInitialViewerPage(index);
     setPagesModalOpen(true);
   };
 
   const openFirstPage = () => {
-    setActivePageIndex(0);
+    setInitialViewerPage(0);
     setPagesModalOpen(true);
   };
 
@@ -92,8 +92,9 @@ export function MenuTakeAwaySection() {
           {galleryItems.length > 0 ? (
             <CircularGallery
               items={galleryItems}
+              autoRotateSpeed={0.025}
               desktopConfig={{
-                autoRotateSpeed: 0.011,
+                autoRotateSpeed: 0.03,
                 radius: 460,
                 visibleSideCount: 1,
                 sideOpacity: 0.12,
@@ -113,10 +114,11 @@ export function MenuTakeAwaySection() {
 
       <MenuFullViewer
         open={pagesModalOpen}
-        activeIndex={activePageIndex}
+        onOpenChange={setPagesModalOpen}
+        pages={koiMenuPages}
+        initialPage={initialViewerPage}
         whatsappUrl={whatsappUrl}
-        onActiveIndexChange={setActivePageIndex}
-        onClose={() => setPagesModalOpen(false)}
+        source="site"
       />
     </section>
   );
