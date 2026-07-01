@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { genericGalleryImages, type KoiMediaAsset } from "@/data/chambar-media";
 
 type FoodGallerySectionProps = {
@@ -109,14 +110,28 @@ export function FoodGallerySection({
   categories = defaultCategories,
   backgroundClassName = "bg-[#f7f2ec]",
 }: FoodGallerySectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isAnimationVisible, setIsAnimationVisible] = useState(false);
   const midpoint = Math.ceil(images.length / 2);
   const firstRow = images.slice(0, midpoint);
   const secondRow = images.slice(midpoint);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsAnimationVisible(entry.isIntersecting),
+      { rootMargin: "160px 0px", threshold: 0.01 },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id={id}
-      className={`overflow-hidden py-10 md:pb-16 md:pt-12 ${backgroundClassName}`}
+      className={`overflow-hidden py-10 md:pb-16 md:pt-12 ${isAnimationVisible ? "" : "is-animation-paused"} ${backgroundClassName}`}
     >
       <div className="container-page">
         <div className="grid gap-7 md:grid-cols-[0.82fr_1.18fr] md:items-end">
@@ -144,11 +159,11 @@ export function FoodGallerySection({
       </div>
 
       <div className="container-page">
-        <div className="no-scrollbar mt-7 flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:justify-center md:overflow-visible md:pb-0">
+        <div className="mt-7 flex flex-wrap justify-center gap-2 overflow-visible pb-1 md:pb-0">
           {categories.map((category, index) => (
             <span
               key={category}
-              className={`shrink-0 rounded-full border px-4 py-2 text-xs font-black uppercase tracking-wide transition ${
+              className={`max-w-full rounded-full border px-4 py-2 text-center text-xs font-black uppercase tracking-wide transition ${
                 index === 0
                   ? "border-[var(--chambar-red)] bg-white text-[var(--chambar-red)] shadow-[0_10px_24px_rgba(196,30,47,0.08)]"
                   : "border-black/10 bg-white/78 text-neutral-700 hover:border-[var(--chambar-red)]/40 hover:text-neutral-950"

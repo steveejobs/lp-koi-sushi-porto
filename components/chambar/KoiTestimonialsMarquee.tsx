@@ -4,6 +4,7 @@ import {
   type KoiTestimonial,
   chambarTestimonials,
 } from "@/src/data/chambar-testimonials";
+import { useEffect, useRef, useState } from "react";
 import { chambarGoogleProof } from "@/data/chambar-config";
 
 function formatRating(rating: KoiTestimonial["rating"]) {
@@ -115,14 +116,28 @@ function TestimonialsRow({
 }
 
 export function KoiTestimonialsMarquee() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isAnimationVisible, setIsAnimationVisible] = useState(false);
   const midpoint = Math.ceil(chambarTestimonials.length / 2);
   const rowOne = chambarTestimonials.slice(0, midpoint);
   const rowTwo = chambarTestimonials.slice(midpoint);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsAnimationVisible(entry.isIntersecting),
+      { rootMargin: "160px 0px", threshold: 0.01 },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="avaliacoes"
-      className="section-pad chambar-testimonials-section bg-[#fffdf9]"
+      className={`section-pad chambar-testimonials-section bg-[#fffdf9] ${isAnimationVisible ? "" : "is-animation-paused"}`}
     >
       <div className="container-page">
         <div className="max-w-3xl">

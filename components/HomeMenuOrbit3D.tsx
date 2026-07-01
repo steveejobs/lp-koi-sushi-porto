@@ -18,6 +18,8 @@ export function HomeMenuOrbit3D({ pages, onPageClick, onActiveIndexChange }: Pro
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [mobile, setMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
   const lastTime = useRef<number | null>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -46,10 +48,21 @@ export function HomeMenuOrbit3D({ pages, onPageClick, onActiveIndexChange }: Pro
     };
   }, []);
 
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin: "160px 0px", threshold: 0.01 },
+    );
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => onActiveIndexChange?.(activeIndex), [activeIndex, onActiveIndexChange]);
 
   useEffect(() => {
-    if (paused || dragging || reducedMotion.current || count < 2) return;
+    if (!isVisible || paused || dragging || reducedMotion.current || count < 2) return;
     const tick = (time: number) => {
       const delta = lastTime.current === null ? 0 : Math.min(32, time - lastTime.current);
       lastTime.current = time;
@@ -62,7 +75,7 @@ export function HomeMenuOrbit3D({ pages, onPageClick, onActiveIndexChange }: Pro
       if (frame.current) cancelAnimationFrame(frame.current);
       frame.current = null;
     };
-  }, [count, dragging, paused]);
+  }, [count, dragging, isVisible, paused]);
 
   useEffect(() => () => {
     if (frame.current) cancelAnimationFrame(frame.current);
@@ -112,6 +125,7 @@ export function HomeMenuOrbit3D({ pages, onPageClick, onActiveIndexChange }: Pro
 
   return (
     <div
+      ref={stageRef}
       className="relative mx-auto h-[430px] w-full max-w-[1180px] touch-pan-y overflow-hidden md:h-[590px]"
       style={{ perspective: mobile ? "1200px" : "1800px", perspectiveOrigin: "50% 48%" }}
       role="region"
@@ -150,7 +164,7 @@ export function HomeMenuOrbit3D({ pages, onPageClick, onActiveIndexChange }: Pro
               aria-hidden="true"
               tabIndex={-1}
             >
-              <img src={page.src} alt={page.alt} draggable={false} className="h-full w-full select-none object-contain" loading={active ? "eager" : "lazy"} />
+              <img src={page.src} alt={page.alt} draggable={false} className="h-full w-full select-none object-contain" loading="lazy" decoding="async" />
             </button>
           );
         })}

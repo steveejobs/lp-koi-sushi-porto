@@ -102,7 +102,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main id="topo" className="overflow-hidden pt-16 md:pt-20">
+      <main id="topo" className="overflow-x-clip pt-16 md:pt-20">
         <HeroInteractiveIntro />
 
         <section className="koi-rice-paper border-b border-black/8 py-8 md:py-10">
@@ -160,7 +160,7 @@ export default function Home() {
             <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {chineseCuisineCards.map((card, index) => (
                 <Reveal key={card.title} delay={index * 80} threshold={0.22}>
-                  <article className="h-full rounded-lg border border-white/12 bg-white/7 p-5 backdrop-blur">
+                  <article className="h-full rounded-lg border border-white/12 bg-white/7 p-5 md:backdrop-blur">
                     <span className="koi-red-seal h-8 px-3 text-[0.68rem] font-black uppercase tracking-wide">
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -377,7 +377,7 @@ export default function Home() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/62 via-black/10 to-transparent" />
               <div className="absolute right-5 top-5 h-16 w-16 rounded-full bg-[var(--chambar-red)] shadow-[0_14px_40px_rgba(196,30,47,.26)] md:h-20 md:w-20" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-white/92 p-4 shadow-lg backdrop-blur">
+              <div className="absolute bottom-5 left-5 right-5 rounded-lg bg-white/96 p-4 shadow-lg md:bg-white/92 md:backdrop-blur">
                 <p className="text-sm font-black text-neutral-950">
                   Koi Sushi Porto
                 </p>
@@ -395,7 +395,7 @@ export default function Home() {
           threshold={0.35}
           className="container-page flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
         >
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <Image
               src={images.logo}
               alt="Logo do Koi Sushi Porto"
@@ -405,7 +405,7 @@ export default function Home() {
               decoding="async"
               className="h-auto w-[142px] object-contain md:w-[156px]"
             />
-            <p className="text-sm font-black text-white/88">
+            <p className="w-full break-words text-sm font-black leading-6 text-white/88">
               Koi Sushi Porto · Sushi, cozinha chinesa, Menu Infinity e Take
               Away no Porto. · Estrada Exterior da Circunvalação, 7824-F, Porto
               · 12h–15h | 19h–23h · @koisushi_porto

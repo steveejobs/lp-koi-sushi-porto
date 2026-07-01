@@ -570,6 +570,12 @@ img {
   }
 }
 
+.is-animation-paused .gallery-marquee,
+.is-animation-paused .chambar-testimonials-track {
+  animation-play-state: paused;
+  will-change: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -656,6 +662,8 @@ img {
     width: 100%;
     min-height: 50px;
     padding-inline: 16px;
+    white-space: normal;
+    text-align: center;
   }
 
   .chambar-testimonials-row {

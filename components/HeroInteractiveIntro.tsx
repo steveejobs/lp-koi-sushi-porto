@@ -13,7 +13,7 @@ export function HeroInteractiveIntro() {
       aria-label="Abertura Koi Sushi Porto"
     >
       <div className="container-page">
-        <div className="intro-stage relative isolate mx-auto h-[72svh] min-h-[560px] overflow-hidden rounded-lg border border-white/10 bg-[#050505] shadow-[0_28px_76px_rgba(16,16,16,0.1)] sm:h-[76svh] md:h-[calc(100svh-112px)] md:min-h-[640px] lg:w-[90%]">
+        <div className="intro-stage relative isolate mx-auto h-auto min-h-[calc(100svh-64px)] overflow-hidden rounded-lg border border-white/10 bg-[#050505] shadow-[0_28px_76px_rgba(16,16,16,0.1)] md:h-[calc(100svh-112px)] md:min-h-[640px] lg:w-[90%]">
           <div
             className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_70%_35%,rgba(196,30,47,0.2),transparent_38%),linear-gradient(135deg,#050505_0%,#121212_58%,#1c080b_100%)]"
             aria-hidden="true"
@@ -48,7 +48,7 @@ export function HeroInteractiveIntro() {
           <div className="pointer-events-none absolute inset-0 z-30 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.18)_42%,rgba(0,0,0,0.68)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,0.68)_0%,rgba(0,0,0,0.36)_42%,rgba(0,0,0,0.08)_100%)]" />
           <div className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(circle_at_68%_48%,rgba(196,30,47,0.12),transparent_44%)]" />
 
-          <div className="hero-intro-copy pointer-events-none relative z-40 flex h-full max-w-[720px] flex-col justify-end p-6 md:p-10 lg:p-12">
+          <div className="hero-intro-copy pointer-events-none relative z-40 flex h-auto min-h-[calc(100svh-64px)] max-w-[720px] flex-col justify-end p-6 md:h-full md:min-h-0 md:p-10 lg:p-12">
             <Image
               src={images.logo}
               alt="Logo do Koi Sushi Porto"
@@ -92,7 +92,7 @@ export function HeroInteractiveIntro() {
               {heroChips.map((chip) => (
                 <span
                   key={chip}
-                  className="rounded-full border border-white/18 bg-black/22 px-4 py-2 text-xs font-black uppercase tracking-wide text-white shadow-sm backdrop-blur"
+                  className="rounded-full border border-white/18 bg-black/22 px-4 py-2 text-xs font-black uppercase tracking-wide text-white shadow-sm md:backdrop-blur"
                 >
                   {chip}
                 </span>

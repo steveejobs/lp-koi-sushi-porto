@@ -242,7 +242,12 @@ export function HeroImageReveal({
 
       width = bounds.width;
       height = bounds.height;
-      const pixelRatio = clamp(window.devicePixelRatio || 1, 1, 2.5);
+      const maximumPixelRatio = finePointerQuery.matches ? 2.5 : 1.5;
+      const pixelRatio = clamp(
+        window.devicePixelRatio || 1,
+        1,
+        maximumPixelRatio,
+      );
       canvas.width = Math.round(width * pixelRatio);
       canvas.height = Math.round(height * pixelRatio);
       canvas.style.width = `${width}px`;

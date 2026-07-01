@@ -5,7 +5,7 @@ import { getWhatsappUrl, images, navLinks } from "@/lib/site";
 
 export function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/86 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/96 md:bg-white/86 md:backdrop-blur-xl">
       <div className="container-page flex h-16 items-center justify-between gap-4 md:h-20 md:gap-6">
         <a
           href="#topo"
