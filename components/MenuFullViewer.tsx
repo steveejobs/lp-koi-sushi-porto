@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { KoiMenuPage } from "@/data/koi-menu-pages";
@@ -23,10 +22,6 @@ function pageLabel(index: number, total: number) {
   return `Página ${index + 1} de ${total}`;
 }
 
-function pageAlt(index: number, total: number) {
-  return `Página ${index + 1} de ${total} do menu Take Away do Koi Sushi Porto`;
-}
-
 function pageTitle(index: number, total: number) {
   return `Menu Take Away · Página ${index + 1} de ${total}`;
 }
@@ -39,13 +34,13 @@ export function MenuFullViewer({
   whatsappUrl,
   source,
 }: MenuFullViewerProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(initialPage ?? 0);
   const [mounted, setMounted] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const totalPages = pages.length;
-  const activePage = pages[currentIndex] ?? pages[0];
+  const currentPage = pages[currentIndex] ?? pages[0];
 
   const closeViewer = useCallback(() => {
     onOpenChange(false);
@@ -100,7 +95,19 @@ export function MenuFullViewer({
     };
   }, [closeViewer, currentIndex, goToPage, open]);
 
-  if (!mounted || !open || !activePage || totalPages === 0) return null;
+  if (process.env.NODE_ENV !== "production" && open) {
+    if (pages.length !== 14) {
+      console.error("[MenuFullViewer] Expected 14 pages", { pages });
+    }
+
+    if (!currentPage?.src) {
+      console.error("[MenuFullViewer] Missing currentPage.src", currentPage);
+    } else {
+      console.log("[MenuFullViewer]", currentPage);
+    }
+  }
+
+  if (!mounted || !open || !currentPage?.src || totalPages === 0) return null;
 
   return createPortal(
     <div
@@ -169,17 +176,12 @@ export function MenuFullViewer({
               goToPage(deltaX < 0 ? currentIndex + 1 : currentIndex - 1);
             }}
           >
-            <Image
-              key={activePage.id}
-              src={activePage.src}
-              alt={pageAlt(currentIndex, totalPages)}
-              title={pageTitle(currentIndex, totalPages)}
-              width={1055}
-              height={1491}
-              quality={100}
-              sizes="(max-width: 768px) 100vw, 900px"
+            <img
+              key={currentPage.id}
+              src={currentPage.src}
+              alt={currentPage.alt}
+              title={currentPage.title}
               className="h-auto max-h-full w-auto max-w-full object-contain md:max-w-[1055px]"
-              priority
             />
           </div>
 
@@ -201,14 +203,11 @@ export function MenuFullViewer({
                   aria-label={`Abrir ${pageTitle(index, totalPages)}`}
                   aria-current={index === currentIndex ? "page" : undefined}
                 >
-                  <Image
+                  <img
                     src={page.src}
                     alt=""
                     aria-hidden="true"
-                    width={1055}
-                    height={1491}
-                    quality={85}
-                    sizes="110px"
+                    title={page.title}
                     className="h-full w-full object-contain"
                   />
                 </button>
@@ -231,14 +230,11 @@ export function MenuFullViewer({
               aria-label={`Abrir ${pageTitle(index, totalPages)}`}
               aria-current={index === currentIndex ? "page" : undefined}
             >
-              <Image
+              <img
                 src={page.src}
                 alt=""
                 aria-hidden="true"
-                width={1055}
-                height={1491}
-                quality={85}
-                sizes="48px"
+                title={page.title}
                 className="h-full w-full object-contain"
               />
             </button>

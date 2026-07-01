@@ -6,7 +6,7 @@ import { scrollExperienceMedia } from "@/data/chambar-media";
 export function ScrollExperienceFeature() {
   return (
     <ScrollExpandMedia
-      mediaSrc={scrollExperienceMedia.video}
+      mediaSrc={scrollExperienceMedia.mobileVideo}
       mobileMediaSrc={scrollExperienceMedia.mobileVideo}
       posterSrc={scrollExperienceMedia.background.src}
       mobilePosterSrc={scrollExperienceMedia.background.src}

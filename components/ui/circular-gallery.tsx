@@ -2,6 +2,7 @@
 
 import {
   type HTMLAttributes,
+  type MouseEvent,
   type PointerEvent,
   useEffect,
   useRef,
@@ -330,6 +331,12 @@ export function CircularGallery({
     pointerIdRef.current = null;
     setIsDragging(false);
     resumeAutoplaySoon();
+
+    if (suppressClickRef.current) {
+      window.setTimeout(() => {
+        suppressClickRef.current = false;
+      }, 160);
+    }
   };
 
   const handleItemClick = (item: CircularGalleryItem, index: number) => {
@@ -342,6 +349,15 @@ export function CircularGallery({
     }
 
     onItemClick?.(item, index);
+  };
+
+  const handleGalleryClick = (event: MouseEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement;
+
+    if (target.closest("button")) return;
+
+    const activeItem = items[activeIndex];
+    if (activeItem) handleItemClick(activeItem, activeIndex);
   };
 
   if (itemCount === 0) return null;
@@ -361,6 +377,9 @@ export function CircularGallery({
         perspectiveOrigin: "50% 50%",
         ...style,
       }}
+      onClick={handleGalleryClick}
+      onPointerEnter={pauseAutoplay}
+      onPointerLeave={resumeAutoplaySoon}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={finishPointerGesture}
@@ -369,7 +388,7 @@ export function CircularGallery({
     >
       <div
         className={cn(
-          "relative h-full w-full overflow-hidden transition-transform duration-150 ease-linear lg:overflow-visible",
+          "pointer-events-none relative h-full w-full overflow-hidden transition-transform duration-150 ease-linear lg:overflow-visible",
           isDragging && "transition-none",
         )}
         style={{
