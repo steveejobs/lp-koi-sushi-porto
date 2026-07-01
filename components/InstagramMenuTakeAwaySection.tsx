@@ -237,6 +237,7 @@ export function InstagramMenuTakeAwaySection() {
         {galleryItems.length > 0 ? (
           <CircularGallery
             items={galleryItems}
+            variant="instagram-lite"
             onItemClick={openPage}
             onActiveIndexChange={setActiveGalleryIndex}
           />

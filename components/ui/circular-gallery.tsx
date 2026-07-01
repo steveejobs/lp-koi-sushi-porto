@@ -19,6 +19,7 @@ type CircularGalleryProps = Omit<HTMLAttributes<HTMLDivElement>, "onClick"> & {
   items: CircularGalleryItem[];
   autoRotateSpeed?: number;
   desktopConfig?: DesktopGalleryConfig;
+  variant?: "default" | "instagram-lite";
   onItemClick?: (item: CircularGalleryItem, index: number) => void;
   onActiveIndexChange?: (index: number) => void;
 };
@@ -116,6 +117,25 @@ const GALLERY_CONFIG: Record<GalleryBreakpoint, GalleryConfig> = {
   },
 };
 
+const INSTAGRAM_LITE_CONFIG: GalleryConfig = {
+  breakpoint: "mobile",
+  perspective: 1100,
+  stageHeight: "min(66svh, 520px)",
+  stageMinHeight: 350,
+  cardWidth: "min(88vw, 340px)",
+  cardHeight: "min(62svh, 500px)",
+  cardMinHeight: 330,
+  sideTranslate: 32,
+  sideRotate: 28,
+  sideDepth: -120,
+  sideScale: 0.76,
+  sideOpacity: 0.16,
+  farScale: 0.68,
+  farOpacity: 0,
+  radius: 0,
+  visibleSideCount: 1,
+};
+
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -181,6 +201,7 @@ export function CircularGallery({
   className,
   autoRotateSpeed = 0.005,
   desktopConfig,
+  variant = "default",
   onItemClick,
   onActiveIndexChange,
   style,
@@ -208,9 +229,12 @@ export function CircularGallery({
     ? wrapIndex(Math.round(rawActivePosition), itemCount)
     : 0;
   const activePositionDelta = rawActivePosition - Math.round(rawActivePosition);
-  const isDesktop = responsiveGallery.breakpoint === "desktop";
-  const gallery =
-    isDesktop && desktopConfig
+  const isInstagramLite = variant === "instagram-lite";
+  const isDesktop =
+    !isInstagramLite && responsiveGallery.breakpoint === "desktop";
+  const gallery = isInstagramLite
+    ? INSTAGRAM_LITE_CONFIG
+    : isDesktop && desktopConfig
       ? { ...responsiveGallery, ...desktopConfig }
       : responsiveGallery;
   const effectiveAutoRotateSpeed = isDesktop
@@ -384,26 +408,36 @@ export function CircularGallery({
                 ? gallery.sideOpacity
                 : gallery.farOpacity;
           const zIndex = isActive ? 50 : discreteDistance === 1 ? 5 : 1;
+          const cleanCard = isInstagramLite;
 
           return (
             <button
               key={item.id}
               type="button"
-              className="absolute left-1/2 top-1/2 block overflow-hidden rounded-[12px] text-left outline-none ring-offset-2 transition-[opacity,transform,visibility] duration-300 focus-visible:ring-4 focus-visible:ring-white/60"
+              className={cn(
+                "absolute left-1/2 top-1/2 block overflow-hidden text-left outline-none ring-offset-2 transition-[opacity,transform,visibility] duration-300 focus-visible:ring-4 focus-visible:ring-white/60",
+                cleanCard ? "rounded-[8px]" : "rounded-[12px]",
+              )}
               style={{
                 width: gallery.cardWidth,
                 height: gallery.cardHeight,
                 minHeight: `${gallery.cardMinHeight}px`,
-                border: isActive ? "1px solid rgba(255,255,255,0.1)" : "none",
-                background: isActive ? "#101010" : "transparent",
-                boxShadow: isActive ? "0 20px 48px rgba(0,0,0,0.24)" : "none",
+                border:
+                  isActive && !cleanCard
+                    ? "1px solid rgba(255,255,255,0.1)"
+                    : "none",
+                background: isActive && !cleanCard ? "#101010" : "transparent",
+                boxShadow:
+                  isActive && !cleanCard
+                    ? "0 20px 48px rgba(0,0,0,0.24)"
+                    : "none",
                 opacity,
                 visibility: isVisible ? "visible" : "hidden",
                 zIndex,
                 transform,
                 transformStyle: "preserve-3d",
                 pointerEvents: isActive ? "auto" : "none",
-                padding: isActive ? "6px" : 0,
+                padding: isActive && !cleanCard ? "6px" : 0,
               }}
               aria-hidden={!isActive}
               aria-label={`Abrir zoom: ${item.title}`}
